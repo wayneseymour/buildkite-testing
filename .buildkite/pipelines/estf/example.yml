@@ -1,0 +1,16 @@
+steps:
+  - group: "Example"
+    key: "example"
+    steps:
+      - label: "Step 1"
+        key: "setup"
+        command: .buildkite/scripts/steps/estf/setup.sh
+      - label: "Step 2"
+        key: "tests"
+        command: echo 'running tests'
+        depends_on: "setup"
+      - wait: ~
+        continue_on_failure: true
+      - label: "Step 3"
+        key: "cleanup"
+        command: echo 'running cleanup'
