@@ -6,3 +6,4 @@ echo "Set env variable in this step"
 
 export ESTF_ENV_TEST="liza"
 
+exit 0
