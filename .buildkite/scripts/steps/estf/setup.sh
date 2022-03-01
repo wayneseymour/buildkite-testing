@@ -12,10 +12,10 @@ cd kibana
 git checkout -f 9fc24880156ba07f6e8f8a58f995875d30127ce7
 
 # Source env
-source ../.buildkite/scripts/common/env.sh
+source .buildkite/scripts/common/env.sh
 
 # Setup node
-source ../.buildkite/scripts/common/setup_node.sh
+source .buildkite/scripts/common/setup_node.sh
 
 # Bootstrap
-source ../.buildkite/scripts/common/bootstrap.sh
+source .buildkite/scripts/bootstrap.sh
