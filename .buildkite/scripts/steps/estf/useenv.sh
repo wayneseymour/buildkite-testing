@@ -3,5 +3,5 @@
 set -euo pipefail
 
 echo "Does this env variable exists? "
-echo "${ESTF_ENV_TEST}"
+echo $(buildkite-agent meta-data get "estf-data-test")
 echo "end-- "
