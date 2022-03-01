@@ -3,8 +3,8 @@ steps:
     key: "example"
     steps:
       - label: "Step 1"
-        key: "setup"
-        command: .buildkite/scripts/steps/estf/setup.sh
+        key: "env"
+        command: .buildkite/scripts/steps/estf/env.sh
       - label: "Step 2"
         key: "tests"
         command: echo 'running tests'
@@ -12,5 +12,5 @@ steps:
       - wait: ~
         continue_on_failure: true
       - label: "Step 3"
-        key: "cleanup"
-        command: echo 'running cleanup'
+        key: "useenv"
+        command: .buildkite/scripts/steps/estf/useenv.sh
