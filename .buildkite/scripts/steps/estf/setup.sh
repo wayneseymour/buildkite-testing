@@ -4,37 +4,18 @@ set -euo pipefail
 
 echo "Setup"
 
+# Clone repo
 git clone --reference /var/lib/gitmirrors/https---github-com-elastic-kibana-git https://github.com/elastic/kibana.git
 cd kibana
-KIBANA_DIR=$(pwd)
 
+# Checkout commit
 git checkout -f 9fc24880156ba07f6e8f8a58f995875d30127ce7
 
-echo "--- yarn install and bootstrap"
-if ! yarn kbn bootstrap; then
-  echo "bootstrap failed, trying again in 15 seconds"
-  sleep 15
+# Source env
+source .buildkite/scripts/common/env.sh
 
-  # Most bootstrap failures will result in a problem inside node_modules that does not get fixed on the next bootstrap
-  # So, we should just delete node_modules in between attempts
-  rm -rf node_modules
+# Setup node
+source .buildkite/scripts/common/setup_node.sh
 
-  echo "--- yarn install and bootstrap, attempt 2"
-  yarn kbn bootstrap
-fi
-
-if [[ "$DISABLE_BOOTSTRAP_VALIDATION" != "true" ]]; then
-  verify_no_git_changes 'yarn kbn bootstrap'
-fi
-
-###
-### upload ts-refs-cache artifacts as quickly as possible so they are available for download
-###
-if [[ "${BUILD_TS_REFS_CACHE_CAPTURE:-}" == "true" ]]; then
-  echo "--- Build ts-refs-cache"
-  node scripts/build_ts_refs.js --ignore-type-failures
-  echo "--- Upload ts-refs-cache"
-  cd "$KIBANA_DIR/target/ts_refs_cache"
-  gsutil cp "*.zip" 'gs://kibana-ci-ts-refs-cache/'
-  cd "$KIBANA_DIR"
-fi
+# Bootstrap
+source .buildkite/scripts/common/bootstrap.sh
