@@ -3,12 +3,12 @@ steps:
     key: "example"
     steps:
       - label: "Step 1"
-        key: "env"
+        key: "envtest"
         command: .buildkite/scripts/steps/estf/env.sh
       - label: "Step 2"
         key: "tests"
         command: echo 'running tests'
-        depends_on: "setup"
+        depends_on: "envtest"
       - wait: ~
         continue_on_failure: true
       - label: "Step 3"
