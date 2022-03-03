@@ -1,0 +1,3 @@
+steps:
+  - label: "Vault test"
+    command: vault kv get --field foo secret/stack-testing/testme
