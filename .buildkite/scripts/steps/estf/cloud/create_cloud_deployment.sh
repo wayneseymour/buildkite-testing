@@ -20,7 +20,7 @@ export EC_API_KEY
 echo "ec key setup"
 
 ESTF_DEPLOYMENT_NAME="ESTF_Deployment_CI_$(uuidgen)"
-ESTF_PLAN_FILE="estf_cloud_plan.json"
+ESTF_PLAN_FILE=".buildkite/scripts/steps/estf/cloud/estf_cloud_plan.json"
 OUTPUT_FILE=$(mktemp --suffix ".json")
 
 echo "INPUT"
