@@ -1,8 +1,6 @@
 steps:
   - group: "Cloud Kibana Tests Group"
     key: "cktg"
-    agents:
-      queue: n2-4
     steps:
       - label: "Create Cloud Deployment"
         key: "create_cloud_deployment"
