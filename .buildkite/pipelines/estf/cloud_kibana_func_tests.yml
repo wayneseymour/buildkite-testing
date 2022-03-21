@@ -1,19 +1,17 @@
 steps:
   - group: "Cloud Kibana Tests Group"
     key: "cktg"
-    agents:
-      queue: kibana-default
     steps:
       - label: "Create Cloud Deployment"
         key: "create_cloud_deployment"
         command: .buildkite/scripts/steps/estf/cloud/create_cloud_deployment.sh
         agents:
-          queue: kibana-default
+          queue: n2-4
       - label: "Run Kibana Functional Tests"
         key: "run_kibana_tests"
         command: .buildkite/scripts/steps/estf/cloud/kibana_run_tests.sh
         agents:
-          queue: kibana-default
+          queue: n2-4
         depends_on: "create_cloud_deployment"
       - wait: ~
         continue_on_failure: true
@@ -21,4 +19,4 @@ steps:
         key: "delete_cloud_deployment"
         command: .buildkite/scripts/steps/estf/cloud/delete_cloud_deployment.sh
         agents:
-          queue: kibana-default
+          queue: n2-4
