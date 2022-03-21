@@ -17,6 +17,6 @@ steps:
         continue_on_failure: true
       - label: "Delete Cloud Deployment"
         key: "delete_cloud_deployment"
-        command: .buildkite/scripts/steps/estf/cloud/delete_cloud_deployment.sh
+        command: .buildkite/scripts/steps/estf/cloud/shutdown_cloud_deployment.sh
         agents:
           queue: n2-4
