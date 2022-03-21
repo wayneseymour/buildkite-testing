@@ -23,6 +23,11 @@ ESTF_DEPLOYMENT_NAME="ESTF_Deployment_CI_$(uuidgen)"
 ESTF_PLAN_FILE="estf_cloud_plan.json"
 OUTPUT_FILE=$(mktemp --suffix ".json")
 
+echo "INPUT"
+echo $ESTF_PLAN_FILE
+echo $ESTF_CLOUD_VERSION
+echo $(pwd)
+echo "END"
 ecctl deployment create --track --output json --name $ESTF_DEPLOYMENT_NAME \
                         --version $ESTF_CLOUD_VERSION --file $ESTF_PLAN_FILE &> "$OUTPUT_FILE"
 
