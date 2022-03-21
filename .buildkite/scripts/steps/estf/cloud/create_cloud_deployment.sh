@@ -26,6 +26,7 @@ OUTPUT_FILE=$(mktemp --suffix ".json")
 ecctl deployment create --track --output json --name $ESTF_DEPLOYMENT_NAME \
                         --version $ESTF_CLOUD_VERSION --file $ESTF_PLAN_FILE &> "$OUTPUT_FILE"
 
+echo "after create"
 ESTF_DEPLOYMENT_ID=$(jq -sr '.[0].id' "$OUTPUT_FILE")
 ESTF_DEPLOYMENT_USERNAME=$(jq -sr '.[0].resources[0].credentials.username' "$OUTPUT_FILE")
 ESTF_DEPLOYMENT_PASSWORD=$(jq -sr '.[0].resources[0].credentials.password' "$OUTPUT_FILE")
