@@ -9,7 +9,7 @@ steps:
           queue: n2-4
       - label: "Run Kibana Functional Tests"
         key: "run_kibana_tests"
-        command: .buildkite/scripts/steps/estf/cloud/kibana_run_tests.sh
+        command: .buildkite/scripts/steps/estf/cloud/run_kibana_tests.sh
         agents:
           queue: n2-4
         depends_on: "create_cloud_deployment"
