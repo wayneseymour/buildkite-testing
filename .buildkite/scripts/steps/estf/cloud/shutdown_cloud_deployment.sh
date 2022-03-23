@@ -2,7 +2,7 @@
 
 set -euo pipefail
 
-.buildkite/scripts/common/util.sh
+source .buildkite/scripts/common/util.sh
 
 echo "Shutdown cloud deployment"
 
