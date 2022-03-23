@@ -33,4 +33,10 @@ export TEST_ES_URL="${ESTF_ELASTICSEARCH_URL:0:8}elastic:${ESTF_DEPLOYMENT_PASSW
 export TEST_KIBANA_URL="${ESTF_KIBANA_URL:0:8}elastic:${ESTF_DEPLOYMENT_PASSWORD}@${ESTF_KIBANA_URL:8}"
 
 # Run ossGrp test from kibana .buildkite directory
-source .buildkite/scripts/steps/functional/oss_cigroup.sh
+KIBANA_CI_FILE=".buildkite/scripts/steps/functional/oss_cigroup.sh"
+
+sed -i 's/functional_tests/functional_test_runner/g' $KIBANA_CI_FILE
+sed -i '/--bail/d' $KIBANA_CI_FILE
+sed -i '/--kibana-install-dir/d' $KIBANA_CI_FILE
+
+source $KIBANA_CI_FILE
