@@ -28,8 +28,6 @@ ESTF_KIBANA_URL=$(ecctl deployment show "$ESTF_DEPLOYMENT_ID" --kind kibana | jq
 ESTF_ELASTICSEARCH_URL=$(ecctl deployment show "$ESTF_DEPLOYMENT_ID" --kind elasticsearch | jq -r '.info.metadata.aliased_url')
 ESTF_KIBANA_HASH=$(curl -s -u "$ESTF_DEPLOYMENT_USERNAME:$ESTF_DEPLOYMENT_PASSWORD" $ESTF_KIBANA_URL/api/status | jq -r .version.build_hash)
 
-#retry 5 15 vault write "secret/stack-testing/$ESTF_DEPLOYMENT_ID" username="$ESTF_DEPLOYMENT_USERNAME" password="$ESTF_DEPLOYMENT_PASSWORD"
-
 buildkite-agent meta-data set "estf-deployment-id" $ESTF_DEPLOYMENT_ID
 buildkite-agent meta-data set "estf-kibana-hash" $ESTF_KIBANA_HASH
 buildkite-agent meta-data set "estf-elasticsearch-url" $ESTF_ELASTICSEARCH_URL

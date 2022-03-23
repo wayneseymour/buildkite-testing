@@ -7,12 +7,12 @@ steps:
         command: .buildkite/scripts/steps/estf/cloud/create_cloud_deployment.sh
         agents:
           queue: n2-4
-      #- label: "Run Kibana Functional Tests"
-      #  key: "run_kibana_tests"
-      #  command: .buildkite/scripts/steps/estf/cloud/run_kibana_tests.sh
-      #  agents:
-      #    queue: n2-4
-      #  depends_on: "create_cloud_deployment"
+      - label: "Run Kibana Functional Tests"
+        key: "run_kibana_tests"
+        command: .buildkite/scripts/steps/estf/cloud/run_kibana_tests.sh
+        agents:
+          queue: n2-4
+        depends_on: "create_cloud_deployment"
       - wait: ~
         continue_on_failure: true
       - label: "Delete Cloud Deployment"

@@ -19,5 +19,3 @@ export EC_API_KEY
 ESTF_DEPLOYMENT_ID=$(buildkite-agent meta-data get "estf-deployment-id")
 
 ecctl deployment shutdown --force $ESTF_DEPLOYMENT_ID
-
-#retry 2 15 vault delete "secret/stack-testing/$ESTF_DEPLOYMENT_ID"
