@@ -22,9 +22,6 @@ source .buildkite/scripts/common/setup_node.sh
 # Bootstrap from kibana .buildkite directory
 source .buildkite/scripts/bootstrap.sh
 
-# Disable checks reporter
-CHECKS_REPORTER_ACTIVE="false"
-
 ESTF_ELASTICSEARCH_URL=$(buildkite-agent meta-data get "estf-elasticsearch-url")
 ESTF_KIBANA_URL=$(buildkite-agent meta-data get "estf-kibana-url")
 ESTF_DEPLOYMENT_PASSWORD=$(buildkite-agent meta-data get "estf-deployment-password")
@@ -32,11 +29,11 @@ ESTF_DEPLOYMENT_PASSWORD=$(buildkite-agent meta-data get "estf-deployment-passwo
 export TEST_ES_URL="${ESTF_ELASTICSEARCH_URL:0:8}elastic:${ESTF_DEPLOYMENT_PASSWORD}@${ESTF_ELASTICSEARCH_URL:8}"
 export TEST_KIBANA_URL="${ESTF_KIBANA_URL:0:8}elastic:${ESTF_DEPLOYMENT_PASSWORD}@${ESTF_KIBANA_URL:8}"
 
-# Run ossGrp test from kibana .buildkite directory
-KIBANA_CI_FILE=".buildkite/scripts/steps/functional/oss_cigroup.sh"
+# Run kibana tests
+export CI_GROUP=${CI_GROUP:-$((BUILDKITE_PARALLEL_JOB+1))}
+export JOB=kibana-oss-ciGroup${CI_GROUP}
 
-sed -i 's/functional_tests/functional_test_runner/g' $KIBANA_CI_FILE
-sed -i '/--bail/d' $KIBANA_CI_FILE
-sed -i '/--kibana-install-dir/d' $KIBANA_CI_FILE
+echo "--- OSS CI Group $CI_GROUP"
 
-source $KIBANA_CI_FILE
+node scripts/functional_test_runner \
+    --include-tag "ciGroup$CI_GROUP"
