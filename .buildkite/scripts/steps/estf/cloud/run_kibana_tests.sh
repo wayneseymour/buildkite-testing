@@ -29,7 +29,8 @@ ESTF_DEPLOYMENT_PASSWORD=$(buildkite-agent meta-data get "estf-deployment-passwo
 export TEST_ES_URL="${ESTF_ELASTICSEARCH_URL:0:8}elastic:${ESTF_DEPLOYMENT_PASSWORD}@${ESTF_ELASTICSEARCH_URL:8}"
 export TEST_KIBANA_URL="${ESTF_KIBANA_URL:0:8}elastic:${ESTF_DEPLOYMENT_PASSWORD}@${ESTF_KIBANA_URL:8}"
 
-# Run kibana tests
+# Run kibana tests on cloud
+export TEST_CLOUD=1
 export CI_GROUP=${CI_GROUP:-$((BUILDKITE_PARALLEL_JOB+1))}
 export JOB=kibana-oss-ciGroup${CI_GROUP}
 
