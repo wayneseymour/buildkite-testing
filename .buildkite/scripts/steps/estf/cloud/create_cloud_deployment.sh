@@ -24,20 +24,17 @@ ecctl deployment create --track --output json --name $ESTF_DEPLOYMENT_NAME \
 ESTF_DEPLOYMENT_ID=$(jq -sr '.[0].id' "$OUTPUT_FILE")
 ESTF_DEPLOYMENT_USERNAME=$(jq -sr '.[0].resources[0].credentials.username' "$OUTPUT_FILE")
 ESTF_DEPLOYMENT_PASSWORD=$(jq -sr '.[0].resources[0].credentials.password' "$OUTPUT_FILE")
-export ESTF_DEPLOYMENT_PASSWORD
+ESTF_KIBANA_URL=$(ecctl deployment show "$ESTF_DEPLOYMENT_ID" --kind kibana | jq -r '.info.metadata.aliased_url')
+ESTF_ELASTICSEARCH_URL=$(ecctl deployment show "$ESTF_DEPLOYMENT_ID" --kind elasticsearch | jq -r '.info.metadata.aliased_url')
+ESTF_KIBANA_HASH=$(curl -s -u "$ESTF_DEPLOYMENT_USERNAME:$ESTF_DEPLOYMENT_PASSWORD" $ESTF_KIBANA_URL/api/status | jq -r .version.build_hash)
 
 #retry 5 15 vault write "secret/stack-testing/$ESTF_DEPLOYMENT_ID" username="$ESTF_DEPLOYMENT_USERNAME" password="$ESTF_DEPLOYMENT_PASSWORD"
 
-ESTF_KIBANA_URL=$(ecctl deployment show "$ESTF_DEPLOYMENT_ID" --kind kibana | jq -r '.info.metadata.aliased_url')
-export ESTF_KIBANA_URL
-
-ESTF_ELASTICSEARCH_URL=$(ecctl deployment show "$ESTF_DEPLOYMENT_ID" --kind elasticsearch | jq -r '.info.metadata.aliased_url')
-export ESTF_ELASTICSEARCH_URL
-
-ESTF_KIBANA_HASH=$(curl -s -u "$ESTF_DEPLOYMENT_USERNAME:$ESTF_DEPLOYMENT_PASSWORD" $ESTF_KIBANA_URL/api/status | jq -r .version.build_hash)
-
 buildkite-agent meta-data set "estf-deployment-id" $ESTF_DEPLOYMENT_ID
 buildkite-agent meta-data set "estf-kibana-hash" $ESTF_KIBANA_HASH
+buildkite-agent meta-data set "estf-elasticsearch-url" $ESTF_ELASTICSEARCH_URL
+buildkite-agent meta-data set "estf-kibana-url" $ESTF_KIBANA_URL
+buildkite-agent meta-data set "estf-deployment-password" $ESTF_DEPLOYMENT_PASSWORD
 
 cat << EOF | buildkite-agent annotate --style "info" --context cloud
   Deployment Id: $ESTF_DEPLOYMENT_ID
