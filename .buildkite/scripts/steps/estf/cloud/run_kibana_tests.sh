@@ -37,4 +37,5 @@ export JOB=kibana-oss-ciGroup${CI_GROUP}
 echo "--- OSS CI Group $CI_GROUP"
 
 node scripts/functional_test_runner \
+    --es-version $ESTF_CLOUD_VERSION \
     --include-tag "ciGroup$CI_GROUP"
