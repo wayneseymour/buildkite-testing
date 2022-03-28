@@ -44,4 +44,5 @@ sed -i "s/xpack.security.enabled=false/xpack.security.enabled=true/g" test/funct
 
 node scripts/functional_test_runner \
     --es-version $ESTF_CLOUD_VERSION \
+    --exclude-tag skipCloud \
     --include-tag "ciGroup$CI_GROUP"
