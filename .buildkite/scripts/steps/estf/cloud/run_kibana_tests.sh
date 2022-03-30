@@ -39,8 +39,7 @@ export JOB=kibana-oss-ciGroup${CI_GROUP}
 
 echo "--- OSS CI Group $CI_GROUP run against ESS"
 
-# Put this into test/functional/config.js as env instead
-sed -i "s/xpack.security.enabled=false/xpack.security.enabled=true/g" test/functional/config.js
+export ES_SECURITY_ENABLED=true
 
 node scripts/functional_test_runner \
     --es-version $ESTF_CLOUD_VERSION \
