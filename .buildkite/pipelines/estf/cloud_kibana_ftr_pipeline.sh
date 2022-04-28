@@ -5,7 +5,7 @@ set -eu
 echo "steps:"
 
 # Add kibana oss ci groups
-for i in `seq 1 2`;
+for i in `seq 1 12`;
 do
   echo "  - group: \"Cloud Kibana Tests Group ${i}\""
   echo "    key: \"cktg${i}\""
