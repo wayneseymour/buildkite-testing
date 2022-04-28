@@ -34,6 +34,6 @@ buildkite-agent meta-data set "estf-elasticsearch-url" $ESTF_ELASTICSEARCH_URL
 buildkite-agent meta-data set "estf-kibana-url" $ESTF_KIBANA_URL
 buildkite-agent meta-data set "estf-deployment-password" $ESTF_DEPLOYMENT_PASSWORD
 
-cat << EOF | buildkite-agent annotate --style "info" --context cloud
-  Deployment Id: $ESTF_DEPLOYMENT_ID
+cat << EOF | buildkite-agent annotate --style "info" --context cloud_$BUILDKITE_GROUP_PARALLEL_JOB
+  Deployment Id $BUILDKITE_GROUP_PARALLEL_JOB: $ESTF_DEPLOYMENT_ID
 EOF

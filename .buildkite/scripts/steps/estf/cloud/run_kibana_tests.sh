@@ -34,7 +34,7 @@ export TEST_KIBANA_URL="${ESTF_KIBANA_URL:0:8}elastic:${ESTF_DEPLOYMENT_PASSWORD
 
 # Run kibana tests on cloud
 export TEST_CLOUD=1
-export CI_GROUP=${CI_GROUP:-$((BUILDKITE_PARALLEL_JOB+1))}
+export CI_GROUP=${CI_GROUP:-$((BUILDKITE_GROUP_PARALLEL_JOB))}
 export JOB=kibana-oss-ciGroup${CI_GROUP}
 
 echo "--- OSS CI Group $CI_GROUP run against ESS"
