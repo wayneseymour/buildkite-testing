@@ -3,12 +3,12 @@ steps:
     key: "cktg1"
     steps:
       - label: "Create Cloud Deployment"
-        key: "create_cloud_deployment"
+        key: "create_cloud_deployment1"
         command: .buildkite/scripts/steps/estf/cloud/create_cloud_deployment.sh
         agents:
           queue: n2-4
       - label: "Run Kibana Functional Tests"
-        key: "run_kibana_tests"
+        key: "run_kibana_tests1"
         command: .buildkite/scripts/steps/estf/cloud/run_kibana_tests.sh
         agents:
           queue: n2-4
@@ -16,7 +16,7 @@ steps:
       - wait: ~
         continue_on_failure: true
       - label: "Delete Cloud Deployment"
-        key: "delete_cloud_deployment"
+        key: "delete_cloud_deployment1"
         command: .buildkite/scripts/steps/estf/cloud/shutdown_cloud_deployment.sh
         agents:
           queue: n2-4
@@ -24,12 +24,12 @@ steps:
     key: "cktg2"
     steps:
       - label: "Create Cloud Deployment"
-        key: "create_cloud_deployment"
+        key: "create_cloud_deployment2"
         command: .buildkite/scripts/steps/estf/cloud/create_cloud_deployment.sh
         agents:
           queue: n2-4
       - label: "Run Kibana Functional Tests"
-        key: "run_kibana_tests"
+        key: "run_kibana_tests2"
         command: .buildkite/scripts/steps/estf/cloud/run_kibana_tests.sh
         agents:
           queue: n2-4
@@ -37,7 +37,7 @@ steps:
       - wait: ~
         continue_on_failure: true
       - label: "Delete Cloud Deployment"
-        key: "delete_cloud_deployment"
+        key: "delete_cloud_deployment2"
         command: .buildkite/scripts/steps/estf/cloud/shutdown_cloud_deployment.sh
         agents:
           queue: n2-4
