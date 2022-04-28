@@ -26,7 +26,7 @@ do
   echo "          queue: n2-4"
   echo "        depends_on: \"create_cloud_deployment${i}\""
   echo "      - wait: ~"
-  echo "          continue_on_failure: true"
+  echo "        continue_on_failure: true"
   echo "      - label: \"Delete Cloud Deployment\""
   echo "        key: \"delete_cloud_deployment${i}\""
   echo "        command: .buildkite/scripts/steps/estf/cloud/shutdown_cloud_deployment.sh"
