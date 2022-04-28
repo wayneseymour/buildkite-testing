@@ -10,6 +10,8 @@ steps:
       - label: "Run Kibana Functional Tests"
         key: "run_kibana_tests1"
         command: .buildkite/scripts/steps/estf/cloud/run_kibana_tests.sh
+        env:
+          BUILDKITE_PARALLEL_JOB: 0
         agents:
           queue: n2-4
         depends_on: "create_cloud_deployment1"
@@ -31,6 +33,8 @@ steps:
       - label: "Run Kibana Functional Tests"
         key: "run_kibana_tests2"
         command: .buildkite/scripts/steps/estf/cloud/run_kibana_tests.sh
+        env:
+          BUILDKITE_PARALLEL_JOB: 1
         agents:
           queue: n2-4
         depends_on: "create_cloud_deployment2"
