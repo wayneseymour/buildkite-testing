@@ -12,6 +12,8 @@ echo "Run kibana functional tests"
 
 buildkite-agent meta-data exists "estf-kibana-hash-$ESTF_META_ID"
 
+is_test_execution_step
+
 # Clone kibana repo from git reference
 git clone --reference /var/lib/gitmirrors/https---github-com-elastic-kibana-git https://github.com/elastic/kibana.git
 cd kibana
@@ -53,4 +55,4 @@ if [[ "$ESTF_KIBANA_TEST_TYPE" == "basic" ]]; then
         --include-tag "ciGroup$CI_GROUP"
 fi
 
-is_test_execution_step
+
