@@ -14,6 +14,7 @@ if [[ "$IS_TEST_EXECUTION_STEP" == "true" ]]; then
   buildkite-agent artifact upload 'target/kibana-coverage/functional/**/*'
   buildkite-agent artifact upload 'target/kibana-*'
   buildkite-agent artifact upload 'target/kibana-security-solution/**/*.png'
+  buildkite-agent artifact upload 'target/test_failures/**/*'
   buildkite-agent artifact upload 'target/test-metrics/*'
   buildkite-agent artifact upload 'target/test-suites-ci-plan.json'
   buildkite-agent artifact upload 'test/**/screenshots/diff/*.png'
@@ -27,10 +28,11 @@ if [[ "$IS_TEST_EXECUTION_STEP" == "true" ]]; then
   buildkite-agent artifact upload 'x-pack/test/functional/failure_debug/html/*.html'
   buildkite-agent artifact upload '.es/**/*.hprof'
 
-  echo "--- Run Failed Test Reporter"
-  node scripts/report_failed_tests --build-url="${BUILDKITE_BUILD_URL}#${BUILDKITE_JOB_ID}" 'target/junit/**/*.xml'
-
   if [[ -d 'target/test_failures' ]]; then
-    buildkite-agent artifact upload 'target/test_failures/**/*'
+cat << EOF | buildkite-agent annotate --style "info" --context cloud_$ESTF_META_ID
+    ${ESTF_KIBANA_TEST_TYPE^} Group $ESTF_GROUP_PARALLEL_JOB
+    Deployment Id: $ESTF_DEPLOYMENT_ID
+EOF
+  else
   fi
 fi

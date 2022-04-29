@@ -56,4 +56,13 @@ if [[ "$ESTF_KIBANA_TEST_TYPE" == "basic" ]]; then
         --include-tag "ciGroup$CI_GROUP"
 fi
 
-
+# Run xpack group
+if [[ "$ESTF_KIBANA_TEST_TYPE" == "xpack" ]]; then
+    export JOB=kibana-xpack-ciGroup${CI_GROUP}
+    cd x-pack
+    echo "--- Xpack CI Group $CI_GROUP run against ESS"
+    node scripts/functional_test_runner \
+        --es-version $ESTF_CLOUD_VERSION \
+        --exclude-tag skipCloud \
+        --include-tag "ciGroup$CI_GROUP"
+fi

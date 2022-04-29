@@ -41,5 +41,5 @@ buildkite-agent meta-data set "estf-kibana-url-$ESTF_META_ID" $ESTF_KIBANA_URL
 buildkite-agent meta-data set "estf-deployment-password-$ESTF_META_ID" $ESTF_DEPLOYMENT_PASSWORD
 
 cat << EOF | buildkite-agent annotate --style "info" --context cloud_$ESTF_META_ID
-  Deployment Id $ESTF_META_ID: $ESTF_DEPLOYMENT_ID
+  $ESTF_META_ID deployment id: $ESTF_DEPLOYMENT_ID
 EOF
