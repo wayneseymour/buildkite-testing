@@ -28,12 +28,12 @@ ESTF_KIBANA_URL=$(ecctl deployment show "$ESTF_DEPLOYMENT_ID" --kind kibana | jq
 ESTF_ELASTICSEARCH_URL=$(ecctl deployment show "$ESTF_DEPLOYMENT_ID" --kind elasticsearch | jq -r '.info.metadata.aliased_url')
 ESTF_KIBANA_HASH=$(curl -s -u "$ESTF_DEPLOYMENT_USERNAME:$ESTF_DEPLOYMENT_PASSWORD" $ESTF_KIBANA_URL/api/status | jq -r .version.build_hash)
 
-buildkite-agent meta-data set "estf-deployment-id" $ESTF_DEPLOYMENT_ID
-buildkite-agent meta-data set "estf-kibana-hash" $ESTF_KIBANA_HASH
-buildkite-agent meta-data set "estf-elasticsearch-url" $ESTF_ELASTICSEARCH_URL
-buildkite-agent meta-data set "estf-kibana-url" $ESTF_KIBANA_URL
-buildkite-agent meta-data set "estf-deployment-password" $ESTF_DEPLOYMENT_PASSWORD
+buildkite-agent meta-data set "estf-deployment-id-$ESTF_META_ID" $ESTF_DEPLOYMENT_ID
+buildkite-agent meta-data set "estf-kibana-hash-$ESTF_META_ID" $ESTF_KIBANA_HASH
+buildkite-agent meta-data set "estf-elasticsearch-url-$ESTF_META_ID" $ESTF_ELASTICSEARCH_URL
+buildkite-agent meta-data set "estf-kibana-url-$ESTF_META_ID" $ESTF_KIBANA_URL
+buildkite-agent meta-data set "estf-deployment-password-$ESTF_META_ID" $ESTF_DEPLOYMENT_PASSWORD
 
-cat << EOF | buildkite-agent annotate --style "info" --context cloud_$BUILDKITE_GROUP_PARALLEL_JOB
-  Deployment Id $BUILDKITE_GROUP_PARALLEL_JOB: $ESTF_DEPLOYMENT_ID
+cat << EOF | buildkite-agent annotate --style "info" --context cloud_$ESTF_META_ID
+  Deployment Id $ESTF_META_ID: $ESTF_DEPLOYMENT_ID
 EOF
