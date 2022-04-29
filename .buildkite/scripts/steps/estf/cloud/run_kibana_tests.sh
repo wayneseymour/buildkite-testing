@@ -12,8 +12,6 @@ echo "Run kibana functional tests"
 
 buildkite-agent meta-data exists "estf-kibana-hash-$ESTF_META_ID"
 
-is_test_execution_step
-
 # Clone kibana repo from git reference
 git clone --reference /var/lib/gitmirrors/https---github-com-elastic-kibana-git https://github.com/elastic/kibana.git
 cd kibana
@@ -32,6 +30,9 @@ source .buildkite/scripts/common/setup_node.sh
 
 # Bootstrap from kibana .buildkite directory
 source .buildkite/scripts/bootstrap.sh
+
+# Set meta data for post command
+is_test_execution_step
 
 ESTF_ELASTICSEARCH_URL=$(buildkite-agent meta-data get "estf-elasticsearch-url-$ESTF_META_ID")
 ESTF_KIBANA_URL=$(buildkite-agent meta-data get "estf-kibana-url-$ESTF_META_ID")
