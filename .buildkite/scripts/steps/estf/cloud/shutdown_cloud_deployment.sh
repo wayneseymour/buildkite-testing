@@ -1,5 +1,11 @@
 #!/usr/bin/env bash
 
+# ----------------------------------------------------------------------------
+# Buildkite script to delete cloud deployment
+#
+# Author: Liza Dayoub
+# ----------------------------------------------------------------------------
+
 set -euo pipefail
 
 source .buildkite/scripts/common/util.sh

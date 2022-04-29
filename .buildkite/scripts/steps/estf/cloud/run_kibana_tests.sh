@@ -1,5 +1,11 @@
 #!/usr/bin/env bash
 
+# ----------------------------------------------------------------------------
+# Buildkite script to run kibana functional tests
+#
+# Author: Liza Dayoub
+# ----------------------------------------------------------------------------
+
 set -euo pipefail
 
 echo "Run kibana functional tests"
@@ -35,13 +41,16 @@ export TEST_KIBANA_URL="${ESTF_KIBANA_URL:0:8}elastic:${ESTF_DEPLOYMENT_PASSWORD
 # Run kibana tests on cloud
 export TEST_CLOUD=1
 export CI_GROUP=${CI_GROUP:-$((ESTF_GROUP_PARALLEL_JOB))}
-export JOB=kibana-oss-ciGroup${CI_GROUP}
 
-echo "--- OSS CI Group $CI_GROUP run against ESS"
+# Run basic group
+if [[ "$ESTF_KIBANA_TEST_TYPE" == "basic" ]]; then
+    export JOB=kibana-basic-ciGroup${CI_GROUP}
+    export ES_SECURITY_ENABLED=true
+    echo "--- Basic CI Group $CI_GROUP run against ESS"
+    node scripts/functional_test_runner \
+        --es-version $ESTF_CLOUD_VERSION \
+        --exclude-tag skipCloud \
+        --include-tag "ciGroup$CI_GROUP"
+fi
 
-export ES_SECURITY_ENABLED=true
-
-node scripts/functional_test_runner \
-    --es-version $ESTF_CLOUD_VERSION \
-    --exclude-tag skipCloud \
-    --include-tag "ciGroup$CI_GROUP"
+is_test_execution_step

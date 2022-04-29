@@ -1,11 +1,13 @@
 #!/usr/bin/env bash
 
+# -- From github.com/elastic/kibana repo .buildkite/scripts/lifecycle/post_command.sh
+
 set -euo pipefail
 
-# -- From github.com/elastic/kibana repo .buildkite/scripts/lifecycle/post_command.sh
 IS_TEST_EXECUTION_STEP="$(buildkite-agent meta-data get "${BUILDKITE_JOB_ID}_is_test_execution_step" --default '')"
 
 if [[ "$IS_TEST_EXECUTION_STEP" == "true" ]]; then
+  cd kibana
   echo "--- Upload Artifacts"
   buildkite-agent artifact upload 'target/junit/**/*'
   buildkite-agent artifact upload 'target/kibana-coverage/jest/**/*'
@@ -24,4 +26,11 @@ if [[ "$IS_TEST_EXECUTION_STEP" == "true" ]]; then
   buildkite-agent artifact upload 'x-pack/test/functional/apps/reporting/reports/session/*.pdf'
   buildkite-agent artifact upload 'x-pack/test/functional/failure_debug/html/*.html'
   buildkite-agent artifact upload '.es/**/*.hprof'
+
+  echo "--- Run Failed Test Reporter"
+  node scripts/report_failed_tests --build-url="${BUILDKITE_BUILD_URL}#${BUILDKITE_JOB_ID}" 'target/junit/**/*.xml'
+
+  if [[ -d 'target/test_failures' ]]; then
+    buildkite-agent artifact upload 'target/test_failures/**/*'
+  fi
 fi
