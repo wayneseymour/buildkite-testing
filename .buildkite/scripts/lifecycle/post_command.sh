@@ -27,12 +27,4 @@ if [[ "$IS_TEST_EXECUTION_STEP" == "true" ]]; then
   buildkite-agent artifact upload 'x-pack/test/functional/apps/reporting/reports/session/*.pdf'
   buildkite-agent artifact upload 'x-pack/test/functional/failure_debug/html/*.html'
   buildkite-agent artifact upload '.es/**/*.hprof'
-
-  if [[ -d 'target/test_failures' ]]; then
-cat << EOF | buildkite-agent annotate --style "info" --context cloud_$ESTF_META_ID
-    ${ESTF_KIBANA_TEST_TYPE^} Group $ESTF_GROUP_PARALLEL_JOB
-    Deployment Id: $ESTF_DEPLOYMENT_ID
-EOF
-  else
-  fi
 fi
