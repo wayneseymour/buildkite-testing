@@ -6,7 +6,7 @@ echo "steps:"
 
 # Add kibana oss ci groups
 testType="oss"
-for i in `seq 1 2`;
+for i in `seq 1 12`;
 do
   metaId="${testType}-${i}"
   echo "  - group: \"Cloud Kibana ${testType^^} Test Group ${i}\""
