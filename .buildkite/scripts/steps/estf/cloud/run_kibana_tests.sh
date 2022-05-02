@@ -43,7 +43,8 @@ export TEST_KIBANA_URL="${ESTF_KIBANA_URL:0:8}elastic:${ESTF_DEPLOYMENT_PASSWORD
 
 # Run kibana tests on cloud
 export TEST_CLOUD=1
-export CI_GROUP=${CI_GROUP:-$((ESTF_GROUP_PARALLEL_JOB))}
+
+includeTag=${ESTF_KIBANA_INCLUDE_TAG:-}
 
 # Run basic group
 if [[ "$ESTF_KIBANA_TEST_TYPE" == "basic" ]]; then
@@ -53,7 +54,7 @@ if [[ "$ESTF_KIBANA_TEST_TYPE" == "basic" ]]; then
     node scripts/functional_test_runner \
         --es-version $ESTF_CLOUD_VERSION \
         --exclude-tag skipCloud \
-        --include-tag "ciGroup$CI_GROUP"
+        " $includeTag"
 fi
 
 # Run xpack group
@@ -64,5 +65,5 @@ if [[ "$ESTF_KIBANA_TEST_TYPE" == "xpack" ]]; then
     node scripts/functional_test_runner \
         --es-version $ESTF_CLOUD_VERSION \
         --exclude-tag skipCloud \
-        --include-tag "ciGroup$CI_GROUP"
+        " $includeTag"
 fi
