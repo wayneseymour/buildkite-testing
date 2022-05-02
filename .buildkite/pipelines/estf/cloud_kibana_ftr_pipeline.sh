@@ -9,7 +9,7 @@
 set -eu
 
 # Valid test types/groups
-testTypes="xpack"
+testTypes="basic xpack"
 declare -A testGroups
 testGroups["basic"]="$(seq -s ' ' 1 12)"
 testGroups["xpack"]="2 4 7 8 9 10 12 13 15 19 22 25 26 28 31"
