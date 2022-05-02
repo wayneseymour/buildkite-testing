@@ -10,8 +10,6 @@ if [[ "$IS_TEST_EXECUTION_STEP" == "true" ]]; then
   cd kibana
   echo "--- Upload Artifacts"
   buildkite-agent artifact upload 'target/junit/**/*'
-  buildkite-agent artifact upload 'target/kibana-coverage/jest/**/*'
-  buildkite-agent artifact upload 'target/kibana-coverage/functional/**/*'
   buildkite-agent artifact upload 'target/kibana-*'
   buildkite-agent artifact upload 'target/kibana-security-solution/**/*.png'
   buildkite-agent artifact upload 'target/test_failures/**/*'
@@ -26,5 +24,4 @@ if [[ "$IS_TEST_EXECUTION_STEP" == "true" ]]; then
   buildkite-agent artifact upload 'x-pack/test/**/screenshots/session/*.png'
   buildkite-agent artifact upload 'x-pack/test/functional/apps/reporting/reports/session/*.pdf'
   buildkite-agent artifact upload 'x-pack/test/functional/failure_debug/html/*.html'
-  buildkite-agent artifact upload '.es/**/*.hprof'
 fi
