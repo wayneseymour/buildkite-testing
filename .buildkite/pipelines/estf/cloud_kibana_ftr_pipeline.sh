@@ -67,6 +67,8 @@ do
     echo "      - plugins:"
     echo "          - junit-annotate#v2.0.2:"
     echo "              artifacts: target/junit/**/*"
+    echo "        agents:"
+    echo "          queue: n2-4"
     echo "      - label: \"${metaId} delete cloud deployment\""
     echo "        key: \"delete_cloud_deployment${metaId}\""
     echo "        command: .buildkite/scripts/steps/estf/cloud/shutdown_cloud_deployment.sh"
