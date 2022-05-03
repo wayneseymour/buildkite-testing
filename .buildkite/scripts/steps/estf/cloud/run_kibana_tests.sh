@@ -51,18 +51,16 @@ includeTag="$ESTF_KIBANA_INCLUDE_TAG"
 if [[ "$ESTF_KIBANA_TEST_TYPE" == "basic" ]]; then
     export ES_SECURITY_ENABLED=true
     echo "--- Basic tests run against ESS"
-    echo "node scripts/functional_test_runner --es-version $ESTF_CLOUD_VERSION --exclude-tag skipCloud $includeTag"
-    node scripts/functional_test_runner \
-        --es-version $ESTF_CLOUD_VERSION \
-        --exclude-tag skipCloud " $includeTag"
+    eval node scripts/functional_test_runner \
+            --es-version $ESTF_CLOUD_VERSION \
+            --exclude-tag skipCloud " $includeTag"
 fi
 
 # Run xpack group
 if [[ "$ESTF_KIBANA_TEST_TYPE" == "xpack" ]]; then
     cd x-pack
     echo "--- Xpack tests run against ESS"
-    echo "node scripts/functional_test_runner --es-version $ESTF_CLOUD_VERSION --exclude-tag skipCloud $includeTag"
-    node scripts/functional_test_runner \
-        --es-version $ESTF_CLOUD_VERSION \
-        --exclude-tag skipCloud " $includeTag"
+    eval node scripts/functional_test_runner \
+            --es-version $ESTF_CLOUD_VERSION \
+            --exclude-tag skipCloud " $includeTag"
 fi
