@@ -8,4 +8,4 @@
 
 set -eu
 
-buildkite-agent pipeline upload base.yml
+buildkite-agent pipeline upload .buildkite/pipelines/estf/base.yml
