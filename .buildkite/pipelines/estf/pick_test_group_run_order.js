@@ -10,6 +10,8 @@ const { CiStats } = require('kibana-buildkite-library');
 
 (async () => {
   try {
+    // Change current working directory to kibana checkout
+    process.chdir("kibana");
     await CiStats.pickTestGroupRunOrder();
   } catch (ex) {
     console.error('CI Stats Error', ex.message);
