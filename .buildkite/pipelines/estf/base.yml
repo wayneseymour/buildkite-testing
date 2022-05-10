@@ -1,0 +1,15 @@
+steps:
+  
+  - command: .buildkite/pipelines/estf/pick_test_group_run_order.sh
+    label: 'Pick Test Group Run Order'
+    agents:
+      queue: kibana-default
+    env:
+      FTR_CONFIGS_SCRIPT: '.buildkite/scripts/steps/estf/cloud/ftr_configs.sh'
+      FUNCTIONAL_MAX_MINUTES: 120
+      LIMIT_CONFIG_TYPE: functional
+      FTR_CONFIGS_DEPS: ""
+    retry:
+      automatic:
+        - exit_status: '*'
+          limit: 1
