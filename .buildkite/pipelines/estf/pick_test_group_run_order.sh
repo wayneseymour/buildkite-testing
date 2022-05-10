@@ -2,8 +2,13 @@
 
 set -eu 
 
-# Clone kibana repo from git reference
+echo "--- Clone kibana repo from git reference"
 git clone --reference /var/lib/gitmirrors/https---github-com-elastic-kibana-git https://github.com/elastic/kibana.git
+
+echo "--- Install Kibana Buildkite Library" 
+cd .buildkite 
+npm ci 
+cd .. 
 
 # Checkout kibana commit
 #git checkout -f $(buildkite-agent meta-data get "estf-kibana-hash-$ESTF_META_ID")
