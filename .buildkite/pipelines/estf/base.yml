@@ -17,10 +17,8 @@ steps:
       FTR_CONFIGS_DEPS: ""
       FTR_CONFIGS_RETRY_COUNT: 0
       FTR_CONFIG_PATTERNS: "test/functional/apps/**/*, x-pack/test/functional/apps/**/*"
-    retry:
-      automatic:
-        - exit_status: '*'
-          limit: 1
+    soft_fail:
+      - exit_status: 1
 
   - wait: ~
     continue_on_failure: true
