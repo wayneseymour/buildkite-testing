@@ -3,8 +3,21 @@
 set -euo pipefail
 
 # Clone kibana repo from git reference
+echo "--- Clone kibana repo and chdir"
 git clone --reference /var/lib/gitmirrors/https---github-com-elastic-kibana-git https://github.com/elastic/kibana.git
 cd kibana
+
+echo "--- Source env and utils from kibana .buildkite directory"
+source .buildkite/scripts/common/util.sh
+source .buildkite/scripts/common/env.sh
+
+echo "--- Setup node from kibana .buildkite directory"
+source .buildkite/scripts/common/setup_node.sh
+
+echo "--- Bootstrap from kibana .buildkite directory"
+source .buildkite/scripts/bootstrap.sh
+
+is_test_execution_step
 
 # Checkout kibana commit
 #git checkout -f $(buildkite-agent meta-data get "estf-kibana-hash-$ESTF_META_ID")
