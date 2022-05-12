@@ -18,6 +18,11 @@ steps:
       FTR_CONFIGS_RETRY_COUNT: 0
       FTR_CONFIG_PATTERNS: "test/functional/apps/**/*, x-pack/test/functional/apps/**/*"
 
+  - wait
+
+  - command: .buildkite/scripts/steps/estf/cloud/ftr_steps.sh | buildkite-agent pipeline upload
+    label: ":pipeline: Pipeline upload test steps"
+
   - wait: ~
     continue_on_failure: true
 
