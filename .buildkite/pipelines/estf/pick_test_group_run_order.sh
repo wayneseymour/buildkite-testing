@@ -15,3 +15,5 @@ source .buildkite/scripts/common/env.sh
 echo '--- Pick Test Group Run Order'
 node "$(dirname "${0}")/pick_test_group_run_order.js"
 
+echo '-- Upload test steps'
+source .buildkite/scripts/steps/estf/cloud/ftr_steps.sh
