@@ -61,15 +61,6 @@ export KIBANA_CI_REPORTER_KEY
   export TEST_FAILURES_ES_PASSWORD
 }
 
-# By default, all steps should set up these things to get a full environment before running
-# It can be skipped for pipeline upload steps though, to make job start time a little faster
-if [[ "${SKIP_CI_SETUP:-}" != "true" ]]; then
-  if [[ -d .buildkite/scripts && "${BUILDKITE_COMMAND:-}" != "buildkite-agent pipeline upload"* ]]; then
-    source .buildkite/scripts/common/env.sh
-    source .buildkite/scripts/common/setup_node.sh
-  fi
-fi
-
 PIPELINE_PRE_COMMAND=${PIPELINE_PRE_COMMAND:-".buildkite/scripts/lifecycle/pipelines/$BUILDKITE_PIPELINE_SLUG/pre_command.sh"}
 if [[ -f "$PIPELINE_PRE_COMMAND" ]]; then
   source "$PIPELINE_PRE_COMMAND"
