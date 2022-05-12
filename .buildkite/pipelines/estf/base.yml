@@ -12,7 +12,6 @@ steps:
     agents:
       queue: kibana-default
     env:
-      FTR_CONFIGS_SCRIPT: '.buildkite/scripts/steps/estf/cloud/estf_ftr_configs.sh'
       FUNCTIONAL_MAX_MINUTES: 120
       LIMIT_CONFIG_TYPE: functional
       FTR_CONFIGS_DEPS: ""
