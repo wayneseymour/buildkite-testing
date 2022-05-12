@@ -3,9 +3,12 @@
 set -euo pipefail
 
 # Clone kibana repo from git reference
-echo "--- Clone kibana repo and chdir"
-git clone --reference /var/lib/gitmirrors/https---github-com-elastic-kibana-git https://github.com/elastic/kibana.git
+#echo "--- Clone kibana repo and chdir"
+#git clone --reference /var/lib/gitmirrors/https---github-com-elastic-kibana-git https://github.com/elastic/kibana.git
+echo "--- cd kibana"
 cd kibana
+
+# TODO: checkout specific kibana commit
 
 echo "--- Source env and utils from kibana .buildkite directory"
 source .buildkite/scripts/common/util.sh
