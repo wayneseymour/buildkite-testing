@@ -16,4 +16,4 @@ echo '--- Pick Test Group Run Order'
 node "$(dirname "${0}")/pick_test_group_run_order.js" || true
 
 echo '-- Upload test steps'
-source .buildkite/scripts/steps/estf/cloud/ftr_steps.sh
+.buildkite/scripts/steps/estf/cloud/ftr_steps.sh | buildkite-agent pipeline upload
