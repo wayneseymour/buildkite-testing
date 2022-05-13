@@ -76,7 +76,7 @@ get_buildkite_group() {
   echo "          ESTF_META_ID: ${metaId}"
   echo "          ESTF_KIBANA_TEST_TYPE: ${testType:-}"
   echo "          ESTF_KIBANA_INCLUDE_TAG: ${includeTag:-}"
-  echo "          ESTF_FTR_CONFIGS: ${ftrConfigs:-}"
+  echo "          ESTF_FTR_CONFIGS: \"${ftrConfigs:-}\""
   echo "          ESTF_FTR_CONFIG_GROUP: ${ftrConfigGroup:-}"
   echo "        agents:"
   echo "          queue: n2-4"
