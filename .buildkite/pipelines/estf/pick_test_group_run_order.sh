@@ -5,7 +5,7 @@ set -eu
 source .buildkite/scripts/common/util.sh
 
 if [[ $(is_version_ge "$ESTF_CLOUD_VERSION" "8.3") == 1 ]]; then
-  if [[ -z "$FTR_CONFIGS" ]]; then
+  if [[ -z "${FTR_CONFIGS:-}" ]]; then
     # Clone kibana repo from git reference
     echo "--- Clone kibana repo and chdir"
     git clone --reference /var/lib/gitmirrors/https---github-com-elastic-kibana-git https://github.com/elastic/kibana.git
