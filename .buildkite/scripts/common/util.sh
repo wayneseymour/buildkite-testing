@@ -52,3 +52,16 @@ retry() {
     fi
   done
 }
+
+format_version() {
+  version=${1%"-SNAPSHOT"}
+  printf "%03d%03d%03d%03d" $(echo "$version" | tr '.' ' ')
+}
+
+is_version_ge() {
+  if [ $(format_version $1) -ge $(format_version $2) ]; then
+    echo 1
+  else
+   echo 0
+  fi
+}

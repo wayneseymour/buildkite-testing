@@ -12,7 +12,8 @@ steps:
     agents:
       queue: kibana-default
     env:
-      FUNCTIONAL_MAX_MINUTES: 120
+      ESTF_UPLOAD_SCRIPT: ".buildkite/scripts/steps/estf/cloud/cloud_upload_steps.sh"
+      FUNCTIONAL_MAX_MINUTES: 90
       LIMIT_CONFIG_TYPE: functional
       FTR_CONFIGS_DEPS: ""
       FTR_CONFIGS_RETRY_COUNT: 0
