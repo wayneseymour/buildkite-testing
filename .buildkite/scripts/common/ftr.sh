@@ -30,7 +30,7 @@ run_ftr_cloud_configs() {
   failedConfigs=""
   results=()
 
-  while read -r config; do
+  for config in $configs; do
     if [[ ! "$config" ]]; then
       continue;
     fi
@@ -71,7 +71,7 @@ run_ftr_cloud_configs() {
         failedConfigs="$config"
       fi
     fi
-  done <<< "$configs"
+  done
 
   if [[ "$failedConfigs" ]]; then
     buildkite-agent meta-data set "$FAILED_CONFIGS_KEY" "$failedConfigs"
