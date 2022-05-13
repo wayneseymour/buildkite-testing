@@ -11,8 +11,12 @@ set -eu
 source .buildkite/scripts/common/util.sh
 
 if [[ $(is_version_ge "$ESTF_CLOUD_VERSION" "8.3") == 1 ]]; then
-  buildkite-agent artifact download ftr_run_order.json .
-  ftrConfigGroupsCount=$(jq -r '.count' ftr_run_order.json)
+  if [[ -z "$FTR_CONFIGS" ]]; then
+    buildkite-agent artifact download ftr_run_order.json .
+    ftrConfigGroupsCount=$(jq -r '.count' ftr_run_order.json)
+  else
+    ftrConfigGroupsCount=1
+  fi
 else
   # Test types
   testTypes="basic xpack"
@@ -104,7 +108,11 @@ if [[ ! -z "${ftrConfigGroupsCount:-}" ]]; then
   do
     metaId="ftr_configs_${groupInd}"
     ftrConfigGroup=$groupInd
-    ftrConfigs=$(jq -r ".groups[$groupInd].names | .[]" ftr_run_order.json)
+    if [[ -z "$FTR_CONFIGS" ]]; then
+      ftrConfigs=$(jq -r ".groups[$groupInd].names | .[]" ftr_run_order.json)
+    else
+      ftrConfigs="${FTR_CONFIGS}"
+    fi
     get_buildkite_group
   done
 else

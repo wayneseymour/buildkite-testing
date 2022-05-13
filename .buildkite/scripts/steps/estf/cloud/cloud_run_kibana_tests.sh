@@ -10,6 +10,8 @@ set -euo pipefail
 
 echo "--- Run kibana functional tests"
 
+source .buildkite/scripts/common/ftr.sh
+
 buildkite-agent meta-data exists "estf-kibana-hash-$ESTF_META_ID"
 
 echo "--- Clone kibana repo and chdir"
