@@ -71,7 +71,7 @@ get_buildkite_group() {
   echo "          queue: n2-4"
   echo "      - label: \"${metaId} run kibana functional tests\""
   echo "        key: \"run_kibana_tests_${metaId}\""
-  echo "        command: .buildkite/scripts/steps/estf/cloud/run_cloud_kibana_tests.sh"
+  echo "        command: .buildkite/scripts/steps/estf/cloud/cloud_run_kibana_tests.sh"
   echo "        env:"
   echo "          ESTF_META_ID: ${metaId}"
   echo "          ESTF_KIBANA_TEST_TYPE: ${testType:-}"
