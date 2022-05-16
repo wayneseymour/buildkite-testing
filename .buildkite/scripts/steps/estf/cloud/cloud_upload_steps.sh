@@ -106,7 +106,8 @@ get_buildkite_group() {
 if [[ ! -z "${ftrConfigGroupsCount:-}" ]]; then
   for groupInd in $(seq -s ' ' 0 $((ftrConfigGroupsCount-1)));
   do
-    metaId="ftr_configs_${groupInd}"
+    testType="${TEST_TYPE:-all}"
+    metaId="ftr_configs_${testType}_${groupInd}"
     ftrConfigGroup=$groupInd
     if [[ -z "${FTR_CONFIGS:-}" ]]; then
       ftrConfigs=$(jq -r ".groups[$groupInd].names | .[]" ftr_run_order.json)

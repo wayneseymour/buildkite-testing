@@ -29,6 +29,7 @@ if [[ "$IS_TEST_EXECUTION_STEP" == "true" ]]; then
   buildkite-agent artifact upload 'x-pack/test/functional/failure_debug/html/*.html'
 
   echo "--- Run Failed Test Reporter"
+  nvm use
   node scripts/report_failed_tests --build-url="${BUILDKITE_BUILD_URL}#${BUILDKITE_JOB_ID}" 'target/junit/**/*.xml'
 
   if [[ -d 'target/test_failures' ]]; then
