@@ -4,6 +4,10 @@ run_ftr_cloud_configs() {
   export TEST_CLOUD=1
   export JOB=kibana-$ESTF_META_ID
 
+  if [[ "$ESTF_KIBANA_TEST_TYPE" == "basic" ]]; then
+    export ES_SECURITY_ENABLED=true
+  fi
+
   FAILED_CONFIGS_KEY="${BUILDKITE_STEP_ID}${ESTF_FTR_CONFIG_GROUP:-0}"
 
   # a FTR failure will result in the script returning an exit code of 10
