@@ -12,7 +12,7 @@ source .buildkite/scripts/common/util.sh
 
 if [[ $(is_version_ge "$ESTF_CLOUD_VERSION" "8.3") == 1 ]]; then
   if [[ -z "${FTR_CONFIGS:-}" ]]; then
-    buildkite-agent artifact download ftr_run_order.json .
+    buildkite-agent artifact download ftr_run_order.json . --step "$BUILDKITE_JOB_ID"
     ftrConfigGroupsCount=$(jq -r '.count' ftr_run_order.json)
   else
     ftrConfigGroupsCount=1

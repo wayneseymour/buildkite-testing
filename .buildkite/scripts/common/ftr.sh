@@ -23,7 +23,7 @@ run_ftr_cloud_configs() {
 
   if [[ "$configs" == "" ]]; then
     echo "--- downloading ftr test run order"
-    buildkite-agent artifact download ftr_run_order.json .
+    buildkite-agent artifact download ftr_run_order.json . --step "$BUILDKITE_JOB_ID"
     configs=$(jq -r '.groups[env.ESTF_FTR_CONFIG_GROUP | tonumber].names | .[]' ftr_run_order.json)
   fi
 
