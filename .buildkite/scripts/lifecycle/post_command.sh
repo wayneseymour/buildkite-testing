@@ -37,7 +37,7 @@ if [[ "$IS_TEST_EXECUTION_STEP" == "true" ]]; then
   echo "--- Setup node from kibana .buildkite directory"
   source .buildkite/scripts/common/setup_node.sh
 
-  node scripts/report_failed_tests --build-url="${BUILDKITE_BUILD_URL}#${BUILDKITE_JOB_ID}" 'target/junit/**/*.xml'
+  node scripts/report_failed_tests --no-github-update --build-url="${BUILDKITE_BUILD_URL}#${BUILDKITE_JOB_ID}" 'target/junit/**/*.xml'
 
   if [[ -d 'target/test_failures' ]]; then
     buildkite-agent artifact upload 'target/test_failures/**/*'
