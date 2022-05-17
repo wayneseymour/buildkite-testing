@@ -44,19 +44,16 @@ else
   fi
 
   if [[ ! -z "${TEST_TYPE:-}" ]]; then
-    echo "TEST_TYPE is set to: $TEST_TYPE"
     case " $testTypes " in (*" $TEST_TYPE "*) :;; (*) echo "Valid values: ${testTypes// /, }"; false;; esac
     testTypes=$TEST_TYPE
   fi
 
   if [[ ! -z "${CI_GROUP:-}" ]]; then
-    echo "CI_GROUP is set to: $CI_GROUP"
     case " ${testGroups[$TEST_TYPE]} " in (*" $CI_GROUP "*) :;; (*) echo "Valid values: ${testGroups[$TEST_TYPE]}"; false;; esac
     testGroups[${TEST_TYPE}]=${CI_GROUP}
   fi
 
   if [[ ! -z "${RUN_GROUP:-}" ]]; then
-    echo "RUN_GROUP is set to: $RUN_GROUP"
     case " $validRunGroups " in (*" $RUN_GROUP "*) :;; (*) echo "Valid values: ${validRunGroups// /, }"; false;; esac
     runGroups[${TEST_TYPE}]=${RUN_GROUP}
   fi
