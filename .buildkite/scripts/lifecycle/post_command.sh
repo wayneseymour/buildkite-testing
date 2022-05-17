@@ -13,7 +13,6 @@ if [[ "$IS_TEST_EXECUTION_STEP" == "true" ]]; then
   cd kibana
   echo "--- Upload Artifacts"
   buildkite-agent artifact upload 'target/junit/**/*'
-  buildkite-agent artifact upload 'target/test_failures/**/*'
   buildkite-agent artifact upload 'target/kibana-*'
   buildkite-agent artifact upload 'target/kibana-security-solution/**/*.png'
   buildkite-agent artifact upload 'target/test-metrics/*'
@@ -40,12 +39,14 @@ if [[ "$IS_TEST_EXECUTION_STEP" == "true" ]]; then
   echo '--- Install buildkite dependencies'
   cd '.buildkite'
   npm cache clean --force
+  npm audit fix
   retry 5 15 npm ci
   cd ..
 
   node scripts/report_failed_tests --no-github-update --build-url="${BUILDKITE_BUILD_URL}#${BUILDKITE_JOB_ID}" 'target/junit/**/*.xml'
 
   if [[ -d 'target/test_failures' ]]; then
+    buildkite-agent artifact upload 'target/test_failures/**/*'
     node .buildkite/scripts/lifecycle/annotate_test_failures.js
   fi
 fi
