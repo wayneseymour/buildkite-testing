@@ -4,7 +4,7 @@ set -eu
 
 source .buildkite/scripts/common/util.sh
 
-if [[ $(is_version_ge "$ESTF_CLOUD_VERSION" "8.3") == 1 ]]; then
+if [[ $(is_version_ge "$ESTF_CLOUD_VERSION" "8.3") == 1 ]] || [[ "${TEST_TYPE:-}" == "xpackext" ]]; then
   if [[ -z "${FTR_CONFIGS:-}" ]]; then
     # Clone kibana repo from git reference
     echo "--- Clone kibana repo and chdir"

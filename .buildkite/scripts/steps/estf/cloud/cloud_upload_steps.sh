@@ -10,11 +10,12 @@ set -eu
 
 source .buildkite/scripts/common/util.sh
 
-if [[ $(is_version_ge "$ESTF_CLOUD_VERSION" "8.3") == 1 ]] && [[ -z "${FTR_CONFIGS:-}" ]]; then
+if ([[ $(is_version_ge "$ESTF_CLOUD_VERSION" "8.3") == 1 ]] || [[ "${TEST_TYPE:-}" == "xpackext" ]]) &&
+   [[ -z "${FTR_CONFIGS:-}" ]]; then
   buildkite-agent artifact download ftr_run_order.json . --step "$BUILDKITE_JOB_ID"
   ftrConfigGroupsCount=$(jq -r '.count' ftr_run_order.json)
-elif [[ "${TEST_TYPE:-}" == "xpackext" ]] && [[ -z "${FTR_CONFIGS:-}" ]]; then
-  echo "FTR_CONFIGS must be set"
+elif [[ "${TEST_TYPE:-}" == "xpackext" ]] && [[ -z "${FTR_CONFIGS:-}" ]] && [[ -z "${FTR_CONFIG_PATTERNS:-}" ]]; then
+  echo "FTR_CONFIGS or FTR_CONFIG_PATTERNS must be set"
   false
 elif [[ ! -z "${FTR_CONFIGS:-}" ]]; then
   ftrConfigGroupsCount=1
