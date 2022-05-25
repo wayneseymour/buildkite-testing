@@ -38,7 +38,10 @@ if [[ "$IS_TEST_EXECUTION_STEP" == "true" ]]; then
 
   echo '--- Install buildkite dependencies'
   cd '.buildkite'
-  retry 5 15 npm ci
+  rm -rf node_modules
+  rm package-lock.json
+  npm cache clean --force
+  retry 5 15 npm install --verbose
   cd ..
 
   node scripts/report_failed_tests --no-github-update --build-url="${BUILDKITE_BUILD_URL}#${BUILDKITE_JOB_ID}" 'target/junit/**/*.xml'
