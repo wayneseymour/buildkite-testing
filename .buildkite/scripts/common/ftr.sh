@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+source .buildkite/scripts/common/util.sh
+
 run_ftr_cloud_configs() {
   export TEST_CLOUD=1
   export JOB=kibana-$ESTF_META_ID
@@ -35,7 +37,8 @@ run_ftr_cloud_configs() {
   results=()
 
   for config in $configs; do
-    if [[ ! "$config" ]]; then
+    if [[ ! -f "$config" ]]; then
+      echo_warning "Invalid configuration: $config"
       continue;
     fi
 

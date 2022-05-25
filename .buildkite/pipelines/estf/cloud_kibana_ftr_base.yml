@@ -8,30 +8,17 @@ steps:
   - wait
 
   - command: .buildkite/pipelines/estf/pick_test_group_run_order.sh
-    label: 'Pick Test Groups Basic'
+    label: 'Pick Test Groups Xpack Extended'
     agents:
       queue: kibana-default
     env:
       ESTF_UPLOAD_SCRIPT: ".buildkite/scripts/steps/estf/cloud/cloud_upload_steps.sh"
-      TEST_TYPE: "basic"
+      TEST_TYPE: "xpackext"
       FUNCTIONAL_MAX_MINUTES: 60
       LIMIT_CONFIG_TYPE: functional
       FTR_CONFIGS_DEPS: ""
       FTR_CONFIGS_RETRY_COUNT: 0
-      FTR_CONFIG_PATTERNS: "test/functional/apps/**/*"
-
-  - command: .buildkite/pipelines/estf/pick_test_group_run_order.sh
-    label: 'Pick Test Groups Xpack'
-    agents:
-      queue: kibana-default
-    env:
-      ESTF_UPLOAD_SCRIPT: ".buildkite/scripts/steps/estf/cloud/cloud_upload_steps.sh"
-      TEST_TYPE: "xpack"
-      FUNCTIONAL_MAX_MINUTES: 60
-      LIMIT_CONFIG_TYPE: functional
-      FTR_CONFIGS_DEPS: ""
-      FTR_CONFIGS_RETRY_COUNT: 0
-      FTR_CONFIG_PATTERNS: "x-pack/test/functional/apps/**/*"
+      FTR_CONFIG_PATTERNS: "x-pack/test/apm_api_integration/trial/config.ts"
 
   - wait: ~
     continue_on_failure: true
