@@ -36,6 +36,9 @@ if [[ "$IS_TEST_EXECUTION_STEP" == "true" ]]; then
   echo "--- Setup node from kibana .buildkite directory"
   source .buildkite/scripts/common/setup_node.sh
 
+  echo "--- Manual debug"
+  sleep 1200
+
   echo '--- Install buildkite dependencies'
   cd '.buildkite'
   npm cache verify
