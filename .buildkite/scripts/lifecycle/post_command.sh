@@ -36,13 +36,9 @@ if [[ "$IS_TEST_EXECUTION_STEP" == "true" ]]; then
   echo "--- Setup node from kibana .buildkite directory"
   source .buildkite/scripts/common/setup_node.sh
 
-  echo "--- Manual debug"
-  sleep 1200
-
   echo '--- Install buildkite dependencies'
   cd '.buildkite'
-  npm cache verify
-  retry 5 15 npm i
+  retry 5 15 npm ci
   cd ..
 
   node scripts/report_failed_tests --no-github-update --build-url="${BUILDKITE_BUILD_URL}#${BUILDKITE_JOB_ID}" 'target/junit/**/*.xml'
