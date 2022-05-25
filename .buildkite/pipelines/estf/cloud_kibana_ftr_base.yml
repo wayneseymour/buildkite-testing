@@ -18,7 +18,7 @@ steps:
       LIMIT_CONFIG_TYPE: functional
       FTR_CONFIGS_DEPS: ""
       FTR_CONFIGS_RETRY_COUNT: 0
-      FTR_CONFIG_PATTERNS: "x-pack/test/apm_api_integration/trial/config.ts"
+      FTR_CONFIG_PATTERNS: "x-pack/test/apm_api_integration/trial/config.ts, x-pack/test/functional_enterprise_search/without_host_configured.config.ts, x-pack/test/reporting_api_integration/reporting_and_security.config.ts, x-pack/test/reporting_functional/reporting_and_security.config.ts, x-pack/test/api_integration/config.ts, x-pack/test/security_solution_endpoint/config.ts, x-pack/test/security_solution_endpoint_api_int/config.ts"
 
   - wait: ~
     continue_on_failure: true
