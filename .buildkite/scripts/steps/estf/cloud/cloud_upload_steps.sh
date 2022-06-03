@@ -115,8 +115,7 @@ if [[ ! -z "${ftrConfigGroupsCount:-}" ]]; then
     else
       ftrConfigs="${FTR_CONFIGS}"
     fi
-    isReporting=$(echo $ftrConfigs | grep reporting)
-    if [[ ! -z $isReporting ]] && [[ $estfPlanSettings == "default.json" ]]; then
+    if [[ "$ftrConfigs" == *"reporting"* ]] && [[ $estfPlanSettings == "default.json" ]]; then
       estfPlanSettings+=" reporting.json"
     fi
     get_buildkite_group
