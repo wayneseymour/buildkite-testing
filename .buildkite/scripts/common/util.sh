@@ -47,6 +47,14 @@ is_version_ge() {
   fi
 }
 
+get_branch_from_version() {
+  branch=""
+  if [[ "${ESTF_CLOUD_VERSION:-}" =~ [0-9]+\.[0-9]+ ]]; then
+    branch=${BASH_REMATCH[0]}
+  fi
+  echo $branch
+}
+
 # -- From github.com/elastic/kibana repo .buildkite/scripts/common/util.sh
 
 # docker_run can be used in place of `docker run`

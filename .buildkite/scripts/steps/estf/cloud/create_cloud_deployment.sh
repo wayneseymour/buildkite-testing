@@ -24,6 +24,20 @@ ESTF_DEPLOYMENT_NAME="ESTF_Deployment_CI_$(uuidgen)"
 ESTF_PLAN_FILE=".buildkite/scripts/steps/estf/cloud/estf_cloud_plan.json"
 OUTPUT_FILE=$(mktemp --suffix ".json")
 
+if [[ ! -z "${ESTF_PLAN_SETTINGS:-}" ]] && [[ "${ESTF_PLAN_SETTINGS:-}" != "none" ]]; then
+  settingsDir=".buildkite/scripts/steps/estf/cloud/kibana/settings"
+  for plan in ${ESTF_PLAN_SETTINGS}; do
+    settings=$(cat $settingsDir/$plan)
+    branch=$(get_branch_from_version)
+    ext=".json"
+    verfile="$settingsDir/${plan%%$ext*}_$branch$ext"
+    if [[ -f $verfile ]]; then
+      settings=$(cat $verfile)
+    fi
+    cat <<< $(jq ".resources.kibana[0].plan.kibana.user_settings_json += $settings" $ESTF_PLAN_FILE) > $ESTF_PLAN_FILE
+  done
+fi
+
 ecctl deployment create --track --output json --name $ESTF_DEPLOYMENT_NAME \
                         --version $ESTF_CLOUD_VERSION --file $ESTF_PLAN_FILE &> "$OUTPUT_FILE"
 

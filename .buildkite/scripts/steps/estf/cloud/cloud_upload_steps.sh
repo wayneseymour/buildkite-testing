@@ -70,6 +70,7 @@ get_buildkite_group() {
   echo "        command: .buildkite/scripts/steps/estf/cloud/create_cloud_deployment.sh"
   echo "        env:"
   echo "          ESTF_META_ID: ${metaId}"
+  echo "          ESTF_PLAN_SETTINGS: ${estfPlanSettings}"
   echo "        agents:"
   echo "          queue: n2-4"
   echo "      - label: \"${metaId} run kibana functional tests\""
@@ -108,10 +109,15 @@ if [[ ! -z "${ftrConfigGroupsCount:-}" ]]; then
     testType="${TEST_TYPE:-all}"
     metaId="ftr_configs_${testType}_${groupInd}"
     ftrConfigGroup=$groupInd
+    estfPlanSettings="${ESTF_PLAN_SETTINGS:-default.json}"
     if [[ -z "${FTR_CONFIGS:-}" ]]; then
       ftrConfigs=$(jq -r ".groups[$groupInd].names | .[]" ftr_run_order.json)
     else
       ftrConfigs="${FTR_CONFIGS}"
+    fi
+    isReporting=$(echo $ftrConfigs | grep reporting)
+    if [[ ! -z $isReporting ]] && [[ $estfPlanSettings == "default.json" ]]; then
+      estfPlanSettings+=" reporting.json"
     fi
     get_buildkite_group
   done
@@ -121,6 +127,7 @@ else
     ciGroupsArray=(${testGroups[$testType]// / })
     runGroup=${runGroups[$testType]}
     arrayLength=${#ciGroupsArray[@]}
+    estfPlanSettings="${ESTF_PLAN_SETTINGS:-default.json}"
     if [[ $arrayLength -lt $runGroup ]]; then
       runGroup=$arrayLength
     fi
