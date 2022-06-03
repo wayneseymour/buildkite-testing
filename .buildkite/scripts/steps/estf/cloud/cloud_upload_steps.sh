@@ -70,7 +70,7 @@ get_buildkite_group() {
   echo "        command: .buildkite/scripts/steps/estf/cloud/create_cloud_deployment.sh"
   echo "        env:"
   echo "          ESTF_META_ID: ${metaId}"
-  echo "          ESTF_PLAN_SETTINGS: ${estfPlanSettings}"
+  echo "          ESTF_PLAN_SETTINGS: \"${estfPlanSettings}\""
   echo "        agents:"
   echo "          queue: n2-4"
   echo "      - label: \"${metaId} run kibana functional tests\""
