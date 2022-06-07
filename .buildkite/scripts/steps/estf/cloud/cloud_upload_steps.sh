@@ -31,8 +31,8 @@ else
   # Run at a time
   declare -A runGroups
   validRunGroups="$(seq -s ' ' 1 3)"
-  runGroups["basic"]=3
-  runGroups["xpack"]=3
+  runGroups["basic"]=2
+  runGroups["xpack"]=2
 
   # Allows input configuration: TEST_TYPE, CI_GROUP, RUN_GROUP
   if [[ ! -z "${CI_GROUP:-}" ]] && [[ -z "${TEST_TYPE:-}" ]]; then
