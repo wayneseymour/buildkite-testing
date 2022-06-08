@@ -24,6 +24,8 @@ ESTF_DEPLOYMENT_NAME="ESTF_Deployment_CI_$(uuidgen)"
 ESTF_PLAN_FILE=".buildkite/scripts/steps/estf/ess/plans/ess_default_plan.json"
 OUTPUT_FILE=$(mktemp --suffix ".json")
 
+buildkite-agent meta-data set "estf-deployment-output-$ESTF_META_ID" $OUTPUT_FILE
+
 if [[ ! -z "${ESTF_PLAN_SETTINGS:-}" ]] && [[ "${ESTF_PLAN_SETTINGS:-}" != "none" ]]; then
   settingsDir=".buildkite/scripts/steps/estf/ess/settings"
   for plan in ${ESTF_PLAN_SETTINGS}; do
