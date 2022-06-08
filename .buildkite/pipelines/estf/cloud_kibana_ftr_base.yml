@@ -1,0 +1,55 @@
+steps:
+  - command: .buildkite/scripts/lifecycle/pre_build.sh
+    label: Pre-Build
+    timeout_in_minutes: 10
+    agents:
+      queue: kibana-default
+
+  - wait
+
+  - command: .buildkite/pipelines/estf/pick_test_group_run_order.sh
+    label: 'Pick Test Groups Basic'
+    agents:
+      queue: kibana-default
+    env:
+      ESTF_UPLOAD_SCRIPT: ".buildkite/scripts/steps/estf/cloud/cloud_upload_steps.sh"
+      TEST_TYPE: "basic"
+      FUNCTIONAL_MAX_MINUTES: 60
+      LIMIT_CONFIG_TYPE: functional
+      FTR_CONFIGS_DEPS: ""
+      FTR_CONFIGS_RETRY_COUNT: 0
+      FTR_CONFIG_PATTERNS: "test/functional/apps/**/*"
+
+  - command: .buildkite/pipelines/estf/pick_test_group_run_order.sh
+    label: 'Pick Test Groups Xpack'
+    agents:
+      queue: kibana-default
+    env:
+      ESTF_UPLOAD_SCRIPT: ".buildkite/scripts/steps/estf/cloud/cloud_upload_steps.sh"
+      TEST_TYPE: "xpack"
+      FUNCTIONAL_MAX_MINUTES: 60
+      LIMIT_CONFIG_TYPE: functional
+      FTR_CONFIGS_DEPS: ""
+      FTR_CONFIGS_RETRY_COUNT: 0
+      FTR_CONFIG_PATTERNS: "x-pack/test/functional/apps/**/*"
+
+  - command: .buildkite/pipelines/estf/pick_test_group_run_order.sh
+    label: 'Pick Test Groups Xpack Extended'
+    agents:
+      queue: kibana-default
+    env:
+      ESTF_UPLOAD_SCRIPT: ".buildkite/scripts/steps/estf/cloud/cloud_upload_steps.sh"
+      TEST_TYPE: "xpackext"
+      FUNCTIONAL_MAX_MINUTES: 60
+      LIMIT_CONFIG_TYPE: functional
+      FTR_CONFIGS_DEPS: ""
+      FTR_CONFIGS_RETRY_COUNT: 0
+      FTR_CONFIG_PATTERNS: "x-pack/test/apm_api_integration/trial/config.ts, x-pack/test/functional_enterprise_search/without_host_configured.config.ts, x-pack/test/reporting_api_integration/reporting_and_security.config.ts, x-pack/test/reporting_functional/reporting_and_security.config.ts, x-pack/test/api_integration/config.ts, x-pack/test/security_solution_endpoint/config.ts, x-pack/test/security_solution_endpoint_api_int/config.ts"
+
+  - wait: ~
+    continue_on_failure: true
+
+  - command: .buildkite/scripts/lifecycle/post_build.sh
+    label: Post-Build
+    agents:
+      queue: kibana-default

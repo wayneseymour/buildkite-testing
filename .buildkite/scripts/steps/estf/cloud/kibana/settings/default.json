@@ -1,0 +1,13 @@
+{
+  "data.search.aggs.shardDelay.enabled": true,
+  "server.uuid": "5b2de169-2785-441b-ae8c-186a1936b17d",
+  "telemetry.banner": false,
+  "xpack.data_enhanced.search.sessions.cleanupInterval": "5s",
+  "xpack.data_enhanced.search.sessions.enabled": true,
+  "xpack.data_enhanced.search.sessions.notTouchedTimeout": "15s",
+  "xpack.data_enhanced.search.sessions.trackingInterval": "5s",
+  "xpack.discoverEnhanced.actions.exploreDataInContextMenu.enabled": true,
+  "xpack.maps.preserveDrawingBuffer": true,
+  "xpack.maps.showMapsInspectorAdapter": true,
+  "xpack.securitySolution.packagerTaskInterval": "5s"
+}
