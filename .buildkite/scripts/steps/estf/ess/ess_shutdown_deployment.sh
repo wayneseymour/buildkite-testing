@@ -12,7 +12,13 @@ source .buildkite/scripts/common/util.sh
 
 echo "--- Shutdown ESS Deployment"
 
-buildkite-agent meta-data exists "estf-deployment-id-$ESTF_META_ID"
+exists=$(buildkite-agent meta-data exists "estf-deployment-id-$ESTF_META_ID")
+if [[ $exists != 0 ]]; then
+  cat << EOF | buildkite-agent annotate --style "error" --context no_deployment_$ESTF_META_ID
+  $ESTF_META_ID No deployment created
+EOF
+false
+fi
 
 VAULT_ROLE_ID="$(retry 5 15 gcloud secrets versions access latest --secret=estf-vault-role-id)"
 VAULT_SECRET_ID="$(retry 5 15 gcloud secrets versions access latest --secret=estf-vault-secret-id)"

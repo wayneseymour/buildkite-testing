@@ -9,5 +9,6 @@
 set -euo pipefail
 
 trap "source .buildkite/scripts/steps/estf/ess/ess_shutdown_deployment.sh" EXIT
-source .buildkite/scripts/steps/estf/ess/ess_create_deployment.sh
-source .buildkite/scripts/steps/estf/ess/kibana_run_tests.sh
+
+setup=$(source .buildkite/scripts/steps/estf/ess/ess_create_deployment.sh)
+tests=$(source .buildkite/scripts/steps/estf/ess/kibana_run_tests.sh)
