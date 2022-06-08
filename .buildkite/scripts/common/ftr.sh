@@ -88,7 +88,7 @@ run_ftr_cloud_configs() {
   printf "%s\n" "${results[@]}"
   echo ""
 
-  exit $exitCode
+  return $exitCode
 }
 
 run_ftr_cloud_ci_groups() {
