@@ -8,6 +8,15 @@
 
 set -euo pipefail
 
+trap "chdir" EXIT
+
+chdir() {
+  dir=$(pwd)
+  if [[ $(basename $dir) == "kibana" ]]; then
+     cd ../
+  fi
+}
+
 echo "--- Run kibana functional tests"
 
 source .buildkite/scripts/common/ftr.sh
