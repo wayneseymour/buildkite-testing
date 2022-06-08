@@ -8,7 +8,7 @@
 
 set -euo pipefail
 
-echo "--- Run kibana functional tests"
+echo "--- Run Kibana Functional Tests"
 
 source .buildkite/scripts/common/ftr.sh
 
@@ -18,7 +18,7 @@ echo "--- Clone kibana repo and chdir"
 git clone --reference /var/lib/gitmirrors/https---github-com-elastic-kibana-git https://github.com/elastic/kibana.git
 cd kibana
 
-# Checkout kibana commit
+echo "--- Checkout kibana commit"
 git checkout -f $(buildkite-agent meta-data get "estf-kibana-hash-$ESTF_META_ID")
 
 echo "--- Source env and utils from kibana .buildkite directory"

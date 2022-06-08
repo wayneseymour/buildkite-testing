@@ -10,7 +10,7 @@ set -euo pipefail
 
 source .buildkite/scripts/common/util.sh
 
-echo "Create cloud deployment"
+echo "--- Create ESS Deployment"
 
 VAULT_ROLE_ID="$(retry 5 15 gcloud secrets versions access latest --secret=estf-vault-role-id)"
 VAULT_SECRET_ID="$(retry 5 15 gcloud secrets versions access latest --secret=estf-vault-secret-id)"
@@ -21,11 +21,11 @@ EC_API_KEY="$(vault kv get --field apiKey secret/stack-testing/estf-cloud)"
 export EC_API_KEY
 
 ESTF_DEPLOYMENT_NAME="ESTF_Deployment_CI_$(uuidgen)"
-ESTF_PLAN_FILE=".buildkite/scripts/steps/estf/cloud/estf_cloud_plan.json"
+ESTF_PLAN_FILE=".buildkite/scripts/steps/estf/ess/plans/ess_default_plan.json"
 OUTPUT_FILE=$(mktemp --suffix ".json")
 
 if [[ ! -z "${ESTF_PLAN_SETTINGS:-}" ]] && [[ "${ESTF_PLAN_SETTINGS:-}" != "none" ]]; then
-  settingsDir=".buildkite/scripts/steps/estf/cloud/kibana/settings"
+  settingsDir=".buildkite/scripts/steps/estf/ess/settings"
   for plan in ${ESTF_PLAN_SETTINGS}; do
     settings=$(cat $settingsDir/$plan)
     branch=$(get_branch_from_version)

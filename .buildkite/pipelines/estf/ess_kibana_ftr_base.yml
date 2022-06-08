@@ -12,7 +12,7 @@ steps:
     agents:
       queue: kibana-default
     env:
-      ESTF_UPLOAD_SCRIPT: ".buildkite/scripts/steps/estf/cloud/cloud_upload_steps.sh"
+      ESTF_UPLOAD_SCRIPT: ".buildkite/scripts/steps/estf/ess/ess_upload_steps.sh"
       TEST_TYPE: "basic"
       FUNCTIONAL_MAX_MINUTES: 60
       LIMIT_CONFIG_TYPE: functional
@@ -25,7 +25,7 @@ steps:
     agents:
       queue: kibana-default
     env:
-      ESTF_UPLOAD_SCRIPT: ".buildkite/scripts/steps/estf/cloud/cloud_upload_steps.sh"
+      ESTF_UPLOAD_SCRIPT: ".buildkite/scripts/steps/estf/ess/ess_upload_steps.sh"
       TEST_TYPE: "xpack"
       FUNCTIONAL_MAX_MINUTES: 60
       LIMIT_CONFIG_TYPE: functional
@@ -38,7 +38,7 @@ steps:
     agents:
       queue: kibana-default
     env:
-      ESTF_UPLOAD_SCRIPT: ".buildkite/scripts/steps/estf/cloud/cloud_upload_steps.sh"
+      ESTF_UPLOAD_SCRIPT: ".buildkite/scripts/steps/estf/ess/ess_upload_steps.sh"
       TEST_TYPE: "xpackext"
       FUNCTIONAL_MAX_MINUTES: 60
       LIMIT_CONFIG_TYPE: functional

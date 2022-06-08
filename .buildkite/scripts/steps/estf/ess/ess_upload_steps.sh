@@ -62,38 +62,18 @@ else
 fi
 
 get_buildkite_group() {
-  echo "  - group: \"${metaId} cloud kibana group\""
-  echo "    key: \"cktg_${metaId}\""
-  echo "    steps:"
-  echo "      - label: \"${metaId} create cloud deployment\""
-  echo "        key: \"create_cloud_deployment_${metaId}\""
-  echo "        command: .buildkite/scripts/steps/estf/cloud/create_cloud_deployment.sh"
-  echo "        env:"
-  echo "          ESTF_META_ID: ${metaId}"
-  echo "          ESTF_PLAN_SETTINGS: \"${estfPlanSettings}\""
-  echo "        agents:"
-  echo "          queue: n2-4"
-  echo "      - label: \"${metaId} run kibana functional tests\""
-  echo "        key: \"run_kibana_tests_${metaId}\""
-  echo "        command: .buildkite/scripts/steps/estf/cloud/cloud_run_kibana_tests.sh"
-  echo "        env:"
-  echo "          ESTF_META_ID: ${metaId}"
-  echo "          ESTF_KIBANA_TEST_TYPE: ${testType:-}"
-  echo "          ESTF_KIBANA_INCLUDE_TAG: ${includeTag:-}"
-  echo "          ESTF_FTR_CONFIGS: \"${ftrConfigs:-}\""
-  echo "          ESTF_FTR_CONFIG_GROUP: ${ftrConfigGroup:-}"
-  echo "        agents:"
-  echo "          queue: n2-4"
-  echo "        depends_on: \"create_cloud_deployment_${metaId}\""
-  echo "      - wait: ~"
-  echo "        continue_on_failure: true"
-  echo "      - label: \"${metaId} delete cloud deployment\""
-  echo "        key: \"delete_cloud_deployment_${metaId}\""
-  echo "        command: .buildkite/scripts/steps/estf/cloud/shutdown_cloud_deployment.sh"
-  echo "        env:"
-  echo "          ESTF_META_ID: ${metaId}"
-  echo "        agents:"
-  echo "          queue: n2-4"
+  echo "  - label: \"${metaId} ess kibana testing\""
+  echo "    key: \"ess_kibana_testing_${metaId}\""
+  echo "    command: .buildkite/scripts/steps/estf/ess/ess_kibana_testing.sh"
+  echo "    env:"
+  echo "      ESTF_META_ID: ${metaId}"
+  echo "      ESTF_PLAN_SETTINGS: \"${estfPlanSettings}\""
+  echo "      ESTF_KIBANA_TEST_TYPE: ${testType:-}"
+  echo "      ESTF_KIBANA_INCLUDE_TAG: ${includeTag:-}"
+  echo "      ESTF_FTR_CONFIGS: \"${ftrConfigs:-}\""
+  echo "      ESTF_FTR_CONFIG_GROUP: ${ftrConfigGroup:-}"
+  echo "    agents:"
+  echo "      queue: n2-4"
 }
 
 if [[ ! -z "${ftrConfigGroupsCount:-}" ]]; then
@@ -102,14 +82,14 @@ if [[ ! -z "${ftrConfigGroupsCount:-}" ]]; then
     testType="${TEST_TYPE:-all}"
     metaId="ftr_configs_${testType}_${groupInd}"
     ftrConfigGroup=$groupInd
-    estfPlanSettings="${ESTF_PLAN_SETTINGS:-default.json}"
+    estfPlanSettings="${ESTF_PLAN_SETTINGS:-kibana_default.json}"
     if [[ -z "${FTR_CONFIGS:-}" ]]; then
       ftrConfigs=$(jq -r ".groups[$groupInd].names | .[]" ftr_run_order.json)
     else
       ftrConfigs="${FTR_CONFIGS}"
     fi
-    if [[ "$ftrConfigs" == *"reporting"* ]] && [[ $estfPlanSettings == "default.json" ]]; then
-      estfPlanSettings+=" reporting.json"
+    if [[ "$ftrConfigs" == *"reporting"* ]] && [[ $estfPlanSettings == "kibana_default.json" ]]; then
+      estfPlanSettings+=" kibana_reporting.json"
     fi
     get_buildkite_group
   done
@@ -119,7 +99,7 @@ else
     ciGroupsArray=(${testGroups[$testType]// / })
     runGroup=${runGroups[$testType]}
     arrayLength=${#ciGroupsArray[@]}
-    estfPlanSettings="${ESTF_PLAN_SETTINGS:-default.json}"
+    estfPlanSettings="${ESTF_PLAN_SETTINGS:-kibana_default.json}"
     if [[ $arrayLength -lt $runGroup ]]; then
       runGroup=$arrayLength
     fi

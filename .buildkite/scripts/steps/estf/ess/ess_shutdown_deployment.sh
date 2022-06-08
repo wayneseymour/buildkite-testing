@@ -10,7 +10,7 @@ set -euo pipefail
 
 source .buildkite/scripts/common/util.sh
 
-echo "Shutdown cloud deployment"
+echo "--- Shutdown ESS Deployment"
 
 buildkite-agent meta-data exists "estf-deployment-id-$ESTF_META_ID"
 
