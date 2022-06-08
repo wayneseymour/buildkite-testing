@@ -8,7 +8,14 @@
 
 set -euo pipefail
 
-trap "source .buildkite/scripts/steps/estf/ess/ess_shutdown_deployment.sh" EXIT
+trap "cleanup" EXIT
+
+cleanup() {
+  cd buildkite-agent meta-data get "homedir"
+  source .buildkite/scripts/steps/estf/ess/ess_shutdown_deployment.sh
+}
+
+buildkite-agent meta-data set "homedir" "$(pwd)"
 
 source .buildkite/scripts/steps/estf/ess/ess_create_deployment.sh
 source .buildkite/scripts/steps/estf/ess/ess_run_kibana_tests.sh
