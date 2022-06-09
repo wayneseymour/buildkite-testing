@@ -20,12 +20,12 @@ else
   DEPLOYMENT_OUTPUT_FILE=$(buildkite-agent meta-data get "estf-deployment-output-$ESTF_META_ID")
   if [ $(cat $DEPLOYMENT_OUTPUT_FILE | jq empty > /dev/null 2>&1; echo $?) -eq 0 ]; then
     ESTF_DEPLOYMENT_ID=$(jq -sr '.[0].id' "$DEPLOYMENT_OUTPUT_FILE")
-    cat << EOF | buildkite-agent annotate --style "error" --context create_deployment_$ESTF_META_ID
-      $ESTF_META_ID deployment error: $ESTF_DEPLOYMENT_ID
+    cat << EOF | buildkite-agent annotate --style 'error' --context 'ess_error_deployment' --append
+      $ESTF_META_ID deployment error: $ESTF_DEPLOYMENT_ID<br>
 EOF
   else
-    cat << EOF | buildkite-agent annotate --style "error" --context create_deployment_$ESTF_META_ID
-      $ESTF_META_ID deployment error: $(cat $DEPLOYMENT_OUTPUT_FILE)
+    cat << EOF | buildkite-agent annotate --style 'error' --context 'ess_error_deployment' --append
+      $ESTF_META_ID deployment error: $(cat $DEPLOYMENT_OUTPUT_FILE)<br>
 EOF
   false
   fi
