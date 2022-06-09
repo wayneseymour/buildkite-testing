@@ -19,6 +19,9 @@ if [[ "$KEYS" == *"$DEPLOYMENT_KEY"* ]]; then
 else
   DEPLOYMENT_OUTPUT_FILE=$(buildkite-agent meta-data get "estf-deployment-output-$ESTF_META_ID")
   ESTF_DEPLOYMENT_ID=$(jq -sr '.[0].id' "$DEPLOYMENT_OUTPUT_FILE")
+  cat << EOF | buildkite-agent annotate --style "error" --context create_deployment_$ESTF_META_ID
+    $ESTF_META_ID deployment error: $ESTF_DEPLOYMENT_ID
+EOF
 fi
 
 VAULT_ROLE_ID="$(retry 5 15 gcloud secrets versions access latest --secret=estf-vault-role-id)"

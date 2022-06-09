@@ -48,7 +48,7 @@ run_ftr_cloud_configs() {
     # prevent non-zero exit code from breaking the loop
     set +e;
     node scripts/functional_test_runner \
-              --es-version "${ESTF_CLOUD_VERSION%-SNAPSHOT}" \
+              --es-version "$ESTF_CLOUD_VERSION" \
               --exclude-tag skipCloud \
               --config="$config"
     lastCode=$?
@@ -100,7 +100,7 @@ run_ftr_cloud_ci_groups() {
       export ES_SECURITY_ENABLED=true
       echo "--- Basic tests run against ESS"
       eval node scripts/functional_test_runner \
-              --es-version "${ESTF_CLOUD_VERSION%-SNAPSHOT}" \
+              --es-version "$ESTF_CLOUD_VERSION" \
               --exclude-tag skipCloud " $ESTF_KIBANA_INCLUDE_TAG"
   fi
 
@@ -109,7 +109,7 @@ run_ftr_cloud_ci_groups() {
       cd x-pack
       echo "--- Xpack tests run against ESS"
       eval node scripts/functional_test_runner \
-              --es-version "${ESTF_CLOUD_VERSION%-SNAPSHOT}" \
+              --es-version "$ESTF_CLOUD_VERSION" \
               --exclude-tag skipCloud " $ESTF_KIBANA_INCLUDE_TAG"
   fi
 }
