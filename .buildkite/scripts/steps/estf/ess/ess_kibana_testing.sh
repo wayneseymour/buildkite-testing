@@ -11,12 +11,12 @@ set -euo pipefail
 trap "cleanup" EXIT
 
 cleanup() {
-  dir=$(buildkite-agent meta-data get "homedir")
+  dir=$(buildkite-agent meta-data get "estf-homedir-$ESTF_META_ID")
   cd $dir
   source .buildkite/scripts/steps/estf/ess/ess_shutdown_deployment.sh
 }
 
-buildkite-agent meta-data set "homedir" "$(pwd)"
+buildkite-agent meta-data set "estf-homedir-$ESTF_META_ID" "$(pwd)"
 
 source .buildkite/scripts/steps/estf/ess/ess_create_deployment.sh
 source .buildkite/scripts/steps/estf/ess/ess_run_kibana_tests.sh
