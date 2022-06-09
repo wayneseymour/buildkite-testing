@@ -11,7 +11,8 @@ set -euo pipefail
 trap "cleanup" EXIT
 
 cleanup() {
-  cd buildkite-agent meta-data get "homedir"
+  dir=$(buildkite-agent meta-data get "homedir")
+  cd $dir
   source .buildkite/scripts/steps/estf/ess/ess_shutdown_deployment.sh
 }
 
