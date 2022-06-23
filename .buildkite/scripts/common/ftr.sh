@@ -5,6 +5,12 @@ source .buildkite/scripts/common/util.sh
 run_ftr_cloud_configs() {
   export TEST_CLOUD=1
   export JOB=kibana-$ESTF_META_ID
+  repeat_tests=${REPEAT_TESTS:-0}
+
+  repeats=$(seq -s ' ' 1 1)
+  if [[ $repeat_tests > 0 ]]; then
+    repeats=$(seq -s ' ' 1 $repeat_tests)
+  fi
 
   if [[ "$ESTF_KIBANA_TEST_TYPE" == "basic" ]]; then
     export ES_SECURITY_ENABLED=true
@@ -36,48 +42,50 @@ run_ftr_cloud_configs() {
   failedConfigs=""
   results=()
 
-  for config in $configs; do
-    if [[ ! -f "$config" ]]; then
-      echo_warning "Invalid configuration: $config"
-      continue;
-    fi
-
-    echo "--- $ node scripts/functional_test_runner --config $config"
-    start=$(date +%s)
-
-    # prevent non-zero exit code from breaking the loop
-    set +e;
-    node scripts/functional_test_runner \
-              --es-version "$ESTF_CLOUD_VERSION" \
-              --exclude-tag skipCloud \
-              --config="$config"
-    lastCode=$?
-    set -e;
-
-    timeSec=$(($(date +%s)-start))
-    if [[ $timeSec -gt 60 ]]; then
-      min=$((timeSec/60))
-      sec=$((timeSec-(min*60)))
-      duration="${min}m ${sec}s"
-    else
-      duration="${timeSec}s"
-    fi
-
-    results+=("- $config
-      duration: ${duration}
-      result: ${lastCode}")
-
-    if [ $lastCode -ne 0 ]; then
-      exitCode=10
-      echo "FTR exited with code $lastCode"
-      echo "^^^ +++"
-
-      if [[ "$failedConfigs" ]]; then
-        failedConfigs="${failedConfigs}"$'\n'"$config"
-      else
-        failedConfigs="$config"
+  for run in $repeats; do
+    for config in $configs; do
+      if [[ ! -f "$config" ]]; then
+        echo_warning "Invalid configuration: $config"
+        continue;
       fi
-    fi
+
+      echo "--- $ node scripts/functional_test_runner --config $config"
+      start=$(date +%s)
+
+      # prevent non-zero exit code from breaking the loop
+      set +e;
+      node scripts/functional_test_runner \
+                --es-version "$ESTF_CLOUD_VERSION" \
+                --exclude-tag skipCloud \
+                --config="$config"
+      lastCode=$?
+      set -e;
+
+      timeSec=$(($(date +%s)-start))
+      if [[ $timeSec -gt 60 ]]; then
+        min=$((timeSec/60))
+        sec=$((timeSec-(min*60)))
+        duration="${min}m ${sec}s"
+      else
+        duration="${timeSec}s"
+      fi
+
+      results+=("- $config
+        duration: ${duration}
+        result: ${lastCode}")
+
+      if [ $lastCode -ne 0 ]; then
+        exitCode=10
+        echo "FTR exited with code $lastCode"
+        echo "^^^ +++"
+
+        if [[ "$failedConfigs" ]]; then
+          failedConfigs="${failedConfigs}"$'\n'"$config"
+        else
+          failedConfigs="$config"
+        fi
+      fi
+    done
   done
 
   if [[ "$failedConfigs" ]]; then
@@ -94,22 +102,57 @@ run_ftr_cloud_configs() {
 run_ftr_cloud_ci_groups() {
   export TEST_CLOUD=1
   export JOB=kibana-$ESTF_META_ID
+  repeat_tests=${REPEAT_TESTS:-0}
 
-  # Run basic group
-  if [[ "$ESTF_KIBANA_TEST_TYPE" == "basic" ]]; then
-      export ES_SECURITY_ENABLED=true
-      echo "--- Basic tests run against ESS"
-      eval node scripts/functional_test_runner \
-              --es-version "$ESTF_CLOUD_VERSION" \
-              --exclude-tag skipCloud " $ESTF_KIBANA_INCLUDE_TAG"
+  repeats=$(seq -s ' ' 1 1)
+  if [[ $repeat_tests > 0 ]]; then
+    repeats=$(seq -s ' ' 1 $repeat_tests)
   fi
 
-  # Run xpack group
-  if [[ "$ESTF_KIBANA_TEST_TYPE" == "xpack" ]]; then
-      cd x-pack
-      echo "--- Xpack tests run against ESS"
-      eval node scripts/functional_test_runner \
-              --es-version "$ESTF_CLOUD_VERSION" \
-              --exclude-tag skipCloud " $ESTF_KIBANA_INCLUDE_TAG"
-  fi
+  results=()
+
+  for run in $repeats; do
+    # Run basic group
+    if [[ "$ESTF_KIBANA_TEST_TYPE" == "basic" ]]; then
+        export ES_SECURITY_ENABLED=true
+        echo "--- Basic tests run against ESS"
+        set +e;
+        eval node scripts/functional_test_runner \
+                --es-version "$ESTF_CLOUD_VERSION" \
+                --exclude-tag skipCloud " $ESTF_KIBANA_INCLUDE_TAG"
+        lastCode=$?
+        set -e;
+        results+=("result: ${lastCode}")
+        if [ $lastCode -ne 0 ]; then
+          exitCode=10
+          echo "FTR exited with code $lastCode"
+          echo "^^^ +++"
+        fi
+    fi
+
+    # Run xpack group
+    if [[ "$ESTF_KIBANA_TEST_TYPE" == "xpack" ]]; then
+        cd x-pack
+        echo "--- Xpack tests run against ESS"
+        set +e;
+        eval node scripts/functional_test_runner \
+                --es-version "$ESTF_CLOUD_VERSION" \
+                --exclude-tag skipCloud " $ESTF_KIBANA_INCLUDE_TAG"
+        lastCode=$?
+        set -e;
+        results+=("result: ${lastCode}")
+        if [ $lastCode -ne 0 ]; then
+          exitCode=10
+          echo "FTR exited with code $lastCode"
+          echo "^^^ +++"
+        fi
+    fi
+  done
+
+  echo "--- FTR configs complete"
+  printf "%s\n" "${results[@]}"
+  echo ""
+
+  return $exitCode
+
 }
