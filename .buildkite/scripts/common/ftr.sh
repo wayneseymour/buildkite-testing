@@ -5,8 +5,10 @@ source .buildkite/scripts/common/util.sh
 run_ftr_cloud_configs() {
   export TEST_CLOUD=1
   export JOB=kibana-$ESTF_META_ID
-  repeat_tests=${REPEAT_TESTS:-0}
 
+  cloudVersion=$(get_cloud_version)
+
+  repeat_tests=${REPEAT_TESTS:-0}
   repeats=$(seq -s ' ' 1 1)
   if [[ $repeat_tests > 0 ]]; then
     repeats=$(seq -s ' ' 1 $repeat_tests)
@@ -55,7 +57,7 @@ run_ftr_cloud_configs() {
       # prevent non-zero exit code from breaking the loop
       set +e;
       node scripts/functional_test_runner \
-                --es-version "$ESTF_CLOUD_VERSION" \
+                --es-version "$cloudVersion" \
                 --exclude-tag skipCloud \
                 --config="$config"
       lastCode=$?
@@ -102,8 +104,10 @@ run_ftr_cloud_configs() {
 run_ftr_cloud_ci_groups() {
   export TEST_CLOUD=1
   export JOB=kibana-$ESTF_META_ID
-  repeat_tests=${REPEAT_TESTS:-0}
 
+  cloudVersion=$(get_cloud_version)
+
+  repeat_tests=${REPEAT_TESTS:-0}
   repeats=$(seq -s ' ' 1 1)
   if [[ $repeat_tests > 0 ]]; then
     repeats=$(seq -s ' ' 1 $repeat_tests)
@@ -118,7 +122,7 @@ run_ftr_cloud_ci_groups() {
         echo "--- Basic tests run against ESS"
         set +e;
         eval node scripts/functional_test_runner \
-                --es-version "$ESTF_CLOUD_VERSION" \
+                --es-version "$cloudVersion" \
                 --exclude-tag skipCloud " $ESTF_KIBANA_INCLUDE_TAG"
         lastCode=$?
         set -e;
@@ -136,7 +140,7 @@ run_ftr_cloud_ci_groups() {
         echo "--- Xpack tests run against ESS"
         set +e;
         eval node scripts/functional_test_runner \
-                --es-version "$ESTF_CLOUD_VERSION" \
+                --es-version "$cloudVersion" \
                 --exclude-tag skipCloud " $ESTF_KIBANA_INCLUDE_TAG"
         lastCode=$?
         set -e;

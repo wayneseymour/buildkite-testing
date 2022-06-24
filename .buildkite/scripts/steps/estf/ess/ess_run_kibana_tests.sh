@@ -13,23 +13,24 @@ echo "--- Run kibana functional tests"
 source .buildkite/scripts/common/ftr.sh
 
 echo "--- Clone kibana repo and chdir"
-github_owner="${ESTF_GITHUB_OWNER:-$(buildkite-agent meta-data get "estf-github-owner" --default 'elastic')}"
-github_repo="${ESTF_GITHUB_REPO:-$(buildkite-agent meta-data get "estf-github-repo" --default 'kibana.git')}"
-github_reference_repo="${ESTF_KIBANA_REF_REPO:-"/var/lib/gitmirrors/https---github-com-elastic-kibana-git"}"
-github_branch="${ESTF_GITHUB_BRANCH:-$(buildkite-agent meta-data get "estf-github-branch" --default '')}"
-github_pr_num="${ESTF_GITHUB_PR_NUM:-$(buildkite-agent meta-data get "estf-github-pr-num" --default '')}"
 
-git clone --reference "$github_reference_repo" "https://github.com/$github_owner/$github_repo"
+githubOwner="$(get_github_owner)"
+githubRepo="$(get_github_repo)"
+githubRefRepo="$(get_github_ref_repo)"
+githubBranch="$(get_github_branch)"
+githubPrNum="$(get_pr_num)"
+
+git clone --reference "$githubRefRepo" "https://github.com/$githubOwner/$githubRepo"
 cd kibana
 
 echo "--- Checkout kibana"
-if [[ ! -z "$github_pr_num" ]]; then
+if [[ ! -z "$githubPrNum" ]]; then
   prefix="pr-"
-  num=${github_pr_num#"$prefix"}
+  num=${githubPrNum#"$prefix"}
   git fetch origin pull/$num/head:pr-$num
   git checkout pr-$num
-elif [[ ! -z "$github_branch" ]]; then
-  git checkout -f "$github_branch"
+elif [[ ! -z "$githubBranch" ]]; then
+  git checkout -f "$githubBranch"
 else
   buildkite-agent meta-data exists "estf-kibana-hash-$ESTF_META_ID"
   git checkout -f $(buildkite-agent meta-data get "estf-kibana-hash-$ESTF_META_ID")

@@ -49,10 +49,67 @@ is_version_ge() {
 
 get_branch_from_version() {
   branch=""
-  if [[ "${ESTF_CLOUD_VERSION:-}" =~ [0-9]+\.[0-9]+ ]]; then
+  cloudVersion=$(get_cloud_version)
+  if [[ "${cloudVersion:-}" =~ [0-9]+\.[0-9]+ ]]; then
     branch=${BASH_REMATCH[0]}
   fi
   echo $branch
+}
+
+get_cloud_version() {
+  metaData=$(buildkite-agent meta-data get "estf-cloud-version" --default '')
+  value="${ESTF_CLOUD_VERSION:-$metaData}"
+  echo $value
+}
+
+get_github_owner() {
+  metaData=$(buildkite-agent meta-data get "estf-github-owner" --default 'elastic')
+  value="${ESTF_GITHUB_OWNER:-$metaData}"
+  echo $value
+}
+
+get_github_repo() {
+  metaData=$(buildkite-agent meta-data get "estf-github-repo" --default 'kibana.git')
+  value="${ESTF_GITHUB_REPO:-$metaData}"
+  echo $value
+}
+
+get_github_ref_repo() {
+  defaultValue="/var/lib/gitmirrors/https---github-com-elastic-kibana-git"
+  value="${ESTF_KIBANA_REF_REPO:-$defaultValue}"
+  echo $value
+}
+
+get_github_branch() {
+  metaData=$(buildkite-agent meta-data get "estf-github-branch" --default '')
+  value="${ESTF_GITHUB_BRANCH:-$metaData}"
+  echo $value
+}
+
+get_github_pr_num() {
+  metaData=$(buildkite-agent meta-data get "estf-github-pr-number" --default '')
+  value="${ESTF_GITHUB_PR_NUM:-$metaData}"
+  echo $value
+}
+
+get_num_executions() {
+  metaData="$(buildkite-agent meta-data get "estf-num-executions" --default '1')"
+  echo $metaData
+}
+
+get_test_configs() {
+  metaData="$(buildkite-agent meta-data get "estf-test-configs" --default '')"
+  echo $metaData
+}
+
+get_basic_ci_groups() {
+  metaData="$(buildkite-agent meta-data get "estf-basic-ci-groups" --default '')"
+  echo $metaData
+}
+
+get_xpack_ci_groups() {
+  metaData="$(buildkite-agent meta-data get "estf-xpack-ci-groups" --default '')"
+  echo $metaData
 }
 
 # -- From github.com/elastic/kibana repo .buildkite/scripts/common/util.sh

@@ -10,7 +10,8 @@ set -eu
 
 source .buildkite/scripts/common/util.sh
 
-if ([[ $(is_version_ge "$ESTF_CLOUD_VERSION" "8.3") == 1 ]] || [[ "${TEST_TYPE:-}" == "xpackext" ]]) &&
+cloudVersion=$(get_cloud_version)
+if ([[ $(is_version_ge "$cloudVersion" "8.3") == 1 ]] || [[ "${TEST_TYPE:-}" == "xpackext" ]]) &&
    [[ -z "${FTR_CONFIGS:-}" ]]; then
   buildkite-agent artifact download ftr_run_order.json . --step "$BUILDKITE_JOB_ID"
   ftrConfigGroupsCount=$(jq -r '.count' ftr_run_order.json)
