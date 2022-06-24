@@ -6,7 +6,7 @@
 # Author: Liza Dayoub
 # ----------------------------------------------------------------------------
 
-set -eu
+set -euo pipefail
 
 source .buildkite/scripts/common/util.sh
 

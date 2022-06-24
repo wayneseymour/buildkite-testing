@@ -103,6 +103,7 @@ for i in $(seq -s ' ' 1 $MAX_GROUPS); do
   echo "      TEST_TYPE: $TEST_TYPE"
   echo "      CI_GROUP: $CI_GROUP"
   echo "      REPEAT_TESTS: $REPEAT_TESTS"
+  echo "      ESTF_CLOUD_VERSION: $cloud_version"
   echo "      FUNCTIONAL_MAX_MINUTES: 20"
   echo "      LIMIT_CONFIG_TYPE: functional"
   echo "      FTR_CONFIGS_DEPS: \"\""
