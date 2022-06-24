@@ -69,6 +69,8 @@ if [[ $MAX_GROUPS == 0 ]]; then
   REPEAT_TESTS=0
 fi
 
+buildkite-agent meta-data set "estf-repeat-tests" $REPEAT_TESTS
+
 if [[ ! -z $testConfigs ]]; then
   configArr=($testConfigs)
   if [[ ${#configArr[@]} -gt $LIMIT_NUM_CONFIGS ]]; then
@@ -101,7 +103,6 @@ for i in $(seq -s ' ' 1 $MAX_GROUPS); do
   echo "      ESTF_UPLOAD_SCRIPT: \".buildkite/scripts/steps/estf/ess/ess_upload_steps.sh\""
   echo "      TEST_TYPE: $TEST_TYPE"
   echo "      CI_GROUP: $CI_GROUP"
-  echo "      REPEAT_TESTS: $REPEAT_TESTS"
   echo "      FUNCTIONAL_MAX_MINUTES: 20"
   echo "      LIMIT_CONFIG_TYPE: functional"
   echo "      FTR_CONFIGS_DEPS: \"\""

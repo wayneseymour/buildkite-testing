@@ -8,7 +8,7 @@ run_ftr_cloud_configs() {
 
   cloudVersion=$(get_cloud_version)
 
-  repeat_tests=${REPEAT_TESTS:-0}
+  repeat_tests=$(get_repeat_tests)
   repeats=$(seq -s ' ' 1 1)
   if [[ $repeat_tests > 0 ]]; then
     repeats=$(seq -s ' ' 1 $repeat_tests)
@@ -86,6 +86,10 @@ run_ftr_cloud_configs() {
         fi
       fi
     done
+    if [[ $exitCode == 10 ]] && [[ $repeat_tests > 0 ]]; then
+      echo "There were failures, stopping test loop, run $run of $repeat_tests"
+      break
+    fi
   done
 
   if [[ "$failedConfigs" ]]; then
@@ -105,7 +109,7 @@ run_ftr_cloud_ci_groups() {
 
   cloudVersion=$(get_cloud_version)
 
-  repeat_tests=${REPEAT_TESTS:-0}
+  repeat_tests=$(get_repeat_tests)
   repeats=$(seq -s ' ' 1 1)
   if [[ $repeat_tests > 0 ]]; then
     repeats=$(seq -s ' ' 1 $repeat_tests)
@@ -148,6 +152,10 @@ run_ftr_cloud_ci_groups() {
           echo "FTR exited with code $lastCode"
           echo "^^^ +++"
         fi
+    fi
+    if [[ $exitCode == 10 ]] && [[ $repeat_tests > 0 ]]; then
+      echo "There were failures, stopping test loop, run $run of $repeat_tests"
+      break
     fi
   done
 

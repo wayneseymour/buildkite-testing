@@ -112,6 +112,11 @@ get_xpack_ci_groups() {
   echo $metaData
 }
 
+get_repeat_tests() {
+  metaData=$(buildkite-agent meta-data get "estf-repeat-tests" --default '0')
+  echo $metaData
+}
+
 # -- From github.com/elastic/kibana repo .buildkite/scripts/common/util.sh
 
 # docker_run can be used in place of `docker run`
