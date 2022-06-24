@@ -63,10 +63,10 @@ if [[ $num_executions -gt $LIMIT_NUM_EXECUTIONS ]]; then
   false
 fi
 
-MAX_GROUP=$(( $num_executions / 5 ))
+MAX_GROUPS=$(( $num_executions / 5 ))
 REPEAT_TESTS=5
-if [[ $MAX_GROUP == 0 ]]; then
-  MAX_GROUP=1
+if [[ $MAX_GROUPS == 0 ]]; then
+  MAX_GROUPS=1
   REPEAT_TESTS=0
 fi
 
