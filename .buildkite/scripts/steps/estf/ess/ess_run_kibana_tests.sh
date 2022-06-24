@@ -18,7 +18,7 @@ githubOwner="$(get_github_owner)"
 githubRepo="$(get_github_repo)"
 githubRefRepo="$(get_github_ref_repo)"
 githubBranch="$(get_github_branch)"
-githubPrNum="$(get_pr_num)"
+githubPrNum="$(get_github_pr_num)"
 
 git clone --reference "$githubRefRepo" "https://github.com/$githubOwner/$githubRepo"
 cd kibana
