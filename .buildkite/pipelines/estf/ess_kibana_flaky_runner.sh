@@ -16,7 +16,7 @@ LIMIT_NUM_CONFIGS=3
 
 githubOwner="$(get_github_owner)"
 githubBranch="$(get_github_branch)"
-githubPrNum="$(get_pr_num)"
+githubPrNum="$(get_github_pr_num)"
 cloudVersion="$(get_cloud_version)"
 numExecutions="$(get_num_executions)"
 testConfigs="$(get_test_configs)"
