@@ -14,9 +14,7 @@ run_ftr_cloud_configs() {
     repeats=$(seq -s ' ' 1 $repeat_tests)
   fi
 
-  if [[ "$ESTF_KIBANA_TEST_TYPE" == "basic" ]]; then
-    export ES_SECURITY_ENABLED=true
-  fi
+  export ES_SECURITY_ENABLED=true
 
   FAILED_CONFIGS_KEY="${BUILDKITE_STEP_ID}${ESTF_FTR_CONFIG_GROUP:-0}"
 
