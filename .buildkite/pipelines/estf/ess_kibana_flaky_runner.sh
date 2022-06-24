@@ -8,6 +8,8 @@
 
 set -euo pipefail
 
+source .buildkite/scripts/common/util.sh
+
 # Limits
 LIMIT_NUM_EXECUTIONS=50
 LIMIT_NUM_CONFIGS=3
@@ -17,7 +19,7 @@ github_branch="${ESTF_GITHUB_BRANCH:-$(buildkite-agent meta-data get "estf-githu
 github_pr_num="${ESTF_GITHUB_PR_NUM:-$(buildkite-agent meta-data get "estf-github-pr-number" --default '')}"
 cloud_version="${ESTF_CLOUD_VERSION:-$(buildkite-agent meta-data get "estf-cloud-version" --default '')}"
 num_executions="$(buildkite-agent meta-data get "estf-num-executions" --default '1')"
-test_configs="$(buildkite-agent meta-data get "estf-configs" --default '')"
+test_configs="$(buildkite-agent meta-data get "estf-test-configs" --default '')"
 basic_ci_groups="$(buildkite-agent meta-data get "estf-basic-ci-groups" --default '')"
 xpack_ci_groups="$(buildkite-agent meta-data get "estf-xpack-ci-groups" --default '')"
 
