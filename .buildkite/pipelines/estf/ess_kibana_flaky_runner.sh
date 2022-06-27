@@ -15,6 +15,7 @@ LIMIT_NUM_EXECUTIONS=50
 LIMIT_NUM_CONFIGS=3
 
 githubOwner="$(get_github_owner)"
+githubRepo="$(get_github_repo)"
 githubBranch="$(get_github_branch)"
 githubPrNum="$(get_github_pr_num)"
 cloudVersion="$(get_cloud_version)"
@@ -87,6 +88,16 @@ if [[ ! -z $testConfigs ]]; then
     fi
   done
 fi
+
+export ESTF_INPUT_PR_NUMBER="$githubPrNum"
+export ESTF_INPUT_CLOUD_VERSION="$cloudVersion"
+export ESTF_INPUT_TEST_CONFIGS="$testConfigs"
+export ESTF_INPUT_BASIC_CI_GROUP="$basicCiGroups"
+export ESTF_INPUT_XPACK_CI_GROUP="$xpackCiGroups"
+export ESTF_INPUT_NUMBER_EXECUTIONS="$numExecutions"
+export ESTF_INPUT_GITHUB_OWNER="$githubOwner"
+export ESTF_INPUT_GITHUB_REPO="$githubRepo"
+export ESTF_INPUT_GITHUB_BRANCH="$githubBranch"
 
 echo "  - command: .buildkite/scripts/lifecycle/pre_build.sh"
 echo "    label: Pre-Build"

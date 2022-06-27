@@ -89,7 +89,8 @@ get_github_branch() {
 get_github_pr_num() {
   metaData=$(buildkite-agent meta-data get "estf-github-pr-number" --default '')
   value="${ESTF_GITHUB_PR_NUM:-$metaData}"
-  echo $value
+  value="${value##*/}"
+  echo ${value#"pr-"}
 }
 
 get_num_executions() {
