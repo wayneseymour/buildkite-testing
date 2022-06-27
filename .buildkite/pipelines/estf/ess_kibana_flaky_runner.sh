@@ -89,15 +89,15 @@ if [[ ! -z $testConfigs ]]; then
   done
 fi
 
-export ESTF_INPUT_PR_NUMBER="$githubPrNum"
-export ESTF_INPUT_CLOUD_VERSION="$cloudVersion"
-export ESTF_INPUT_TEST_CONFIGS="$testConfigs"
-export ESTF_INPUT_BASIC_CI_GROUP="$basicCiGroups"
-export ESTF_INPUT_XPACK_CI_GROUP="$xpackCiGroups"
-export ESTF_INPUT_NUMBER_EXECUTIONS="$numExecutions"
-export ESTF_INPUT_GITHUB_OWNER="$githubOwner"
-export ESTF_INPUT_GITHUB_REPO="$githubRepo"
-export ESTF_INPUT_GITHUB_BRANCH="$githubBranch"
+buildkite-agent annotate "<b>PR Number:</b> $githubPrNum<br>" --style 'default' --context 'estf-kftr-input' --append
+buildkite-agent annotate "<b>Cloud Version:</b> $cloudVersion<br>" --style 'default' --context 'estf-kftr-input' --append
+buildkite-agent annotate "<b>Test Configs:</b> $testConfigs<br>" --style 'default' --context 'estf-kftr-input' --append
+buildkite-agent annotate "<b>Basic CI Group:</b> $basicCiGroups<br>" --style 'default' --context 'estf-kftr-input' --append
+buildkite-agent annotate "<b>Xpack CI Group:</b> $xpackCiGroups<br>" --style 'default' --context 'estf-kftr-input' --append
+buildkite-agent annotate "<b>Number Of Executions:</b> $numExecutions<br>" --style 'default' --context 'estf-kftr-input' --append
+buildkite-agent annotate "<b>Github Owner:</b> $githubOwner<br>" --style 'default' --context 'estf-kftr-input' --append
+buildkite-agent annotate "<b>Github Repo:</b> $githubRepo<br>" --style 'default' --context 'estf-kftr-input' --append
+buildkite-agent annotate "<b>Github Branch:</b> $githubBranch<br>" --style 'default' --context 'estf-kftr-input' --append
 
 echo "  - command: .buildkite/scripts/lifecycle/pre_build.sh"
 echo "    label: Pre-Build"
