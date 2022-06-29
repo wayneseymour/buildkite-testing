@@ -103,6 +103,11 @@ get_test_configs() {
   echo $metaData
 }
 
+get_config_seq() {
+  metaData="$(buildkite-agent meta-data get "estf-config-seq" --default 'false')"
+  echo $metaData
+}
+
 get_basic_ci_groups() {
   metaData="$(buildkite-agent meta-data get "estf-basic-ci-groups" --default '')"
   echo $metaData
