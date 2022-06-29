@@ -73,7 +73,7 @@ fi
 buildkite-agent meta-data set "estf-repeat-tests" $REPEAT_TESTS
 
 if [[ ! -z $testConfigs ]]; then
-  configArr=($testConfigs)
+  configArr=(${testConfigs//,/ })
   if [[ ${#configArr[@]} -gt $LIMIT_NUM_CONFIGS ]]; then
     echo "Number of configurations is limted to $LIMIT_NUM_CONFIGS"
     false
