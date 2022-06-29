@@ -21,6 +21,7 @@ githubPrNum="$(get_github_pr_num)"
 cloudVersion="$(get_cloud_version)"
 numExecutions="$(get_num_executions)"
 testConfigs="$(get_test_configs)"
+testConfigSeq="$(get_config_seq)"
 basicCiGroups="$(get_basic_ci_groups)"
 xpackCiGroups="$(get_xpack_ci_groups)"
 
@@ -33,7 +34,7 @@ if [[ "$githubOwner" != "elastic" ]] &&
 fi
 
 if [[ $(is_version_ge "$cloudVersion" "8.3") == 1 ]] &&
-   [[ -z $testConfigs ]]; then
+   [[ -z "$testConfigs" ]]; then
   echo "Test configs must be set"
   false
 else
@@ -58,6 +59,10 @@ if [[ $(is_version_ge "$cloudVersion" "8.3") == 0 ]]; then
   fi
 fi
 
+if [[ "$testConfigSeq" == "true" ]]; then
+  TEST_TYPE="xpackext"
+fi
+
 if [[ $numExecutions -gt $LIMIT_NUM_EXECUTIONS ]]; then
   echo "Number of executions is limted to $LIMIT_NUM_EXECUTIONS"
   false
@@ -73,7 +78,7 @@ fi
 buildkite-agent meta-data set "estf-repeat-tests" $REPEAT_TESTS
 
 if [[ ! -z $testConfigs ]]; then
-  configArr=(${testConfigs//,/ })
+  configArr=($testConfigs)
   if [[ ${#configArr[@]} -gt $LIMIT_NUM_CONFIGS ]]; then
     echo "Number of configurations is limted to $LIMIT_NUM_CONFIGS"
     false
@@ -92,6 +97,7 @@ fi
 buildkite-agent annotate "<b>PR Number:</b> $githubPrNum<br>" --style 'default' --context 'estf-kftr-input' --append
 buildkite-agent annotate "<b>Cloud Version:</b> $cloudVersion<br>" --style 'default' --context 'estf-kftr-input' --append
 buildkite-agent annotate "<b>Test Configs:</b> $testConfigs<br>" --style 'default' --context 'estf-kftr-input' --append
+buildkite-agent annotate "<b>Run Configs Sequentially:</b> $testConfigSeq<br>" --style 'default' --context 'estf-kftr-input' --append
 buildkite-agent annotate "<b>Basic CI Group:</b> $basicCiGroups<br>" --style 'default' --context 'estf-kftr-input' --append
 buildkite-agent annotate "<b>Xpack CI Group:</b> $xpackCiGroups<br>" --style 'default' --context 'estf-kftr-input' --append
 buildkite-agent annotate "<b>Number Of Executions:</b> $numExecutions<br>" --style 'default' --context 'estf-kftr-input' --append
@@ -118,7 +124,11 @@ for i in $(seq -s ' ' 1 $MAX_GROUPS); do
   echo "      LIMIT_CONFIG_TYPE: functional"
   echo "      FTR_CONFIGS_DEPS: \"\""
   echo "      FTR_CONFIGS_RETRY_COUNT: 0"
-  echo "      FTR_CONFIG_PATTERNS: \"$testConfigs\""
+  if [[ $TEST_TYPE == "xpackext" ]]; then
+    echo "      FTR_CONFIGS: \"$testConfigs\""
+  else
+    echo "      FTR_CONFIG_PATTERNS: \"$testConfigs\""
+  fi
 done
 echo "  - wait: ~"
 echo "    continue_on_failure: true"
