@@ -21,7 +21,7 @@ run_ftr_cloud_configs() {
   # a FTR failure will result in the script returning an exit code of 10
   exitCode=0
 
-  configs="${ESTF_FTR_CONFIGS//,/:-}"
+  configs="${ESTF_FTR_CONFIGS:-}"
 
   # The first retry should only run the configs that failed in the previous attempt
   # Any subsequent retries, which would generally only happen by someone clicking the button in the UI, will run everything
@@ -43,7 +43,7 @@ run_ftr_cloud_configs() {
   results=()
 
   for run in $repeats; do
-    for config in $configs; do
+    for config in ${configs//,/ }; do
       if [[ ! -f "$config" ]]; then
         echo_warning "Invalid configuration: $config"
         continue;
