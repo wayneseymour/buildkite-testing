@@ -25,6 +25,7 @@ testConfigSeq="$(get_config_seq)"
 basicCiGroups="$(get_basic_ci_groups)"
 xpackCiGroups="$(get_xpack_ci_groups)"
 
+echo "--- Check cloud version, branch and PR"
 if [[ "$githubOwner" != "elastic" ]] &&
    [[ -z "$githubBranch" ]] ||
    [[ -z "$githubPrNum" ]] ||
@@ -33,8 +34,9 @@ if [[ "$githubOwner" != "elastic" ]] &&
   false
 fi
 
+echo "--- Check configuration"
 if [[ $(is_version_ge "$cloudVersion" "8.3") == 1 ]] &&
-   [[ -z $testConfigs ]]; then
+   [[ -z "$testConfigs" ]]; then
   echo "Test configs must be set"
   false
 else
@@ -97,6 +99,7 @@ fi
 buildkite-agent annotate "<b>PR Number:</b> $githubPrNum<br>" --style 'default' --context 'estf-kftr-input' --append
 buildkite-agent annotate "<b>Cloud Version:</b> $cloudVersion<br>" --style 'default' --context 'estf-kftr-input' --append
 buildkite-agent annotate "<b>Test Configs:</b> $testConfigs<br>" --style 'default' --context 'estf-kftr-input' --append
+buildkite-agent annotate "<b>Run Configs Sequentially:</b> $testConfigSeq<br>" --style 'default' --context 'estf-kftr-input' --append
 buildkite-agent annotate "<b>Basic CI Group:</b> $basicCiGroups<br>" --style 'default' --context 'estf-kftr-input' --append
 buildkite-agent annotate "<b>Xpack CI Group:</b> $xpackCiGroups<br>" --style 'default' --context 'estf-kftr-input' --append
 buildkite-agent annotate "<b>Number Of Executions:</b> $numExecutions<br>" --style 'default' --context 'estf-kftr-input' --append
