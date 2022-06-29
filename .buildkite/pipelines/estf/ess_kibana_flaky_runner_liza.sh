@@ -30,19 +30,19 @@ if [[ "$githubOwner" != "elastic" ]] &&
    [[ -z "$githubPrNum" ]] ||
    [[ -z "$cloudVersion" ]]; then
   echo "Cloud version and branch or PR number must be set"
-  exit
+  false
 fi
 
 if [[ $(is_version_ge "$cloudVersion" "8.3") == 1 ]] &&
    [[ -z "$testConfigs" ]]; then
   echo "Test configs must be set"
-  exit
+  false
 else
   if [[ -z "$testConfigs" ]] &&
      [[ -z "$basicCiGroups" ]] &&
      [[ -z "$xpackCiGroups" ]]; then
     echo "Basic CI Group, Xpack CI Group or Xpack Extended Config must be set"
-    exit
+    false
   fi
 fi
 
