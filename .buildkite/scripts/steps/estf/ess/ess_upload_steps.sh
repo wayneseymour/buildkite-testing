@@ -81,7 +81,7 @@ if [[ ! -z "${ftrConfigGroupsCount:-}" ]]; then
   for groupInd in $(seq -s ' ' 0 $((ftrConfigGroupsCount-1)));
   do
     testType="${TEST_TYPE:-all}"
-    metaId="ftr_configs_${testType}_${groupInd}"
+    metaId="ftr_configs_${testType}_${groupInd}_$BUILDKITE_JOB_ID"
     ftrConfigGroup=$groupInd
     estfPlanSettings="${ESTF_PLAN_SETTINGS:-kibana_default.json}"
     if [[ -z "${FTR_CONFIGS:-}" ]]; then
@@ -109,7 +109,7 @@ else
       ind1=$((i))
       ind2=$((i+1))
       ind3=$((i+2))
-      metaId="${testType}-${ciGroupsArray[$ind1]}"
+      metaId="${testType}-${ciGroupsArray[$ind1]}_$BUILDKITE_JOB_ID"
       includeTag="--include-tag ciGroup${ciGroupsArray[$ind1]}";
       case $runGroup in
         1)
