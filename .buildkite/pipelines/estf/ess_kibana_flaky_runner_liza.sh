@@ -25,26 +25,24 @@ testConfigSeq="$(get_config_seq)"
 basicCiGroups="$(get_basic_ci_groups)"
 xpackCiGroups="$(get_xpack_ci_groups)"
 
-echo "--- Check cloud version, branch and PR"
 if [[ "$githubOwner" != "elastic" ]] &&
    [[ -z "$githubBranch" ]] ||
    [[ -z "$githubPrNum" ]] ||
    [[ -z "$cloudVersion" ]]; then
   echo "Cloud version and branch or PR number must be set"
-  false
+  exit
 fi
 
-echo "--- Check configuration"
 if [[ $(is_version_ge "$cloudVersion" "8.3") == 1 ]] &&
    [[ -z "$testConfigs" ]]; then
   echo "Test configs must be set"
-  false
+  exit
 else
   if [[ -z "$testConfigs" ]] &&
      [[ -z "$basicCiGroups" ]] &&
      [[ -z "$xpackCiGroups" ]]; then
     echo "Basic CI Group, Xpack CI Group or Xpack Extended Config must be set"
-    false
+    exit
   fi
 fi
 
