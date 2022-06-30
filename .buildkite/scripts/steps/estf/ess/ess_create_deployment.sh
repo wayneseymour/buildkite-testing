@@ -40,6 +40,13 @@ if [[ ! -z "${ESTF_PLAN_SETTINGS:-}" ]] && [[ "${ESTF_PLAN_SETTINGS:-}" != "none
   done
 fi
 
+validKibanaSizes="4 8"
+if [[ ! -z ${ESTF_KIBANA_SIZE:-} ]] &&
+   [[ "$validKibanaSizes" == *"${ESTF_KIBANA_SIZE:-}"* ]]; then
+  size=$(( $ESTF_KIBANA_SIZE * 1024 ))
+  cat <<< $(jq ".resources.kibana[0].plan.cluster_topology[0].size.value = $size" $ESTF_PLAN_FILE) > $ESTF_PLAN_FILE
+fi
+
 cloudVersion=$(get_cloud_version)
 ecctl deployment create --track --output json --name $ESTF_DEPLOYMENT_NAME \
                         --version $cloudVersion --file $ESTF_PLAN_FILE &> "$OUTPUT_FILE"
