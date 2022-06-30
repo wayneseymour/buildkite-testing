@@ -37,6 +37,7 @@ if [[ "$IS_TEST_EXECUTION_STEP" == "true" ]]; then
   source .buildkite/scripts/common/setup_node.sh
 
   echo '--- Install buildkite dependencies'
+  retry 5 15 npm install -g ts-node
   cd '.buildkite'
   rm -rf node_modules
   rm package-lock.json
@@ -51,7 +52,7 @@ if [[ "$IS_TEST_EXECUTION_STEP" == "true" ]]; then
     if [[ -f ".buildkite/scripts/lifecycle/annotate_test_failures.js" ]]; then
       node .buildkite/scripts/lifecycle/annotate_test_failures.js
     else
-      node .buildkite/scripts/lifecycle/annotate_test_failures.ts
+      ts-node .buildkite/scripts/lifecycle/annotate_test_failures.ts
     fi
   fi
 fi
