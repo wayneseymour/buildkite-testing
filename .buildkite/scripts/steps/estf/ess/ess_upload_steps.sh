@@ -16,8 +16,7 @@ if ([[ $(is_version_ge "$cloudVersion" "8.3") == 1 ]] || [[ "${TEST_TYPE:-}" == 
   buildkite-agent artifact download ftr_run_order.json . --step "$BUILDKITE_JOB_ID"
   ftrConfigGroupsCount=$(jq -r '.count' ftr_run_order.json)
 elif [[ "${TEST_TYPE:-}" == "xpackext" ]] && [[ -z "${FTR_CONFIGS:-}" ]] && [[ -z "${FTR_CONFIG_PATTERNS:-}" ]]; then
-  echo "FTR_CONFIGS or FTR_CONFIG_PATTERNS must be set"
-  false
+  echo_error_exit "FTR_CONFIGS or FTR_CONFIG_PATTERNS must be set"
 elif [[ ! -z "${FTR_CONFIGS:-}" ]]; then
   ftrConfigGroupsCount=1
 else
@@ -37,27 +36,25 @@ else
 
   # Allows input configuration: TEST_TYPE, CI_GROUP, RUN_GROUP
   if [[ ! -z "${CI_GROUP:-}" ]] && [[ -z "${TEST_TYPE:-}" ]]; then
-    echo "CI_GROUP needs TEST_TYPE to be set, one of: ${testTypes// /,}"
-    false
+    echo_error_exit "CI_GROUP needs TEST_TYPE to be set, one of: ${testTypes// /,}"
   fi
 
   if [[ ! -z "${RUN_GROUP:-}" ]] && [[ -z "${TEST_TYPE:-}" ]]; then
-    echo "RUN_GROUP needs TEST_TYPE to be set, one of: ${testTypes// /,}"
-    false
+    echo_error_exit "RUN_GROUP needs TEST_TYPE to be set, one of: ${testTypes// /,}"
   fi
 
   if [[ ! -z "${TEST_TYPE:-}" ]]; then
-    case " $testTypes " in (*" $TEST_TYPE "*) :;; (*) echo "Valid values: ${testTypes// /, }"; false;; esac
+    case " $testTypes " in (*" $TEST_TYPE "*) :;; (*) echo_error_exit "Valid values: ${testTypes// /, }";; esac
     testTypes=$TEST_TYPE
   fi
 
   if [[ ! -z "${CI_GROUP:-}" ]]; then
-    case " ${testGroups[$TEST_TYPE]} " in (*" $CI_GROUP "*) :;; (*) echo "Valid values: ${testGroups[$TEST_TYPE]}"; false;; esac
+    case " ${testGroups[$TEST_TYPE]} " in (*" $CI_GROUP "*) :;; (*) echo_error_exit "Valid values: ${testGroups[$TEST_TYPE]}";; esac
     testGroups[${TEST_TYPE}]=${CI_GROUP}
   fi
 
   if [[ ! -z "${RUN_GROUP:-}" ]]; then
-    case " $validRunGroups " in (*" $RUN_GROUP "*) :;; (*) echo "Valid values: ${validRunGroups// /, }"; false;; esac
+    case " $validRunGroups " in (*" $RUN_GROUP "*) :;; (*) echo_error_exit "Valid values: ${validRunGroups// /, }";; esac
     runGroups[${TEST_TYPE}]=${RUN_GROUP}
   fi
 fi
@@ -131,8 +128,7 @@ else
           fi
           ;;
         *)
-          echo "Valid run up to ${validRunGroups// /, } at a time"
-          false;
+          echo_error_exit "Valid run up to ${validRunGroups// /, } at a time"
           ;;
       esac
       get_buildkite_group

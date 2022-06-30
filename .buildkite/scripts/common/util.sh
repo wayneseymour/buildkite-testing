@@ -19,12 +19,12 @@ GRAY='\033[0;30m'
 LIGHT_GRAY='\033[0;37m'
 
 echo_error_exit() {
-  echo -e ${RED}":bangbang: $1"${NC} >&2
+  echo -e ${RED}" $1"${NC} >&2
   exit 1
 }
 
 echo_error() {
-  echo -e ${RED}":bangbang: $1"${NC} >&2
+  echo -e ${RED}" $1"${NC} >&2
 }
 
 echo_warning() {

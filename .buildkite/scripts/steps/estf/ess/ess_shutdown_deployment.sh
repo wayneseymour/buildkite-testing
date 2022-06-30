@@ -27,7 +27,7 @@ EOF
     cat << EOF | buildkite-agent annotate --style 'error' --context 'ess_error_deployment' --append
       $ESTF_META_ID deployment error: $(cat $DEPLOYMENT_OUTPUT_FILE)<br>
 EOF
-  false
+  echo_error_exit "Deployment error"
   fi
 fi
 
