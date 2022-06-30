@@ -29,20 +29,17 @@ if [[ "$githubOwner" != "elastic" ]] &&
    [[ -z "$githubBranch" ]] ||
    [[ -z "$githubPrNum" ]] ||
    [[ -z "$cloudVersion" ]]; then
-  echo "Cloud version and branch or PR number must be set"
-  false
+  echo_error_exit "Cloud version and branch or PR number must be set"
 fi
 
 if [[ $(is_version_ge "$cloudVersion" "8.3") == 1 ]] &&
    [[ -z "$testConfigs" ]]; then
-  echo "Test configs must be set"
-  false
+  echo_error_exit "Test configs must be set"
 else
   if [[ -z "$testConfigs" ]] &&
      [[ -z "$basicCiGroups" ]] &&
      [[ -z "$xpackCiGroups" ]]; then
-    echo "Basic CI Group, Xpack CI Group or Xpack Extended Config must be set"
-    false
+    echo_error_exit "Basic CI Group, Xpack CI Group or Xpack Extended Config must be set"
   fi
 fi
 
@@ -64,8 +61,7 @@ if [[ "$testConfigSeq" == "true" ]]; then
 fi
 
 if [[ $numExecutions -gt $LIMIT_NUM_EXECUTIONS ]]; then
-  echo "Number of executions is limted to $LIMIT_NUM_EXECUTIONS"
-  false
+  echo_error_exit "Number of executions is limted to $LIMIT_NUM_EXECUTIONS"
 fi
 
 MAX_GROUPS=$(( $numExecutions / 5 ))
@@ -80,16 +76,14 @@ buildkite-agent meta-data set "estf-repeat-tests" $REPEAT_TESTS
 if [[ ! -z $testConfigs ]]; then
   configArr=($testConfigs)
   if [[ ${#configArr[@]} -gt $LIMIT_NUM_CONFIGS ]]; then
-    echo "Number of configurations is limted to $LIMIT_NUM_CONFIGS"
-    false
+    echo_error_exit "Number of configurations is limted to $LIMIT_NUM_CONFIGS"
   fi
   prefix1="test/"
   prefix2="x-pack/test/"
   for config in "${configArr[@]}"; do
     if [[ ! ("$config" =~ ^$prefix1.*\/config\.(j|t)s) ]] &&
       [[ ! ("$config" =~ ^$prefix2.*\/config\.(j|t)s) ]]; then
-      echo "Invalid configuration format: $config"
-      false
+      echo_error_exit "Invalid configuration format: $config"
     fi
   done
 fi
