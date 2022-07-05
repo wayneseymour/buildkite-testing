@@ -78,7 +78,7 @@ if [[ ! -z "${ftrConfigGroupsCount:-}" ]]; then
   for groupInd in $(seq -s ' ' 0 $((ftrConfigGroupsCount-1)));
   do
     testType="${TEST_TYPE:-all}"
-    metaId="ftr_configs_${testType}_${groupInd}_$BUILDKITE_JOB_ID"
+    metaId="${testType}_${groupInd}_$BUILDKITE_JOB_ID"
     ftrConfigGroup=$groupInd
     estfPlanSettings="${ESTF_PLAN_SETTINGS:-kibana_default.json}"
     if [[ -z "${FTR_CONFIGS:-}" ]]; then
