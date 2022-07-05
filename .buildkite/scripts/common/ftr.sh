@@ -116,7 +116,7 @@ run_ftr_cloud_ci_groups() {
   fi
 
   results=()
-
+  exitCode=0
   for run in $repeats; do
     # Run basic group
     if [[ "$ESTF_KIBANA_TEST_TYPE" == "basic" ]]; then
