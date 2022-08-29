@@ -2,6 +2,7 @@
   "data.search.aggs.shardDelay.enabled": true,
   "server.uuid": "5b2de169-2785-441b-ae8c-186a1936b17d",
   "telemetry.banner": false,
+  "uiSettings.overrides.observability:enableNewSyntheticsView": true,
   "xpack.data_enhanced.search.sessions.cleanupInterval": "5s",
   "xpack.data_enhanced.search.sessions.enabled": true,
   "xpack.data_enhanced.search.sessions.notTouchedTimeout": "15s",
