@@ -57,6 +57,7 @@ run_ftr_cloud_configs() {
       node scripts/functional_test_runner \
                 --es-version "$cloudVersion" \
                 --exclude-tag skipCloud \
+                --exclude-tag skipCloudFailedTest \
                 --config="$config"
       lastCode=$?
       set -e;
@@ -125,7 +126,8 @@ run_ftr_cloud_ci_groups() {
         set +e;
         eval node scripts/functional_test_runner \
                 --es-version "$cloudVersion" \
-                --exclude-tag skipCloud " $ESTF_KIBANA_INCLUDE_TAG"
+                --exclude-tag skipCloud \
+                --exclude-tag skipCloudFailedTest " $ESTF_KIBANA_INCLUDE_TAG"
         lastCode=$?
         set -e;
         results+=("result: ${lastCode}")
@@ -143,7 +145,8 @@ run_ftr_cloud_ci_groups() {
         set +e;
         eval node scripts/functional_test_runner \
                 --es-version "$cloudVersion" \
-                --exclude-tag skipCloud " $ESTF_KIBANA_INCLUDE_TAG"
+                --exclude-tag skipCloud \
+                --exclude-tag skipCloudFailedTest " $ESTF_KIBANA_INCLUDE_TAG"
         lastCode=$?
         set -e;
         results+=("result: ${lastCode}")
