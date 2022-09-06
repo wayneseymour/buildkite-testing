@@ -83,9 +83,9 @@ if [[ ! -z "${ESTF_VISUAL_TESTS:-}" ]]; then
   VAULT_TOKEN=$(retry 5 30 vault write -field=token auth/approle/login role_id="$VAULT_ROLE_ID" secret_id="$VAULT_SECRET_ID")
   retry 5 30 vault login -no-print "$VAULT_TOKEN"
   if [[ "$ESTF_KIBANA_TEST_TYPE" == "xpack" ]]; then
-    PERCY_TOKEN="$(vault kv get --field apiKey secret/stack-testing/percy-rm-default)"
+    PERCY_TOKEN="$(vault kv get --field token secret/stack-testing/percy-rm-default)"
   elif [[ "$ESTF_KIBANA_TEST_TYPE" == "basic" ]]; then
-    PERCY_TOKEN="$(vault kv get --field apiKey secret/stack-testing/percy-rm-oss)"
+    PERCY_TOKEN="$(vault kv get --field token secret/stack-testing/percy-rm-oss)"
   fi
   export PERCY_TOKEN
   run_ftr_cloud_visual_tests
