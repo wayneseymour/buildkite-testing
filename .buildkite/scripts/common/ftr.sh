@@ -169,3 +169,65 @@ run_ftr_cloud_ci_groups() {
   return $exitCode
 
 }
+
+run_ftr_cloud_visual_tests() {
+  export TEST_CLOUD=1
+  export JOB=kibana-$ESTF_META_ID
+
+  cloudVersion=$(get_cloud_version)
+
+  repeat_tests=$(get_repeat_tests)
+  repeats=$(seq -s ' ' 1 1)
+  if [[ $repeat_tests > 0 ]]; then
+    repeats=$(seq -s ' ' 1 $repeat_tests)
+  fi
+
+  results=()
+  exitCode=0
+  for run in $repeats; do
+    # Run basic group
+    if [[ "$ESTF_KIBANA_TEST_TYPE" == "basic" ]]; then
+        export ES_SECURITY_ENABLED=true
+        echo "--- Visual basic tests run against ESS"
+        set +e;
+        yarn run percy exec -- -t 700 -- \
+          node scripts/functional_test_runner --config test/visual_regression/config.ts
+        lastCode=$?
+        set -e;
+        results+=("result: ${lastCode}")
+        if [ $lastCode -ne 0 ]; then
+          exitCode=10
+          echo "FTR exited with code $lastCode"
+          echo "^^^ +++"
+        fi
+    fi
+
+    # Run xpack group
+    if [[ "$ESTF_KIBANA_TEST_TYPE" == "xpack" ]]; then
+        cd x-pack
+        echo "--- Visual xpack tests run against ESS"
+        set +e;
+        yarn run percy exec -- -t 700 -- \
+          node scripts/functional_test_runner --config x-pack/test/visual_regression/config.ts
+        lastCode=$?
+        set -e;
+        results+=("result: ${lastCode}")
+        if [ $lastCode -ne 0 ]; then
+          exitCode=10
+          echo "FTR exited with code $lastCode"
+          echo "^^^ +++"
+        fi
+    fi
+    if [[ $exitCode == 10 ]] && [[ $repeat_tests > 0 ]]; then
+      echo "There were failures, stopping test loop, run $run of $repeat_tests"
+      break
+    fi
+  done
+
+  echo "--- FTR configs complete"
+  printf "%s\n" "${results[@]}"
+  echo ""
+
+  return $exitCode
+
+}

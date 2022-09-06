@@ -76,7 +76,9 @@ export TEST_ES_USERNAME="elastic"
 export TEST_ES_PASS="${ESTF_DEPLOYMENT_PASSWORD}"
 export TEST_ES_HOSTNAME="${ESTF_ELASTICSEARCH_HOST_PORT%:*}"
 
-if [[ ! -z "${ESTF_FTR_CONFIGS:-}" ]]; then
+if [[ ! -z "${ESTF_VISUAL_TESTS:-}" ]]; then
+  run_ftr_cloud_visual_tests
+elif [[ ! -z "${ESTF_FTR_CONFIGS:-}" ]]; then
   run_ftr_cloud_configs
 else
   run_ftr_cloud_ci_groups
