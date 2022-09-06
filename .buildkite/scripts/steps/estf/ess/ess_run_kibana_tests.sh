@@ -77,6 +77,17 @@ export TEST_ES_PASS="${ESTF_DEPLOYMENT_PASSWORD}"
 export TEST_ES_HOSTNAME="${ESTF_ELASTICSEARCH_HOST_PORT%:*}"
 
 if [[ ! -z "${ESTF_VISUAL_TESTS:-}" ]]; then
+  echo "--- Setup Percy Token"
+  VAULT_ROLE_ID="$(retry 5 15 gcloud secrets versions access latest --secret=estf-vault-role-id)"
+  VAULT_SECRET_ID="$(retry 5 15 gcloud secrets versions access latest --secret=estf-vault-secret-id)"
+  VAULT_TOKEN=$(retry 5 30 vault write -field=token auth/approle/login role_id="$VAULT_ROLE_ID" secret_id="$VAULT_SECRET_ID")
+  retry 5 30 vault login -no-print "$VAULT_TOKEN"
+  if [[ "$ESTF_KIBANA_TEST_TYPE" == "xpack" ]]; then
+    PERCY_TOKEN="$(vault kv get --field apiKey secret/stack-testing/percy-rm-default)"
+  elif [[ "$ESTF_KIBANA_TEST_TYPE" == "basic" ]]; then
+    PERCY_TOKEN="$(vault kv get --field apiKey secret/stack-testing/percy-rm-oss)"
+  fi
+  export PERCY_TOKEN
   run_ftr_cloud_visual_tests
 elif [[ ! -z "${ESTF_FTR_CONFIGS:-}" ]]; then
   run_ftr_cloud_configs
