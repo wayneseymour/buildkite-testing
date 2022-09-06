@@ -16,6 +16,8 @@ steps:
       ESTF_META_ID: "basic-visual-tests"
       ESTF_PLAN_SETTINGS: "kibana_default.json"
       ESTF_KIBANA_TEST_TYPE: "basic"
+      ESTF_GITHUB_BRANCH: percy-vrt
+      ESTF_GITHUB_OWNER: liza-mae
 
   - command: .buildkite/scripts/steps/estf/ess/ess_kibana_testing.sh
     label: 'Visual Xpack Tests ESS Kibana'
@@ -26,6 +28,8 @@ steps:
       ESTF_META_ID: "xpack-visual-tests"
       ESTF_PLAN_SETTINGS: "kibana_default.json"
       ESTF_KIBANA_TEST_TYPE: "xpack"
+      ESTF_GITHUB_BRANCH: percy-vrt
+      ESTF_GITHUB_OWNER: liza-mae
 
   - wait: ~
     continue_on_failure: true
