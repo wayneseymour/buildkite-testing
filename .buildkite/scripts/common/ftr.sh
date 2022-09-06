@@ -204,7 +204,6 @@ run_ftr_cloud_visual_tests() {
 
     # Run xpack group
     if [[ "$ESTF_KIBANA_TEST_TYPE" == "xpack" ]]; then
-        cd x-pack
         echo "--- Visual xpack tests run against ESS"
         set +e;
         yarn run percy exec -- -t 700 -- \
