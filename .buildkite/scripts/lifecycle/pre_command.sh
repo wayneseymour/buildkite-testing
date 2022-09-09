@@ -65,11 +65,3 @@ PIPELINE_PRE_COMMAND=${PIPELINE_PRE_COMMAND:-".buildkite/scripts/lifecycle/pipel
 if [[ -f "$PIPELINE_PRE_COMMAND" ]]; then
   source "$PIPELINE_PRE_COMMAND"
 fi
-
-# On retry, clear the previously published test_failure annotations
-rmTestFailureAnnotations=$(buildkite-agent meta-data exists "removedTestFailureAnnotations")
-if [[ "$rmTestFailureAnnotations" != "0" &&
-      "${BUILDKITE_RETRY_COUNT:-0}" == "1" ]]; then
-  buildkite-agent annotation remove --context "test_failures"
-  buildkite-agent meta-data set "removedTestFailureAnnotations" "true"
-fi
