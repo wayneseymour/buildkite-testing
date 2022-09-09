@@ -25,7 +25,8 @@ run_ftr_cloud_configs() {
 
   # The first retry should only run the configs that failed in the previous attempt
   # Any subsequent retries, which would generally only happen by someone clicking the button in the UI, will run everything
-  if [[ ! "$configs" && "${BUILDKITE_RETRY_COUNT:-0}" == "1" ]]; then
+  failedCfgKeys=$(buildkite-agent meta-data exists "$FAILED_CONFIGS_KEY")
+  if [[ "$failedCfgKeys" == "0" && "${BUILDKITE_RETRY_COUNT:-0}" == "1" ]]; then
     configs=$(buildkite-agent meta-data get "$FAILED_CONFIGS_KEY" --default '')
     if [[ "$configs" ]]; then
       echo "--- Retrying only failed configs"
