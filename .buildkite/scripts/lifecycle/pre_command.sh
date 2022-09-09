@@ -4,14 +4,6 @@ set -euo pipefail
 
 source .buildkite/scripts/common/util.sh
 
-# On retry, clear the previously published test_failure annotations
-rmTestFailureAnnotations=$(buildkite-agent meta-data exists "removedTestFailureAnnotations")
-if [[ "$rmTestFailureAnnotations" != "0" && "${BUILDKITE_RETRY_COUNT:-0}" == "1" ]]; then
-  echo '--- Remove Test Failure Annotations'
-  buildkite-agent annotation remove --context "test_failures"
-  buildkite-agent meta-data set "removedTestFailureAnnotations" "true"
-fi
-
 BUILDKITE_TOKEN="$(retry 5 5 vault read -field=buildkite_token_all_jobs secret/kibana-issues/dev/buildkite-ci)"
 export BUILDKITE_TOKEN
 

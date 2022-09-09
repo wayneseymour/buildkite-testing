@@ -27,6 +27,12 @@ run_ftr_cloud_configs() {
   # Any subsequent retries, which would generally only happen by someone clicking the button in the UI, will run everything
   failedCfgKeys=$(buildkite-agent meta-data exists "$FAILED_CONFIGS_KEY")
   if [[ "$failedCfgKeys" == "0" && "${BUILDKITE_RETRY_COUNT:-0}" == "1" ]]; then
+    clearTestFailureAnnotations=$(buildkite-agent meta-data exists "clearedTestFailureAnnotations")
+    if [[ "$clearTestFailureAnnotations" != "0" && "${BUILDKITE_RETRY_COUNT:-0}" == "1" ]]; then
+      echo '--- Clear Test Failure Annotations'
+      buildkite-agent annotation --context "test_failures" --style "error" ""
+      buildkite-agent meta-data set "clearedTestFailureAnnotations" "true"
+    fi
     configs=$(buildkite-agent meta-data get "$FAILED_CONFIGS_KEY" --default '')
     if [[ "$configs" ]]; then
       echo "--- Retrying only failed configs"
