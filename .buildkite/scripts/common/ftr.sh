@@ -6,6 +6,8 @@ run_ftr_cloud_configs() {
   export TEST_CLOUD=1
   export JOB=kibana-$ESTF_META_ID
 
+  echo "--- in run_ftr_configs"
+
   cloudVersion=$(get_cloud_version)
 
   repeat_tests=$(get_repeat_tests)
@@ -23,10 +25,13 @@ run_ftr_cloud_configs() {
 
   configs="${ESTF_FTR_CONFIGS:-}"
 
+  echo_debug "Configs: $configs"
+
   # The first retry should only run the configs that failed in the previous attempt
   # Any subsequent retries, which would generally only happen by someone clicking the button in the UI, will run everything
   failedCfgKeys=$(buildkite-agent meta-data exists "$FAILED_CONFIGS_KEY")
-  if [[ "$failedCfgKeys" == "0" && "${BUILDKITE_RETRY_COUNT:-0}" == "1" ]]; then
+  echo_debug "failedCfgKeys: $failedCfgKeys"
+  if [[ "$failedCfgKeys" == "0" ]] && [[ "${BUILDKITE_RETRY_COUNT:-0}" == "1" ]]; then
     configs=$(buildkite-agent meta-data get "$FAILED_CONFIGS_KEY" --default '')
     if [[ "$configs" ]]; then
       echo "--- Retrying only failed configs"
