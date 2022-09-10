@@ -22,6 +22,14 @@ if [[ "$(curl -is metadata.google.internal || true)" ]]; then
   echo ""
 fi
 
+
+removedFailureAnnotations="$(buildkite-agent meta-data get removedFailureAnnotations --default '')"
+if [[ ! "$removedFailureAnnotations" ]] && [[ "${BUILDKITE_RETRY_COUNT:-0}" == "1" ]]; then
+  echo "--- Retry: Remove Failure Annotations"
+  buildkite-agent annotation remove --context "test_failures"
+  buildkite-agent meta-data set "removedFailureAnnotations" "true"
+fi
+
 # Setup CI Stats
 {
   CI_STATS_BUILD_ID="$(buildkite-agent meta-data get ci_stats_build_id --default '')"
