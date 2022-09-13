@@ -48,11 +48,16 @@ if [[ "$IS_TEST_EXECUTION_STEP" == "true" ]]; then
   node scripts/report_failed_tests --no-github-update --build-url="${BUILDKITE_BUILD_URL}#${BUILDKITE_JOB_ID}" 'target/junit/**/*.xml'
 
   if [[ -d 'target/test_failures' ]]; then
-    buildkite-agent artifact upload 'target/test_failures/**/*'
-    if [[ -f ".buildkite/scripts/lifecycle/annotate_test_failures.js" ]]; then
-      node .buildkite/scripts/lifecycle/annotate_test_failures.js
-    else
-      ts-node .buildkite/scripts/lifecycle/annotate_test_failures.ts
+    if ([[ "${ESTF_TESTING:=-}" == "ess" ]] &&
+        [[ "${BUILDKITE_RETRY_COUNT:-0}" == "1" ]]) ||
+       ([[ "${ESTF_TESTING:=-}" != "ess" ]]); then
+      echo "--- Annotate Test Failures"
+      buildkite-agent artifact upload 'target/test_failures/**/*'
+      if [[ -f ".buildkite/scripts/lifecycle/annotate_test_failures.js" ]]; then
+        node .buildkite/scripts/lifecycle/annotate_test_failures.js
+      else
+        ts-node .buildkite/scripts/lifecycle/annotate_test_failures.ts
+      fi
     fi
   fi
 fi

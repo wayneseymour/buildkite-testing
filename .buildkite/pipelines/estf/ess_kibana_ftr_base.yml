@@ -14,6 +14,7 @@ steps:
     env:
       ESTF_UPLOAD_SCRIPT: ".buildkite/scripts/steps/estf/ess/ess_upload_steps.sh"
       TEST_TYPE: "basic"
+      ESTF_TESTING: "ess"
       FUNCTIONAL_MAX_MINUTES: 60
       LIMIT_CONFIG_TYPE: functional
       FTR_CONFIGS_DEPS: ""
@@ -27,6 +28,7 @@ steps:
     env:
       ESTF_UPLOAD_SCRIPT: ".buildkite/scripts/steps/estf/ess/ess_upload_steps.sh"
       TEST_TYPE: "xpack"
+      ESTF_TESTING: "ess"
       FUNCTIONAL_MAX_MINUTES: 60
       LIMIT_CONFIG_TYPE: functional
       FTR_CONFIGS_DEPS: ""
@@ -40,6 +42,7 @@ steps:
     env:
       ESTF_UPLOAD_SCRIPT: ".buildkite/scripts/steps/estf/ess/ess_upload_steps.sh"
       TEST_TYPE: "xpackext"
+      ESTF_TESTING: "ess"
       FUNCTIONAL_MAX_MINUTES: 60
       LIMIT_CONFIG_TYPE: functional
       FTR_CONFIGS_DEPS: ""
