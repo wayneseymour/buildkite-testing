@@ -63,7 +63,7 @@ get_buildkite_group() {
   echo "  - label: \"${metaId} ess kibana testing\""
   echo "    key: \"ess_kibana_testing_${metaId}\""
   echo "    command: .buildkite/scripts/steps/estf/ess/ess_kibana_testing.sh"
-  if [[ "${ESTF_TESTING:=-}" == "ess" ]]; then
+  if [[ "${ESTF_RETRY_TEST:=-}" == "true" ]]; then
   echo "    retry:"
   echo "      automatic:"
   echo "        - exit_status: \"*\""
@@ -76,7 +76,7 @@ get_buildkite_group() {
   echo "      ESTF_KIBANA_INCLUDE_TAG: ${includeTag:-}"
   echo "      ESTF_FTR_CONFIGS: \"${ftrConfigs:-}\""
   echo "      ESTF_FTR_CONFIG_GROUP: ${ftrConfigGroup:-}"
-  echo "      ESTF_TESTING: ${ESTF_TESTING:-}"
+  echo "      ESTF_RETRY_TEST: ${ESTF_RETRY_TEST:-}"
   echo "    agents:"
   echo "      queue: n2-4"
 }
