@@ -82,6 +82,12 @@ get_buildkite_group() {
 }
 
 if [[ ! -z "${ftrConfigGroupsCount:-}" ]]; then
+  defaulSettings="true"
+  reportSettings="false"
+  securitySolnSettings="false"
+  if [[ ! -z "${ESTF_PLAN_SETTINGS:-}" ]]; then
+    defaultSettings="false"
+  fi
   for groupInd in $(seq -s ' ' 0 $((ftrConfigGroupsCount-1)));
   do
     testType="${TEST_TYPE:-all}"
@@ -93,11 +99,15 @@ if [[ ! -z "${ftrConfigGroupsCount:-}" ]]; then
     else
       ftrConfigs="${FTR_CONFIGS}"
     fi
-    if [[ "$ftrConfigs" == *"reporting"* ]] && [[ $estfPlanSettings == "kibana_default.json" ]]; then
-      estfPlanSettings+=" kibana_reporting.json"
-    fi
-    if [[ "$ftrConfigs" == *"security_solution_endpoint"* ]] && [[ $estfPlanSettings == "kibana_default.json" ]]; then
-      estfPlanSettings+=" kibana_security_solution_endpoint.json"
+    if [[ "$defaulSettings" == "true" ]]; then
+      if [[ "$reportSettings" == "false" ]] && [[ "$ftrConfigs" == *"reporting"* ]]; then
+        estfPlanSettings+=" kibana_reporting.json"
+        reportSettings="true"
+      fi
+      if [[ "$securitySolnSettings" == "false" ]] && [[ "$ftrConfigs" == *"security_solution_endpoint"* ]]; then
+        estfPlanSettings+=" kibana_security_solution_endpoint.json"
+        securitySolnSettings="true"
+      fi
     fi
     get_buildkite_group
   done
