@@ -1,0 +1,5 @@
+{
+  "xpack.fleet.agents.pollingRequestTimeout": 5000,
+  "xpack.fleet.packages.0.name": "endpoint",
+  "xpack.fleet.packages.0.version": "latest"
+}

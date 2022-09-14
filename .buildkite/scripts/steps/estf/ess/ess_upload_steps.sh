@@ -96,6 +96,9 @@ if [[ ! -z "${ftrConfigGroupsCount:-}" ]]; then
     if [[ "$ftrConfigs" == *"reporting"* ]] && [[ $estfPlanSettings == "kibana_default.json" ]]; then
       estfPlanSettings+=" kibana_reporting.json"
     fi
+    if [[ "$ftrConfigs" == *"security_solution_endpoint"* ]] && [[ $estfPlanSettings == "kibana_default.json" ]]; then
+      estfPlanSettings+=" kibana_security_solution_endpoint.json"
+    fi
     get_buildkite_group
   done
 else
