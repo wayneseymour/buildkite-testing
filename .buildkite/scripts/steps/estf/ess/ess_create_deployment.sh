@@ -29,12 +29,20 @@ buildkite-agent meta-data set "estf-deployment-output-$ESTF_META_ID" $OUTPUT_FIL
 if [[ ! -z "${ESTF_PLAN_SETTINGS:-}" ]] && [[ "${ESTF_PLAN_SETTINGS:-}" != "none" ]]; then
   settingsDir=".buildkite/scripts/steps/estf/ess/settings"
   for plan in ${ESTF_PLAN_SETTINGS}; do
-    settings=$(cat $settingsDir/$plan)
     branch=$(get_branch_from_version)
-    ext=".json"
-    verfile="$settingsDir/${plan%%$ext*}_$branch$ext"
-    if [[ -f $verfile ]]; then
-      settings=$(cat $verfile)
+    versionDir="$settingsDir/$branch"
+    if [[ -d $versionDir ]]; then
+      versionFile="$versionDir/${plan}"
+      if [[ ! -f $versionFile ]]; then
+        continue
+      fi
+      settings=$(cat $versionFile)
+    else
+      defaultFile="$settingsDir/${plan}"
+      if [[ ! -f $defaultFile ]]; then
+        continue
+      fi
+      settings=$(cat $defaultFile)
     fi
     cat <<< $(jq ".resources.kibana[0].plan.kibana.user_settings_json += $settings" $ESTF_PLAN_FILE) > $ESTF_PLAN_FILE
   done
