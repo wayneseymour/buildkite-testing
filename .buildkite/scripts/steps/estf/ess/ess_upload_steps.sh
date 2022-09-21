@@ -63,11 +63,11 @@ get_buildkite_group() {
   echo "  - label: \"${metaId} ess kibana testing\""
   echo "    key: \"ess_kibana_testing_${metaId}\""
   echo "    command: .buildkite/scripts/steps/estf/ess/ess_kibana_testing.sh"
-  if [[ "${ESTF_RETRY_TEST:=-}" == "true" ]]; then
-  echo "    retry:"
-  echo "      automatic:"
-  echo "        - exit_status: \"*\""
-  echo "          limit: 1"
+  if [[ "${ESTF_RETRY_TEST:-}" == "true" ]]; then
+    echo "    retry:"
+    echo "      automatic:"
+    echo "        - exit_status: \"*\""
+    echo "          limit: 1"
   fi
   echo "    env:"
   echo "      ESTF_META_ID: ${metaId}"
