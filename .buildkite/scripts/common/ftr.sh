@@ -3,6 +3,8 @@
 source .buildkite/scripts/common/util.sh
 
 run_ftr_cloud_configs() {
+  excludeTests="$1"
+
   export TEST_CLOUD=1
   export JOB=kibana-$ESTF_META_ID
 
@@ -63,7 +65,7 @@ run_ftr_cloud_configs() {
                 --exclude-tag skipCloud \
                 --exclude-tag skipCloudFailedTest \
                 --config="$config" \
-                " $(get_excluded_tests)"
+                " $excludeTests"
       lastCode=$?
       set -e;
 
@@ -110,6 +112,8 @@ run_ftr_cloud_configs() {
 }
 
 run_ftr_cloud_ci_groups() {
+  excludeTests="$1"
+
   export TEST_CLOUD=1
   export JOB=kibana-$ESTF_META_ID
 
@@ -134,7 +138,7 @@ run_ftr_cloud_ci_groups() {
                 --exclude-tag skipCloud \
                 --exclude-tag skipCloudFailedTest \
                 " $ESTF_KIBANA_INCLUDE_TAG" \
-                " $(get_excluded_tests)"
+                " $excludeTests"
         lastCode=$?
         set -e;
         results+=("result: ${lastCode}")
@@ -155,7 +159,7 @@ run_ftr_cloud_ci_groups() {
                 --exclude-tag skipCloud \
                 --exclude-tag skipCloudFailedTest \
                 " $ESTF_KIBANA_INCLUDE_TAG" \
-                " $(get_excluded_tests)"
+                " $excludeTests"
         lastCode=$?
         set -e;
         results+=("result: ${lastCode}")

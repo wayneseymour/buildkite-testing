@@ -19,6 +19,7 @@ githubRepo="$(get_github_repo)"
 githubRefRepo="$(get_github_ref_repo)"
 githubBranch="$(get_github_branch)"
 githubPrNum="$(get_github_pr_num)"
+excludeTests="$(get_excluded_tests)"
 
 git clone --reference "$githubRefRepo" "https://github.com/$githubOwner/$githubRepo"
 cd kibana
@@ -90,7 +91,7 @@ if [[ ! -z "${ESTF_VISUAL_TESTS:-}" ]]; then
   export PERCY_TOKEN
   run_ftr_cloud_visual_tests
 elif [[ ! -z "${ESTF_FTR_CONFIGS:-}" ]]; then
-  run_ftr_cloud_configs
+  run_ftr_cloud_configs "$excludeTests"
 else
-  run_ftr_cloud_ci_groups
+  run_ftr_cloud_ci_groups "$excludeTests"
 fi
