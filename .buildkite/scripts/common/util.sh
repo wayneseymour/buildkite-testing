@@ -131,9 +131,11 @@ get_repeat_tests() {
 is_pipeline_cloud_kibana_func_tests() {
   substr="estf-cloud-kibana-functional-tests"
   if [[ $BUILDKITE_BUILD_URL == *"$substr"* ]]; then
-      echo 1
+    echo 1
+  elif [[ $BUILDKITE_BUILD_URL == *"liza-job"* ]]; then
+    echo 1
   else
-      echo 0
+    echo 0
   fi
 }
 
