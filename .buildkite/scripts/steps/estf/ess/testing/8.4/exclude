@@ -1,0 +1,5 @@
+# Excluded Test Suites
+# Reference Build: estf-cloud-kibana-functional-tests/builds/686
+
+test/functional/apps/dashboard_elements/controls/options_list.ts
+x-pack/test/functional/apps/canvas/feature_controls/canvas_security.ts

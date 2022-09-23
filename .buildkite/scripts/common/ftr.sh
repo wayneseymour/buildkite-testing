@@ -58,11 +58,12 @@ run_ftr_cloud_configs() {
 
       # prevent non-zero exit code from breaking the loop
       set +e;
-      node scripts/functional_test_runner \
+      eval node scripts/functional_test_runner \
                 --es-version "$cloudVersion" \
                 --exclude-tag skipCloud \
                 --exclude-tag skipCloudFailedTest \
-                --config="$config"
+                --config="$config" \
+                " $(get_excluded_tests)"
       lastCode=$?
       set -e;
 
@@ -131,7 +132,9 @@ run_ftr_cloud_ci_groups() {
         eval node scripts/functional_test_runner \
                 --es-version "$cloudVersion" \
                 --exclude-tag skipCloud \
-                --exclude-tag skipCloudFailedTest " $ESTF_KIBANA_INCLUDE_TAG"
+                --exclude-tag skipCloudFailedTest \
+                " $ESTF_KIBANA_INCLUDE_TAG" \
+                " $(get_excluded_tests)"
         lastCode=$?
         set -e;
         results+=("result: ${lastCode}")
@@ -150,7 +153,9 @@ run_ftr_cloud_ci_groups() {
         eval node scripts/functional_test_runner \
                 --es-version "$cloudVersion" \
                 --exclude-tag skipCloud \
-                --exclude-tag skipCloudFailedTest " $ESTF_KIBANA_INCLUDE_TAG"
+                --exclude-tag skipCloudFailedTest \
+                " $ESTF_KIBANA_INCLUDE_TAG" \
+                " $(get_excluded_tests)"
         lastCode=$?
         set -e;
         results+=("result: ${lastCode}")

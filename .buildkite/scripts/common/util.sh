@@ -128,6 +128,32 @@ get_repeat_tests() {
   echo $metaData
 }
 
+is_pipeline_cloud_kibana_func_tests() {
+  substr="estf-cloud-kibana-functional-tests"
+  if [[ $BUILDKITE_BUILD_URL == *"$substr"* ]]; then
+      echo 1
+  else
+      echo 0
+  fi
+}
+
+get_excluded_tests() {
+  ftrExcludes=""
+  if [[ $(is_pipeline_cloud_kibana_func_tests) == "1" ]]; then
+    testingDir=".buildkite/scripts/steps/estf/ess/testing"
+    excludeFile="$testingDir/$(get_branch_from_version)/exclude"
+    if [[ -f "$excludeFile" ]]; then
+      while read line; do
+        if [[ -z "$line" ]] || [[ "$line" =~ ^# ]]; then
+          continue
+        fi
+        ftrExcludes+=" --exclude $line"
+      done < "$excludeFile"
+    fi
+  fi
+  echo $ftrExcludes
+}
+
 # -- From github.com/elastic/kibana repo .buildkite/scripts/common/util.sh
 
 # docker_run can be used in place of `docker run`
