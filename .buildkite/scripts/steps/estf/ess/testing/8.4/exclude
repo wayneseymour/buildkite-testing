@@ -1,9 +1,10 @@
 # Excluded Test Suites
 # Buildkite Pipeline: estf-cloud-kibana-functional-tests
-# Reference builds: 686, 688
+# Reference builds: 686, 688, 689
 
 test/functional/apps/dashboard_elements/controls/options_list.ts
 x-pack/test/api_integration/apis/ml/jobs/close_jobs.ts
 x-pack/test/api_integration/apis/ml/jobs/close_jobs_spaces.ts
+x-pack/test/api_integration/apis/ml/modules/setup_module.ts
 x-pack/test/functional/apps/canvas/feature_controls/canvas_security.ts
 x-pack/test/functional/apps/lens/group3/lens_reporting.ts
