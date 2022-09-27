@@ -1,0 +1,10 @@
+# Buildkite Pipeline: estf-cloud-kibana-functional-tests
+# Reference builds: 705
+# The following test suites are excluded for being flaky
+
+test/functional/apps/management/_index_pattern_create_delete.js
+test/functional/apps/management/_index_pattern_popularity.js
+test/functional/apps/management/_index_pattern_results_sort.js
+x-pack/test/api_integration/apis/monitoring/apm/instances.js
+x-pack/test/api_integration/apis/search/search.ts
+x-pack/test/functional/apps/maps/visualize_create_menu.js
