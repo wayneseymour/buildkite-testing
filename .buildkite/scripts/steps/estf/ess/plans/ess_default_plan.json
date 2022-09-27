@@ -128,7 +128,7 @@
               ],
               "id": "ml",
               "size": {
-                "value": 1024,
+                "value": 2048,
                 "resource": "memory"
               },
               "elasticsearch": {
