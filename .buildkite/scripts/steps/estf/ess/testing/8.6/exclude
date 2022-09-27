@@ -4,5 +4,4 @@
 
 test/functional/apps/dashboard/group2/dashboard_snapshots.ts
 test/functional/apps/home/_newsfeed.ts
-x-pack/test/apm_api_integration/trial/config.ts
 x-pack/test/functional/apps/lens/group3/lens_reporting.ts
