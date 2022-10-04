@@ -19,4 +19,4 @@ cleanup() {
 buildkite-agent meta-data set "estf-homedir-$ESTF_META_ID" "$(pwd)"
 
 source .buildkite/scripts/steps/estf/ess/ess_create_deployment.sh
-source .buildkite/scripts/steps/estf/ess/ess_run_kibana_tests.sh
+source .buildkite/scripts/steps/estf/kibana/run_kibana_tests.sh

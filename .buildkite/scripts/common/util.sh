@@ -142,7 +142,7 @@ is_pipeline_cloud_kibana_func_tests() {
 get_excluded_tests() {
   ftrExcludes=""
   if [[ $(is_pipeline_cloud_kibana_func_tests) == "1" ]]; then
-    testingDir=".buildkite/scripts/steps/estf/ess/testing"
+    testingDir=".buildkite/scripts/steps/estf/kibana/testing"
     excludeFile="$testingDir/$(get_branch_from_version)/exclude"
     if [[ -f "$excludeFile" ]]; then
       while read line; do

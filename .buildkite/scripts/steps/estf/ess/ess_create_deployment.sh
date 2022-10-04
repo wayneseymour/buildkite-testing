@@ -27,7 +27,7 @@ OUTPUT_FILE=$(mktemp --suffix ".json")
 buildkite-agent meta-data set "estf-deployment-output-$ESTF_META_ID" $OUTPUT_FILE
 
 if [[ ! -z "${ESTF_PLAN_SETTINGS:-}" ]] && [[ "${ESTF_PLAN_SETTINGS:-}" != "none" ]]; then
-  settingsDir=".buildkite/scripts/steps/estf/ess/settings"
+  settingsDir=".buildkite/scripts/steps/estf/kibana/settings"
   for plan in ${ESTF_PLAN_SETTINGS}; do
     branch=$(get_branch_from_version)
     versionDir="$settingsDir/$branch"
