@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 # ----------------------------------------------------------------------------
-# Buildkite script to run kibana functional tests pn ESS deployment
+# Buildkite script to run kibana functional tests on TF instance
 #
 # Author: Liza Dayoub
 # ----------------------------------------------------------------------------
