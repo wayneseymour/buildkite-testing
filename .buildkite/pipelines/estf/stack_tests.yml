@@ -13,11 +13,11 @@ steps:
       queue: n2-4
     env:
       ESTF_META_ID: "tf-stack-tests"
-      ESTF_GITHUB_BRANCH: add-ansible-cloud-provider
+      ESTF_GITHUB_BRANCH: "liza/add-ansible-cloud-provider"
       ESTF_GITHUB_OWNER: liza-mae
       AIT_PROVIDER: "gcp"
       AIT_USER: "liza"
-    
+
   - wait: ~
     continue_on_failure: true
 
