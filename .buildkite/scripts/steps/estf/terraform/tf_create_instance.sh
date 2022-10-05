@@ -43,3 +43,17 @@ docker run --rm \
            -e "TF_VAR_credentials=$TF_VAR_credentials" \
            -e "TF_VAR_os_image=$TF_VAR_os_image" \
           hashicorp/terraform:latest apply -auto-approve
+
+echo "--- Get IP"
+output=$(docker run --rm \
+                    -it \
+                    --name terraform \
+                    -v $TF_WORKSPACE:/workspace \
+                    -w /workspace \
+                    -e "TF_VAR_credentials=$TF_VAR_credentials" \
+                    -e "TF_VAR_os_image=$TF_VAR_os_image" \
+                    hashicorp/terraform:latest output)
+
+if [[ $output =~ (IP[[:space:]]*=[[:space:]]*)(\"*)([0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3})(\")* ]]; then
+  buildkite-agent meta-data set "estf-tf-ip-$ESTF_META_ID" "${BASH_REMATCH[3]}"
+fi
