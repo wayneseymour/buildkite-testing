@@ -74,7 +74,8 @@ get_github_owner() {
 }
 
 get_github_repo() {
-  metaData=$(buildkite-agent meta-data get "estf-github-repo" --default 'kibana.git')
+  repo=${1:-kibana}
+  metaData=$(buildkite-agent meta-data get "estf-github-repo" --default $repo)
   value="${ESTF_GITHUB_REPO:-$metaData}"
   echo $value
 }
