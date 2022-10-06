@@ -52,6 +52,6 @@ export AIT_UUT=$(buildkite-agent meta-data get "estf-tf-ip-$ESTF_META_ID")
 echo $AIT_UUT
 
 # DEBUGGING
-sleep 300
+sleep 300000
 
 #./playbooks/stack_testing/ci/buildkite_stack_testing.sh
