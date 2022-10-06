@@ -17,9 +17,6 @@ githubBranch="$(get_github_branch)"
 githubPrNum="$(get_github_pr_num)"
 excludeTests="$(get_excluded_tests)"
 
-echo "--- Setup agent  (temporary)"
-ansible-playbook .buildkite/scripts/steps/estf/ansible/buildkite_agent.yml
-
 echo "--- Clone estf repo and chdir"
 git clone "https://github.com/$githubOwner/$githubRepo"
 cd elastic-stack-testing
