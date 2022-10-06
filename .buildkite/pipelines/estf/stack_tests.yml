@@ -16,7 +16,7 @@ steps:
       ESTF_GITHUB_BRANCH: "liza/add-ansible-cloud-provider"
       ESTF_GITHUB_OWNER: liza-mae
       AIT_PROVIDER: "gcp"
-      AIT_USER: "liza"
+      AIT_USER: "buildkite-agent"
 
   - wait: ~
     continue_on_failure: true
