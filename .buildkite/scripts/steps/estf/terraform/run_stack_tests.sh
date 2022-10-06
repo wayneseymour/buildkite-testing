@@ -35,6 +35,15 @@ else
 fi
 
 echo "--- Run ansible playbook"
+VAULT_ROLE_ID="$(retry 5 15 gcloud secrets versions access latest --secret=estf-vault-role-id)"
+VAULT_SECRET_ID="$(retry 5 15 gcloud secrets versions access latest --secret=estf-vault-secret-id)"
+VAULT_TOKEN=$(retry 5 30 vault write -field=token auth/approle/login role_id="$VAULT_ROLE_ID" secret_id="$VAULT_SECRET_ID")
+retry 5 30 vault login -no-print "$VAULT_TOKEN"
+
+export GCP_AUTH_KIND="serviceaccount"
+GCP_SERVICE_ACCOUNT_CONTENTS="$(vault kv get --field policy secret/stack-testing/estf-gcp)"
+export GCP_SERVICE_ACCOUNT_CONTENTS
+
 # TODO: this needs to be fixed from RM
 export ES_BUILD_URL=snapshots.elastic.co/${ESTF_BUILD_ID}
 
