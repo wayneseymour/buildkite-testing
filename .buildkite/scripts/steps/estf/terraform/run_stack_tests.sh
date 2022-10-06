@@ -57,4 +57,6 @@ VM_NAME=$(gcloud compute instances list --project elastic-automation --filter $A
 echo -ne '\n' | gcloud compute ssh $VM_NAME --ssh-key-file=/tmp/gcpkey --zone "us-central1-a" --project "elastic-automation"
 export ANSIBLE_PRIVATE_KEY_FILE=/tmp/gcpkey
 
+./playbooks/provisioning/ci/buildkite_stack_testing.sh
+
 ./playbooks/stack_testing/ci/buildkite_stack_testing.sh
