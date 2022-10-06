@@ -49,9 +49,12 @@ export ES_BUILD_URL=snapshots.elastic.co/${ESTF_BUILD_ID}
 
 export AIT_UUT=$(buildkite-agent meta-data get "estf-tf-ip-$ESTF_META_ID")
 
-echo $AIT_UUT
+OUTPUT_FILE=$(mktemp --suffix ".json")
+echo $GCP_SERVICE_ACCOUNT_CONTENTS > $OUTPUT_FILE
+gcloud auth activate-service-account --key-file="$OUTPUT_FILE"
+rm $OUTPUT_FILE
+VM_NAME=$(gcloud compute instances list --project elastic-automation --filter $AIT_UUT | awk 'FNR == 2 {print $1}')
+echo -ne '\n' | gcloud compute ssh $VM_NAME --ssh-key-file=/tmp/gcpkey --zone "us-central1-a" --project "elastic-automation"
+export ANSIBLE_PRIVATE_KEY_FILE=/tmp/gcpkey
 
-# DEBUGGING
-sleep 300000
-
-#./playbooks/stack_testing/ci/buildkite_stack_testing.sh
+./playbooks/stack_testing/ci/buildkite_stack_testing.sh
