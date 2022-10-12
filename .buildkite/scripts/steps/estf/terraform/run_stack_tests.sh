@@ -44,9 +44,6 @@ export GCP_AUTH_KIND="serviceaccount"
 GCP_SERVICE_ACCOUNT_CONTENTS="$(vault kv get --field policy secret/stack-testing/estf-gcp)"
 export GCP_SERVICE_ACCOUNT_CONTENTS
 
-# TODO: this needs to be fixed from RM
-export ES_BUILD_URL=snapshots.elastic.co/${ESTF_BUILD_ID}
-
 export AIT_UUT=$(buildkite-agent meta-data get "estf-tf-ip-$ESTF_META_ID")
 
 OUTPUT_FILE=$(mktemp --suffix ".json")
