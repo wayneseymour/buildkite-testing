@@ -7,4 +7,4 @@ test/functional/apps/management/_index_pattern_popularity.js
 test/functional/apps/management/_index_pattern_results_sort.js
 x-pack/test/api_integration/apis/monitoring/apm/instances.js
 x-pack/test/api_integration/apis/search/search.ts
-x-pack/test/functional/apps/maps/visualize_create_menu.js
+x-pack/test/functional/apps/grok_debugger/home_page.ts
