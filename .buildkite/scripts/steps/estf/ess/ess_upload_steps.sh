@@ -26,7 +26,7 @@ else
   # CI groups
   declare -A testGroups
   testGroups["basic"]="$(seq -s ' ' 1 12)"
-  testGroups["xpack"]="2 4 7 8 9 10 12 13 15 19 22 25 26 28 31"
+  testGroups["xpack"]="1 2 3 4 6 7 8 9 10 12 13 15 16 19 21 22 25 26"
 
   # Run at a time
   declare -A runGroups
