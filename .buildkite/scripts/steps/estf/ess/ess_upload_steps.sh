@@ -25,7 +25,7 @@ else
 
   # CI groups
   declare -A testGroups
-  testGroups["basic"]="$(seq -s ' ' 1 12)"
+  testGroups["basic"]="$(seq -s ' ' 1 11)"
   testGroups["xpack"]="1 2 3 4 6 7 8 9 10 12 13 15 16 19 21 22 25 26"
 
   # Run at a time
@@ -112,6 +112,11 @@ if [[ ! -z "${ftrConfigGroupsCount:-}" ]]; then
     get_buildkite_group
   done
 else
+  defaulSettings="true"
+  legacyMapSettings="false"
+  if [[ ! -z "${ESTF_PLAN_SETTINGS:-}" ]]; then
+    defaultSettings="false"
+  fi
   for testType in $testTypes;
   do
     ciGroupsArray=(${testGroups[$testType]// / })
@@ -151,6 +156,12 @@ else
           echo_error_exit "Valid run up to ${validRunGroups// /, } at a time"
           ;;
       esac
+      if [[ "$defaulSettings" == "true" ]]; then
+        if [[ "$legacyMapSettings" == "false" ]] && [[ "$testType" == "basic" ]]; then
+          estfPlanSettings+=" kibana_legacy_maps.json"
+          legacyMapSettings="true"
+        fi
+      fi
       get_buildkite_group
     done
   done
