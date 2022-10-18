@@ -100,7 +100,7 @@ if [[ ! -z "${ftrConfigGroupsCount:-}" ]]; then
       ftrConfigs="${FTR_CONFIGS}"
     fi
     if [[ "$defaulSettings" == "true" ]]; then
-      if [[ "$reportSettings" == "false" ]] && [[ "$ftrConfigs" == *"reporting"* ]]; then
+      if [[ "$reportSettings" == "false" ]] && [[ "$ftrConfigs" == *"reporting_and_security"* ]]; then
         estfPlanSettings+=" kibana_reporting.json"
         reportSettings="true"
       fi

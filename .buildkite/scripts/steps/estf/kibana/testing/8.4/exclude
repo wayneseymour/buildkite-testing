@@ -9,6 +9,3 @@ x-pack/test/api_integration/apis/ml/jobs/close_jobs.ts
 x-pack/test/api_integration/apis/ml/jobs/close_jobs_spaces.ts
 x-pack/test/api_integration/apis/ml/modules/setup_module.ts
 x-pack/test/functional/apps/canvas/feature_controls/canvas_security.ts
-x-pack/test/functional/apps/dashboard/group3/reporting/download_csv.ts
-x-pack/test/functional/apps/dashboard/group3/reporting/screenshots.ts
-x-pack/test/functional/apps/lens/group3/lens_reporting.ts
