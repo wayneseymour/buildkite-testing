@@ -134,6 +134,7 @@ run_ftr_cloud_ci_groups() {
         echo "--- Basic tests run against ESS"
         set +e;
         eval node scripts/functional_test_runner \
+                --config "test/functional/config.js" \
                 --es-version "$cloudVersion" \
                 --exclude-tag skipCloud \
                 --exclude-tag skipCloudFailedTest \
@@ -151,10 +152,10 @@ run_ftr_cloud_ci_groups() {
 
     # Run xpack group
     if [[ "$ESTF_KIBANA_TEST_TYPE" == "xpack" ]]; then
-        cd x-pack
         echo "--- Xpack tests run against ESS"
         set +e;
         eval node scripts/functional_test_runner \
+                --config "x-pack/test/functional/config.js" \
                 --es-version "$cloudVersion" \
                 --exclude-tag skipCloud \
                 --exclude-tag skipCloudFailedTest \
