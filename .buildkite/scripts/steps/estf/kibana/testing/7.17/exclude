@@ -8,3 +8,4 @@ test/functional/apps/management/_index_pattern_results_sort.js
 x-pack/test/api_integration/apis/monitoring/apm/instances.js
 x-pack/test/api_integration/apis/search/search.ts
 x-pack/test/functional/apps/graph/graph.ts
+x-pack/test/functional/apps/ml/anomaly_detection/custom_urls.ts
