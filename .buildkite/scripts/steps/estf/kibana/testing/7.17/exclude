@@ -1,5 +1,5 @@
 # Buildkite Pipeline: estf-cloud-kibana-functional-tests
-# Reference builds: 705
+# Reference builds: 705, 828
 # The following test suites are excluded for being flaky
 
 test/functional/apps/management/_index_pattern_create_delete.js
