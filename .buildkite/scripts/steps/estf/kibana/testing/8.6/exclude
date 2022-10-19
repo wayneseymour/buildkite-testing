@@ -5,4 +5,5 @@
 test/functional/apps/dashboard/group2/dashboard_snapshots.ts
 x-pack/test/functional/apps/canvas/feature_controls/canvas_security.ts
 x-pack/test/functional/apps/monitoring/cluster/list.js
+test/functional/apps/console/_xjson.ts
 test/functional/apps/home/_newsfeed.ts
