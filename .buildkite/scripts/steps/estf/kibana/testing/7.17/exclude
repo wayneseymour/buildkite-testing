@@ -5,6 +5,7 @@
 test/functional/apps/management/_index_pattern_create_delete.js
 test/functional/apps/management/_index_pattern_popularity.js
 test/functional/apps/management/_index_pattern_results_sort.js
+test/functional/apps/discover/_runtime_fields_editor.ts
 x-pack/test/api_integration/apis/monitoring/apm/instances.js
 x-pack/test/api_integration/apis/search/search.ts
 x-pack/test/functional/apps/graph/graph.ts
