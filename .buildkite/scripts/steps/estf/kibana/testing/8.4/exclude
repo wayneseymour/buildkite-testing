@@ -1,5 +1,5 @@
 # Buildkite Pipeline: estf-cloud-kibana-functional-tests
-# Reference builds: 686, 688, 689, 691, 704, 708
+# Reference builds: 686, 688, 689, 691, 704, 708, 843
 # The following test suites are excluded for being flaky
 
 test/functional/apps/dashboard_elements/controls/options_list.ts
@@ -8,4 +8,6 @@ x-pack/test/api_integration/apis/ml/jobs/categorization_field_examples.ts
 x-pack/test/api_integration/apis/ml/jobs/close_jobs.ts
 x-pack/test/api_integration/apis/ml/jobs/close_jobs_spaces.ts
 x-pack/test/api_integration/apis/ml/modules/setup_module.ts
+x-pack/test/api_integration/apis/transform/reset_transforms.ts
+x-pack/test/api_integration/apis/ml/jobs/stop_datafeeds_spaces.ts
 x-pack/test/functional/apps/canvas/feature_controls/canvas_security.ts
