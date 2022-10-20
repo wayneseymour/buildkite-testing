@@ -86,9 +86,31 @@ get_github_ref_repo() {
   echo $value
 }
 
+get_main_version_kibana() {
+  file="https://raw.githubusercontent.com/elastic/kibana/main/package.json"
+  curl -s $file | grep \"version\": | awk -F\" '/"version":/ {print substr($4,1,3)}'
+}
+
+get_version_from_message() {
+  main_ver=$(get_main_version_kibana)
+  re='[0-9]+\.[0-9]+';
+  if [[ "$BUILDKITE_MESSAGE" =~ $re ]]; then
+    extract_ver="${BASH_REMATCH[0]}";
+    if [[ "$extract_ver" == "$main_ver" ]]; then
+      echo "main"
+    else
+      echo "$extract_ver"
+    fi
+  fi
+}
+
 get_github_branch() {
+  getFromMsg=${1:-false}
   metaData=$(buildkite-agent meta-data get "estf-github-branch" --default '')
   value="${ESTF_GITHUB_BRANCH:-$metaData}"
+  if [[ -z $value ]] && [[ $getFromMsg == "true" ]]; then
+    echo $(get_version_from_message)
+  fi
   echo $value
 }
 

@@ -13,7 +13,7 @@ echo "--- Run stack tests"
 githubOwner="$(get_github_owner)"
 githubRepo="$(get_github_repo elastic-stack-testing)"
 githubRefRepo="$(get_github_ref_repo)"
-githubBranch="$(get_github_branch)"
+githubBranch="$(get_github_branch true)"
 githubPrNum="$(get_github_pr_num)"
 excludeTests="$(get_excluded_tests)"
 
