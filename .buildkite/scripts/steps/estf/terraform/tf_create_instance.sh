@@ -20,9 +20,9 @@ retry 5 30 vault login -no-print "$VAULT_TOKEN"
 TF_VAR_credentials="$(vault kv get --field policy secret/stack-testing/estf-gcp)"
 export TF_VAR_credentials
 
-export TF_VAR_os_image="ubuntu-os-pro-cloud/ubuntu-pro-2204-lts"
+export TF_VAR_os_image="$AIT_IMAGE"
 
-export TF_WORKSPACE="$(pwd)/.buildkite/scripts/steps/estf/terraform/gcp"
+export TF_WORKSPACE="$(pwd)/.buildkite/scripts/steps/estf/terraform/$AIT_PROVIDER"
 
 echo "--- TF init"
 docker run --rm \

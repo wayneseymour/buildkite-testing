@@ -8,13 +8,14 @@ steps:
   - wait
 
   - command: .buildkite/scripts/steps/estf/terraform/tf_stack_testing.sh
-    label: 'TF Tests'
+    label: 'ubuntu-pro-2204-lts'
     agents:
       queue: n2-4
     env:
-      ESTF_META_ID: "tf-stack-tests"
+      ESTF_META_ID: "tf-stack-tests-ubuntu-pro-2204-lts"
       AIT_PROVIDER: "gcp"
       AIT_USER: "buildkite-agent"
+      AIT_IMAGE: "ubuntu-os-pro-cloud/ubuntu-pro-2204-lts"
 
   - wait: ~
     continue_on_failure: true
