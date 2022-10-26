@@ -179,6 +179,28 @@ get_excluded_tests() {
   echo $ftrExcludes
 }
 
+get_smoke_tests() {
+  ftrSmokeTests=""
+  testingDir=".buildkite/scripts/steps/estf/kibana/testing"
+  smokeTestFile="$testingDir/$(get_branch_from_version)/smoke"
+  if [[ -f "$smokeTestFile" ]]; then
+    while read line; do
+      if [[ -z "$line" ]] || [[ "$line" =~ ^# ]]; then
+        continue
+      fi
+      splitStr=(${line//,/ })
+      ftrSmokeTests+=" --config ${splitStr[0]}"
+      if [[ ! -z ${splitStr[1]} ]]; then
+        ftrSmokeTests+=" --include ${splitStr[1]}"
+      fi
+      if [[ ! -z ${splitStr[2]} ]]; then
+        ftrSmokeTests+=" --include-tag ${splitStr[1]}"
+      fi
+    done < "$smokeTestFile"
+  fi
+  echo $ftrSmokeTests
+}
+
 # -- From github.com/elastic/kibana repo .buildkite/scripts/common/util.sh
 
 # docker_run can be used in place of `docker run`
