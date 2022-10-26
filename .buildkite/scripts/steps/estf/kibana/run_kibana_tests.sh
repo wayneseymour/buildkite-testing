@@ -20,6 +20,7 @@ githubRefRepo="$(get_github_ref_repo)"
 githubBranch="$(get_github_branch)"
 githubPrNum="$(get_github_pr_num)"
 excludeTests="$(get_excluded_tests)"
+smokeTests="$(get_smoke_tests)"
 
 git clone --reference "$githubRefRepo" "https://github.com/$githubOwner/$githubRepo"
 cd kibana
@@ -90,6 +91,8 @@ if [[ ! -z "${ESTF_VISUAL_TESTS:-}" ]]; then
   fi
   export PERCY_TOKEN
   run_ftr_cloud_visual_tests
+elif [[ ! -z "${ESTF_KIBANA_OS_TEST:-}" ]]; then
+  run_ftr_kibana_os_tests "$smokeTests"
 elif [[ ! -z "${ESTF_FTR_CONFIGS:-}" ]]; then
   run_ftr_cloud_configs "$excludeTests"
 else
