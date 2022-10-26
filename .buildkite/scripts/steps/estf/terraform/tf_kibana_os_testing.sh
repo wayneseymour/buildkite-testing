@@ -19,8 +19,5 @@ cleanup() {
 buildkite-agent meta-data set "estf-homedir-$ESTF_META_ID" "$(pwd)"
 
 source .buildkite/scripts/steps/estf/terraform/tf_create_instance.sh
-
-# Test on BK
-sleep 60
-# TODO:
-#source .buildkite/scripts/steps/estf/kibana/run_kibana_tests.sh
+source .buildkite/scripts/steps/estf/terraform/run_kibana_setup.sh
+source .buildkite/scripts/steps/estf/kibana/run_kibana_tests.sh
