@@ -1,2 +1,2 @@
-# Config, Include File (optional), Include Tag (optional)
+# Config
 x-pack/test/reporting_functional/reporting_and_security.config.ts

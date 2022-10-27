@@ -188,6 +188,21 @@ get_smoke_tests() {
       if [[ -z "$line" ]] || [[ "$line" =~ ^# ]]; then
         continue
       fi
+      ftrSmokeTests+=" $line,"
+    done < "$smokeTestFile"
+  fi
+  echo $ftrSmokeTests
+}
+
+get_smoke_tests_ext() {
+  ftrSmokeTests=""
+  testingDir=".buildkite/scripts/steps/estf/kibana/testing"
+  smokeTestFile="$testingDir/$(get_branch_from_version)/smoke"
+  if [[ -f "$smokeTestFile" ]]; then
+    while read line; do
+      if [[ -z "$line" ]] || [[ "$line" =~ ^# ]]; then
+        continue
+      fi
       cfg=$line
       inc=""
       inctag=""
