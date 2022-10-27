@@ -188,13 +188,22 @@ get_smoke_tests() {
       if [[ -z "$line" ]] || [[ "$line" =~ ^# ]]; then
         continue
       fi
-      splitStr=(${line//,/ })
-      ftrSmokeTests+=" --config ${splitStr[0]}"
-      if [[ ! -z ${splitStr[1]} ]]; then
-        ftrSmokeTests+=" --include ${splitStr[1]}"
+      cfg=$line
+      inc=""
+      inctag=""
+      if [[ $line == *","* ]]; then
+        cfg=$(echo $line | cut -d "," -f 1)
+        inc=$(echo $line | cut -d "," -f 2)
+        inctag=$(echo $line | cut -d "," -f 3)
       fi
-      if [[ ! -z ${splitStr[2]} ]]; then
-        ftrSmokeTests+=" --include-tag ${splitStr[1]}"
+      if [[ ! -z $cfg ]]; then
+        ftrSmokeTests+=" --config $cfg"
+      fi
+      if [[ ! -z $inc ]]; then
+        ftrSmokeTests+=" --include $inc"
+      fi
+      if [[ ! -z $inctag ]]; then
+        ftrSmokeTests+=" --include-tag $inctag"
       fi
     done < "$smokeTestFile"
   fi
