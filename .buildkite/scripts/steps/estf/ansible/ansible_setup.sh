@@ -17,6 +17,9 @@ githubBranch="$(get_github_branch true)"
 githubPrNum="$(get_github_pr_num)"
 excludeTests="$(get_excluded_tests)"
 
+echo "--- Save buildkite home directory"
+BUILDKITE_HOME=$(pwd)
+
 echo "--- Clone elastic-stack-testing repo and chdir"
 git clone "https://github.com/$githubOwner/$githubRepo"
 cd elastic-stack-testing
@@ -56,3 +59,6 @@ export ANSIBLE_PRIVATE_KEY_FILE=/tmp/gcpkey
 
 echo "--- Provision virutal machine"
 ./playbooks/provisioning/ci/buildkite_stack_testing.sh
+
+echo "--- chdir buildkite home"
+cd $BUILDKITE_HOME
