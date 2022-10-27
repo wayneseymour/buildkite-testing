@@ -35,6 +35,8 @@ elif [[ ! -z "$githubBranch" ]]; then
   git checkout -f "$githubBranch"
 else
   buildkite-agent meta-data exists "estf-kibana-hash-$ESTF_META_ID"
+  echo $(buildkite-agent meta-data get "estf-kibana-hash-$ESTF_META_ID")
+  sleep 600
   git checkout -f $(buildkite-agent meta-data get "estf-kibana-hash-$ESTF_META_ID")
 fi
 
