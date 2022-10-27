@@ -108,12 +108,7 @@ get_branch_from_message() {
   branch=""
   re='[0-9]+\.[0-9]+';
   if [[ "$BUILDKITE_MESSAGE" =~ $re ]]; then
-    extract_ver="${BASH_REMATCH[0]}";
-    if [[ "$extract_ver" == "$main_ver" ]]; then
-      echo "main"
-    else
-      echo "$extract_ver"
-    fi
+    branch="${BASH_REMATCH[0]}";
   fi
   echo $branch
 }
