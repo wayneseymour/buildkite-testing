@@ -182,7 +182,7 @@ get_excluded_tests() {
 get_smoke_tests() {
   ftrSmokeTests=""
   testingDir=".buildkite/scripts/steps/estf/kibana/testing"
-  smokeTestFile="$testingDir/$(get_branch_from_version)/smoke"
+  smokeTestFile="$testingDir/$(get_version_from_message)/smoke"
   if [[ -f "$smokeTestFile" ]]; then
     while read line; do
       if [[ -z "$line" ]] || [[ "$line" =~ ^# ]]; then
@@ -197,7 +197,7 @@ get_smoke_tests() {
 get_smoke_tests_ext() {
   ftrSmokeTests=""
   testingDir=".buildkite/scripts/steps/estf/kibana/testing"
-  smokeTestFile="$testingDir/$(get_branch_from_version)/smoke"
+  smokeTestFile="$testingDir/$(get_version_from_message)/smoke"
   if [[ -f "$smokeTestFile" ]]; then
     while read line; do
       if [[ -z "$line" ]] || [[ "$line" =~ ^# ]]; then
