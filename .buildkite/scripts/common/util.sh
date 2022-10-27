@@ -104,6 +104,20 @@ get_version_from_message() {
   fi
 }
 
+get_branch_from_message() {
+  branch=""
+  re='[0-9]+\.[0-9]+';
+  if [[ "$BUILDKITE_MESSAGE" =~ $re ]]; then
+    extract_ver="${BASH_REMATCH[0]}";
+    if [[ "$extract_ver" == "$main_ver" ]]; then
+      echo "main"
+    else
+      echo "$extract_ver"
+    fi
+  fi
+  echo $branch
+}
+
 get_github_branch() {
   getFromMsg=${1:-false}
   metaData=$(buildkite-agent meta-data get "estf-github-branch" --default '')
@@ -182,7 +196,7 @@ get_excluded_tests() {
 get_smoke_tests() {
   ftrSmokeTests=""
   testingDir=".buildkite/scripts/steps/estf/kibana/testing"
-  smokeTestFile="$testingDir/$(get_version_from_message)/smoke"
+  smokeTestFile="$testingDir/$(get_branch_from_message)/smoke"
   if [[ -f "$smokeTestFile" ]]; then
     while read line; do
       if [[ -z "$line" ]] || [[ "$line" =~ ^# ]]; then
@@ -197,7 +211,7 @@ get_smoke_tests() {
 get_smoke_tests_ext() {
   ftrSmokeTests=""
   testingDir=".buildkite/scripts/steps/estf/kibana/testing"
-  smokeTestFile="$testingDir/$(get_version_from_message)/smoke"
+  smokeTestFile="$testingDir/$(get_branch_from_message)/smoke"
   if [[ -f "$smokeTestFile" ]]; then
     while read line; do
       if [[ -z "$line" ]] || [[ "$line" =~ ^# ]]; then
