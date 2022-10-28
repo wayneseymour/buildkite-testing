@@ -248,7 +248,6 @@ run_ftr_cloud_visual_tests() {
 run_ftr_kibana_os_tests() {
   smokeTests="$1"
 
-  export TEST_CLOUD=1
   export JOB=kibana-$ESTF_META_ID
 
   echo "--- in run_ftr_kibana_os_tests"
@@ -283,6 +282,12 @@ run_ftr_kibana_os_tests() {
   failedConfigs=""
   results=()
 
+  export NODE_TLS_REJECT_UNAUTHORIZED=0
+  nodeOpts=" "
+  if [ ! -z $NODE_TLS_REJECT_UNAUTHORIZED ] && [[ $NODE_TLS_REJECT_UNAUTHORIZED -eq 0 ]]; then
+    nodeOpts="--no-warnings "
+  fi
+
   for run in $repeats; do
     for config in ${configs//,/ }; do
       if [[ ! -f "$config" ]]; then
@@ -295,7 +300,7 @@ run_ftr_kibana_os_tests() {
 
       # prevent non-zero exit code from breaking the loop
       set +e;
-      eval node scripts/functional_test_runner \
+      eval node $nodeOpts scripts/functional_test_runner \
                 --config="$config"
       lastCode=$?
       set -e;
