@@ -1,2 +1,2 @@
 # Config
-x-pack/test/reporting_functional/reporting_and_security.config.ts
+x-pack/test/upgrade/config.ts
