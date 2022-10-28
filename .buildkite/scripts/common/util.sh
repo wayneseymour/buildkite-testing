@@ -189,6 +189,38 @@ get_excluded_tests() {
 }
 
 get_smoke_tests() {
+  declare -n ftrSmokeTests="$1"
+  testingDir=".buildkite/scripts/steps/estf/kibana/testing"
+  smokeTestFile="$testingDir/$(get_branch_from_message)/smoke"
+  if [[ -f "$smokeTestFile" ]]; then
+    while read line; do
+      if [[ -z "$line" ]] || [[ "$line" =~ ^# ]]; then
+        continue
+      fi
+      cfg=""
+      inc=""
+      inctag=""
+      if [[ $line == *","* ]]; then
+        cfg=$(echo $line | cut -d "," -f 1)
+        inc=$(echo $line | cut -d "," -f 2)
+        inctag=$(echo $line | cut -d "," -f 3)
+      else
+        cfg="$line"
+      fi
+      if [[ ! -z $cfg ]]; then
+        ftrSmokeTests["$cfg"]=""
+        if [[ ! -z $inc ]]; then
+          ftrSmokeTests["$cfg"]+=" --include $inc"
+        fi
+        if [[ ! -z $inctag ]]; then
+          ftrSmokeTests["$cfg"]+=" --include-tag $inctag"
+        fi
+      fi
+    done < "$smokeTestFile"
+  fi
+}
+
+get_smoke_tests_old() {
   ftrSmokeTests=""
   testingDir=".buildkite/scripts/steps/estf/kibana/testing"
   smokeTestFile="$testingDir/$(get_branch_from_message)/smoke"

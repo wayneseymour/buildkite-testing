@@ -1,2 +1,2 @@
-# Config
-x-pack/test/upgrade/config.ts
+# Config, Include File (Optional), Include Tags (Optional)
+x-pack/test/functional/apps/visualize/config.ts, x-pack/test/functional/apps/visualize/reporting.ts
