@@ -220,52 +220,6 @@ get_smoke_tests() {
   fi
 }
 
-get_smoke_tests_old() {
-  ftrSmokeTests=""
-  testingDir=".buildkite/scripts/steps/estf/kibana/testing"
-  smokeTestFile="$testingDir/$(get_branch_from_message)/smoke"
-  if [[ -f "$smokeTestFile" ]]; then
-    while read line; do
-      if [[ -z "$line" ]] || [[ "$line" =~ ^# ]]; then
-        continue
-      fi
-      ftrSmokeTests+=" $line,"
-    done < "$smokeTestFile"
-  fi
-  echo $ftrSmokeTests
-}
-
-get_smoke_tests_ext() {
-  ftrSmokeTests=""
-  testingDir=".buildkite/scripts/steps/estf/kibana/testing"
-  smokeTestFile="$testingDir/$(get_branch_from_message)/smoke"
-  if [[ -f "$smokeTestFile" ]]; then
-    while read line; do
-      if [[ -z "$line" ]] || [[ "$line" =~ ^# ]]; then
-        continue
-      fi
-      cfg=$line
-      inc=""
-      inctag=""
-      if [[ $line == *","* ]]; then
-        cfg=$(echo $line | cut -d "," -f 1)
-        inc=$(echo $line | cut -d "," -f 2)
-        inctag=$(echo $line | cut -d "," -f 3)
-      fi
-      if [[ ! -z $cfg ]]; then
-        ftrSmokeTests+=" --config $cfg"
-      fi
-      if [[ ! -z $inc ]]; then
-        ftrSmokeTests+=" --include $inc"
-      fi
-      if [[ ! -z $inctag ]]; then
-        ftrSmokeTests+=" --include-tag $inctag"
-      fi
-    done < "$smokeTestFile"
-  fi
-  echo $ftrSmokeTests
-}
-
 # -- From github.com/elastic/kibana repo .buildkite/scripts/common/util.sh
 
 # docker_run can be used in place of `docker run`
