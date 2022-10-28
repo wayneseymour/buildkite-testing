@@ -96,7 +96,9 @@ if [[ ! -z "${ESTF_VISUAL_TESTS:-}" ]]; then
 elif [[ ! -z "${ESTF_KIBANA_OS_TEST:-}" ]]; then
   run_ftr_kibana_os_tests smokeTests
 elif [[ ! -z "${ESTF_FTR_CONFIGS:-}" ]]; then
-  run_ftr_cloud_configs "$excludeTests"
+  # excludeTests
+  run_ftr_cloud_configs ""
 else
-  run_ftr_cloud_ci_groups "$excludeTests"
+  # excludeTests
+  run_ftr_cloud_ci_groups ""
 fi
