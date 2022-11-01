@@ -1,7 +1,9 @@
 # Buildkite Pipeline: estf-cloud-kibana-functional-tests
-# Reference builds: 709
+# Reference builds: 880, 882, 888
 # The following test suites are excluded for being flaky
 
 test/functional/apps/dashboard/group2/dashboard_snapshots.ts
-x-pack/test/functional/apps/canvas/feature_controls/canvas_security.ts
-x-pack/test/functional/apps/monitoring/cluster/list.js
+test/functional/apps/home/_newsfeed.ts
+x-pack/test/api_integration/apis/telemetry/telemetry.ts
+x-pack/test/api_integration/apis/telemetry/telemetry_local.ts
+x-pack/test/security_solution_endpoint/apps/endpoint/artifact_entries_list.ts
