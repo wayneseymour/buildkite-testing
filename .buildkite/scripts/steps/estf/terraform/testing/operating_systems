@@ -1,3 +1,5 @@
+gcp almalinux-cloud almalinux-8
+gcp almalinux-cloud almalinux-9
 gcp debian-cloud debian-10
 gcp debian-cloud debian-11
 gcp opensuse-cloud opensuse-leap
