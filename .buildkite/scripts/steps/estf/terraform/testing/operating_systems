@@ -2,6 +2,7 @@ gcp debian-cloud debian-10
 gcp debian-cloud debian-11
 gcp opensuse-cloud opensuse-leap
 gcp rocky-linux-cloud rocky-linux-8
+gcp rocky-linux-cloud rocky-linux-9
 gcp ubuntu-os-pro-cloud ubuntu-pro-1804-lts
 gcp ubuntu-os-pro-cloud ubuntu-pro-2004-lts
 gcp ubuntu-os-pro-cloud ubuntu-pro-2204-lts
