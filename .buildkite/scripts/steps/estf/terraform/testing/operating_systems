@@ -1,10 +1,15 @@
 gcp almalinux-cloud almalinux-8
 gcp almalinux-cloud almalinux-9
+gcp centos-cloud centos-7
 gcp debian-cloud debian-10
 gcp debian-cloud debian-11
 gcp opensuse-cloud opensuse-leap
+gcp rhel-cloud rhel-8
+gcp rhel-cloud rhel-9
 gcp rocky-linux-cloud rocky-linux-8
 gcp rocky-linux-cloud rocky-linux-9
+gcp suse-cloud sles-12
+gcp suse-cloud sles-15
 gcp ubuntu-os-pro-cloud ubuntu-pro-1804-lts
 gcp ubuntu-os-pro-cloud ubuntu-pro-2004-lts
 gcp ubuntu-os-pro-cloud ubuntu-pro-2204-lts
