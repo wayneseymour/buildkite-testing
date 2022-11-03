@@ -37,6 +37,7 @@ docker run --rm \
            -w /workspace \
            -e "TF_VAR_credentials=$TF_VAR_credentials" \
            -e "TF_VAR_os_image=$TF_VAR_os_image" \
+           -e "TF_VAR_machine_type=$TF_VAR_machine_type" \
           hashicorp/terraform:latest init
 
 echo "--- TF apply"
@@ -47,6 +48,7 @@ docker run --rm \
            -w /workspace \
            -e "TF_VAR_credentials=$TF_VAR_credentials" \
            -e "TF_VAR_os_image=$TF_VAR_os_image" \
+           -e "TF_VAR_machine_type=$TF_VAR_machine_type" \
           hashicorp/terraform:latest apply -auto-approve
 
 echo "--- Get IP"
