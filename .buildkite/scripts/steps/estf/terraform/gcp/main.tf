@@ -14,7 +14,6 @@ variable "os_image" {
 
 variable "machine_type" {
   type = string
-  default = "c2-standard-8"
 }
 
 provider "google" {

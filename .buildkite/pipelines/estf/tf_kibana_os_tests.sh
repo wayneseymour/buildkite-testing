@@ -53,7 +53,7 @@ while read line; do
   echo "      ESTF_META_ID: tf-kibana-os-${osarray[2]}"
   echo "      ESTF_KIBANA_OS_TEST: true"
   echo "      ES_BUILD_ARCH: arm64"
-  echo "      TF_VAR_machine_type: t2d-standard-8"
+  echo "      AIT_MACHINE_TYPE: t2d-standard-8"
   echo "      AIT_PROVIDER: ${osarray[0]}"
   echo "      AIT_USER: buildkite-agent"
   echo "      AIT_IMAGE: ${osarray[1]}/${osarray[2]}"
