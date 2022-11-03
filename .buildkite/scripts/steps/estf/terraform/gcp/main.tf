@@ -12,6 +12,11 @@ variable "os_image" {
   type = string
 }
 
+variable "machine_type" {
+  type = string
+  default = "c2-standard-8"
+}
+
 provider "google" {
   credentials = var.credentials
   project = "elastic-automation"
@@ -24,7 +29,7 @@ resource "random_id" "instance_id" {
 
 resource "google_compute_instance" "default" {
   name         = "estf-vm-${basename(var.os_image)}-${random_id.instance_id.hex}"
-  machine_type = "c2-standard-8"
+  machine_type = var.machine_type
   zone         = "us-central1-a"
 
   boot_disk {
