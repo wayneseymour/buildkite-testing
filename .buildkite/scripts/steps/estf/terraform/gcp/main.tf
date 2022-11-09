@@ -35,7 +35,24 @@ resource "google_compute_instance" "default" {
     initialize_params {
       image = var.os_image
       size = "100"
+      // Internal Elastic Cloud Resource Tagging
+      labels = {
+        divison = "engineering"
+        org = "appex"
+        team = "kibana"
+        project = "support_matrix"
+        engineer = "liza_dayoub"
+      }
     }
+  }
+
+  // Internal Elastic Cloud Resource Tagging
+  labels = {
+    divison = "engineering"
+    org = "appex"
+    team = "kibana"
+    project = "support_matrix"
+    engineer = "liza_dayoub"
   }
 
   network_interface {
