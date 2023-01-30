@@ -167,3 +167,4 @@ else
     done
   done
 fi
+declare -p
