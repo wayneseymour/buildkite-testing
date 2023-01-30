@@ -167,4 +167,6 @@ else
     done
   done
 fi
+
+echo "--- ### Show me the vars"
 declare -p
